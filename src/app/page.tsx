@@ -338,7 +338,7 @@ export default function Home() {
             Find Your Perfect Basecamp
           </h1>
           <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl font-light leading-relaxed mb-6">
-            Discover curated stays in the world's most extraordinary wild places
+            Discover curated stays in the world&apos;s most extraordinary wild places
           </p>
           
           {/* Search Box */}

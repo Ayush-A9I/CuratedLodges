@@ -1,0 +1,276 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/signin/signin.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.signin_pageContainer__RI1RD {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.signin_background__rvMiB {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.signin_backgroundImage__CfA_Z {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.signin_overlay__8gIT5 {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(30, 45, 39, 0.92) 0%, rgba(30, 45, 39, 0.85) 100%);
+  backdrop-filter: blur(8px);
+}
+
+.signin_cardContainer__xNT27 {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+}
+
+.signin_card__0VTF9 {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.signin_header__UiSaQ {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.signin_logoLink__h_2za {
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.signin_logo__vV_P7 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #1E2D27;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.signin_dot___vs0_ {
+  color: #F1663F;
+}
+
+.signin_subtitle__ToXF9 {
+  font-size: 0.95rem;
+  color: #6B7B75;
+  font-weight: 400;
+  margin: 0;
+}
+
+.signin_form__NI2aD {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.signin_inputGroup__vl2Of {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.signin_label__6B4jY {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  letter-spacing: 0.02em;
+}
+
+.signin_input__qRHgE {
+  padding: 0.875rem 1rem;
+  border: 2px solid rgba(30, 45, 39, 0.15);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.signin_input__qRHgE:focus {
+  outline: none;
+  border-color: #F1663F;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(241, 102, 63, 0.1);
+}
+
+.signin_input__qRHgE::-moz-placeholder {
+  color: rgba(30, 45, 39, 0.4);
+}
+
+.signin_input__qRHgE::placeholder {
+  color: rgba(30, 45, 39, 0.4);
+}
+
+.signin_forgotPassword__FEas2 {
+  text-align: right;
+  margin-top: -0.5rem;
+}
+
+.signin_forgotLink__CyCEo {
+  font-size: 0.875rem;
+  color: #F1663F;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.signin_forgotLink__CyCEo:hover {
+  color: #d55535;
+  text-decoration: underline;
+}
+
+.signin_submitButton__Nop7f {
+  padding: 1rem;
+  background: #1E2D27;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 0.5rem;
+}
+
+.signin_submitButton__Nop7f:hover {
+  background: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 45, 39, 0.3);
+}
+
+.signin_submitButton__Nop7f:active {
+  transform: translateY(0);
+}
+
+.signin_divider__0fymP {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+}
+
+.signin_divider__0fymP::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(30, 45, 39, 0.15);
+}
+
+.signin_dividerText__A7ShH {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  color: #6B7B75;
+  font-weight: 500;
+}
+
+.signin_socialButtons__6kRh0 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.signin_socialButton__RUR_L {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(30, 45, 39, 0.15);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.signin_socialButton__RUR_L:hover {
+  background: #ffffff;
+  border-color: #1E2D27;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signin_socialIcon__4alZM {
+  width: 20px;
+  height: 20px;
+}
+
+.signin_footer__IvIy6 {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(30, 45, 39, 0.1);
+}
+
+.signin_footerText__QKVta {
+  font-size: 0.95rem;
+  color: #6B7B75;
+  margin: 0 0 0.75rem;
+}
+
+.signin_signupLink__L63Eo {
+  color: #F1663F;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.signin_signupLink__L63Eo:hover {
+  color: #d55535;
+  text-decoration: underline;
+}
+
+.signin_footerNote__7E4Am {
+  font-size: 0.8rem;
+  color: #6B7B75;
+  font-style: italic;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .signin_card__0VTF9 {
+    padding: 2rem 1.5rem;
+  }
+
+  .signin_logo__vV_P7 {
+    font-size: 1.5rem;
+  }
+
+  .signin_socialButtons__6kRh0 {
+    grid-template-columns: 1fr;
+  }
+}
+

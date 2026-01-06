@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Header from '../../components/layout/Header';
+// import Header from '../../components/layout/Header'; 
 import styles from './signin.module.css';
 
 export default function SignInPage() {
@@ -27,7 +27,7 @@ export default function SignInPage() {
 
   return (
     <>
-      <Header forceVisible={true} forceScrolled={true} />
+      {/* <Header forceVisible={true} forceScrolled={true} /> */}
       <div className={styles.pageContainer}>
         {/* Background */}
         <div className={styles.background}>
@@ -119,7 +119,7 @@ export default function SignInPage() {
           {/* Sign Up Link */}
           <div className={styles.footer}>
             <p className={styles.footerText}>
-              Don't have an account? <Link href="/signup" className={styles.signupLink}>Sign up</Link>
+              Don&apos;t have an account? <Link href="/signup" className={styles.signupLink}>Sign up</Link>
             </p>
             <p className={styles.footerNote}>
               Have a Junglore.com account? Use the same credentials to sign in.
