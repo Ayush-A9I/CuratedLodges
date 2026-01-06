@@ -1,0 +1,154 @@
+.card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+.rating {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #1E2D27;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  padding: 20px 20px 14px;
+  flex: 1;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #6B7B75;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.location svg {
+  flex-shrink: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 20px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.fromText {
+  font-size: 0.8rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F1663F;
+}
+
+.nightText {
+  font-size: 0.875rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.arrowButton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #1E2D27;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.card:hover .arrowButton {
+  background: #F1663F;
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .imageContainer {
+    height: 220px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .content {
+    padding: 20px 20px 12px;
+  }
+
+  .footer {
+    padding: 16px 20px 20px;
+  }
+
+  .price {
+    font-size: 1.25rem;
+  }
+
+  .arrowButton {
+    width: 40px;
+    height: 40px;
+  }
+}

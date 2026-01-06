@@ -1,0 +1,199 @@
+.searchBox {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #1E2D27;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 50px;
+  padding: 6px;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.selectWrapper {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  align-items: stretch;
+}
+
+.selectGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  position: relative;
+}
+
+.selectGroup:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.select {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding: 0;
+  font-family: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  padding-right: 20px;
+  text-align: left;
+  direction: ltr;
+}
+
+.select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.select option {
+  background: rgba(30, 45, 39, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2px 8px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.select option:hover {
+  background: rgba(42, 64, 57, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.select option:checked {
+  background: rgba(241, 102, 63, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: #F1663F;
+  box-shadow: 0 4px 16px rgba(241, 102, 63, 0.3);
+}
+
+.select option:first-child {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  background: rgba(30, 45, 39, 0.7);
+}
+
+.findButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #F1663F;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.findButton:hover:not(.disabled) {
+  background: #D94F2A;
+  transform: scale(1.02);
+}
+
+.findButton.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchBox {
+    flex-direction: column;
+    border-radius: 24px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .selectWrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .selectGroup {
+    padding: 12px 16px;
+  }
+
+  .selectGroup:first-child::after {
+    display: none;
+  }
+
+  .findButton {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .label {
+    font-size: 0.65rem;
+  }
+
+  .select {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchBox {
+    padding: 12px;
+  }
+
+  .selectGroup {
+    padding: 10px 12px;
+  }
+
+  .label {
+    font-size: 0.6rem;
+  }
+
+  .select {
+    font-size: 0.9rem;
+  }
+
+  .findButton {
+    padding: 14px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,233 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 1.5rem 3rem;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+/* Hidden state when scrolling down */
+.header.hidden {
+  transform: translateY(-100%);
+}
+
+/* Transparent state (at top of page) */
+.header.transparent {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+  padding: 1.5rem 3rem;
+}
+
+/* Glassmorphic state (when scrolled) */
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(205, 217, 217, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 1rem 3rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo Wrapper */
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.245rem;
+}
+
+/* Logo with DM Sans Black (900), adaptive colors */
+.logo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.5s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Powered By Text */
+.poweredBy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.5s ease;
+  opacity: 0.7;
+}
+
+/* White text when transparent (over hero) */
+.transparent .logo {
+  color: #ffffff;
+}
+
+.transparent .poweredBy {
+  color: #ffffff;
+}
+
+/* Dark text when scrolled */
+.scrolled .logo {
+  color: #1E2D27;
+}
+
+.scrolled .poweredBy {
+  color: #1E2D27;
+}
+
+.dot {
+  color: #F1663F;
+}
+
+/* Navigation Links */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.navLink {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.71rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.5s ease;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* White text when transparent */
+.transparent .navLink {
+  color: #ffffff;
+}
+
+/* Dark text when scrolled */
+.scrolled .navLink {
+  color: #1E2D27;
+}
+
+.navLink:hover {
+  color: #F1663F;
+}
+
+/* Animated underline */
+.underline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #F1663F;
+  transition: width 0.3s ease;
+}
+
+.navLink:hover .underline {
+  width: 100%;
+}
+
+/* Concierge Button */
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.conciergeButton {
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.975rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  border: none;
+  text-decoration: none;
+}
+
+/* Transparent button state (over hero) */
+.transparent .conciergeButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.transparent .conciergeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Solid button state (when scrolled) */
+.scrolled .conciergeButton {
+  background: #1E2D27;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.scrolled .conciergeButton:hover {
+  background: #000000;
+}
+
+.conciergeButton:active {
+  transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav {
+    display: none;
+  }
+  
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .header.scrolled {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .header {
+    padding: 1rem 1rem;
+  }
+  
+  .header.scrolled {
+    padding: 0.75rem 1rem;
+  }
+  
+  .conciergeButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.5rem;
+  }
+}

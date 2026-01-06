@@ -1,0 +1,159 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(205, 217, 217, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem 2rem;
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Logo Section */
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  color: #1E2D27;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #F1663F;
+}
+
+.dot {
+  color: #F1663F;
+}
+
+.poweredBy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1E2D27;
+  opacity: 0.6;
+}
+
+/* Search Wrapper - Centered and Flexible */
+.searchWrapper {
+  flex: 1;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.signInButton {
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.875rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  background: #1E2D27;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.signInButton:hover {
+  background: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.signInButton:active {
+  transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+
+  .searchWrapper {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .logoWrapper {
+    align-self: flex-start;
+  }
+
+  .searchWrapper {
+    max-width: 100%;
+  }
+
+  .actions {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .poweredBy {
+    font-size: 0.5rem;
+  }
+
+  .signInButton {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.55rem;
+  }
+}

@@ -1,0 +1,62 @@
+/* Local DM Sans font files should be placed in public/assests/fonts/
+	 Recommended filenames:
+	 - DMSans-Regular.woff2
+	 - DMSans-Medium.woff2
+	 - DMSans-Bold.woff2
+*/
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans-Bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system,
+		'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji',
+		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Apply DM Sans globally */
+html {
+	scroll-behavior: smooth;
+}
+
+html, body {
+	font-family: var(--font-sans);
+	margin: 0;
+	padding: 0;
+}

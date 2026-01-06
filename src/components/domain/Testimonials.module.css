@@ -1,0 +1,189 @@
+/* Floating Profiles Container */
+.floatingProfiles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floatingProfile {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  animation: float 6s ease-in-out infinite;
+}
+
+.floatingProfile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Profile Positions */
+.profile1 {
+  top: 10%;
+  left: 8%;
+  animation-delay: 0s;
+}
+
+.profile2 {
+  top: 30%;
+  left: 22%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 1s;
+}
+
+.profile3 {
+  top: 8%;
+  right: 8%;
+  animation-delay: 2s;
+}
+
+.profile4 {
+  bottom: 25%;
+  left: 12%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 1.5s;
+}
+
+.profile5 {
+  top: 35%;
+  right: 20%;
+  animation-delay: 0.5s;
+}
+
+.profile6 {
+  bottom: 20%;
+  right: 15%;
+  width: 78px;
+  height: 78px;
+  animation-delay: 2.5s;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+/* Main Profile */
+.mainProfile {
+  margin: 0 auto 2.5rem;
+  width: 180px;
+  height: 180px;
+  transition: transform 0.5s ease;
+}
+
+.mainProfile.animating {
+  transform: scale(0.9);
+}
+
+.mainProfileInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid #FFF4EC;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.mainProfileInner::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F1663F, #FF8A5B);
+  z-index: -1;
+}
+
+.mainProfileInner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Testimonial Content Animations */
+.testimonialContent {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fadeIn {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.fadeOut {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .floatingProfile {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile2,
+  .profile4 {
+    width: 50px;
+    height: 50px;
+  }
+
+  .profile6 {
+    width: 70px;
+    height: 70px;
+  }
+
+  .profile1 {
+    top: 5%;
+    left: 5%;
+  }
+
+  .profile3 {
+    top: 5%;
+    right: 5%;
+  }
+
+  .profile5 {
+    top: 50%;
+    right: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .floatingProfile {
+    display: none;
+  }
+
+  .mainProfile {
+    width: 150px;
+    height: 150px;
+  }
+}
