@@ -117,7 +117,7 @@ export default function ParkPage() {
                   <span className={styles.planningBadge}>Field Intel</span>
                   <h3 className={styles.planningCardTitle}>Mastering the morning track in {park}</h3>
                   <p className={styles.planningCardText}>
-                    Why the Mukki grasslands hold the key to the tiger's morning patrol...
+                    Why the Mukki grasslands hold the key to the tiger&apos;s morning patrol...
                   </p>
                   <a href="#" className={styles.planningLink}>
                     Know More
@@ -138,7 +138,7 @@ export default function ParkPage() {
                 </div>
                 <div className={styles.planningContent}>
                   <span className={styles.planningBadge}>Field Intel</span>
-                  <h3 className={styles.planningCardTitle}>Safari prep: what guides won't tell you</h3>
+                  <h3 className={styles.planningCardTitle}>Safari prep: what guides won&apos;t tell you</h3>
                   <p className={styles.planningCardText}>
                     Essential gear, timing strategies, and etiquette for maximizing your wildlife encounters...
                   </p>
@@ -163,7 +163,7 @@ export default function ParkPage() {
                   <span className={styles.planningBadge}>Field Intel</span>
                   <h3 className={styles.planningCardTitle}>Understanding tiger territories</h3>
                   <p className={styles.planningCardText}>
-                    A naturalist's guide to reading signs, tracking patterns, and predicting movement...
+                    A naturalist&apos;s guide to reading signs, tracking patterns, and predicting movement...
                   </p>
                   <a href="#" className={styles.planningLink}>
                     Know More
