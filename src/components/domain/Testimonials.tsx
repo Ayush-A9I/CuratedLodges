@@ -79,28 +79,6 @@ export default function Testimonials() {
   return (
     <section className="py-20 px-8 bg-white relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto relative">
-        {/* Floating Profile Images */}
-        <div className={styles.floatingProfiles}>
-          <div className={`${styles.floatingProfile} ${styles.profile1}`}>
-            <img src={decorativeImages[0]} alt="Customer" />
-          </div>
-          <div className={`${styles.floatingProfile} ${styles.profile2}`}>
-            <img src={decorativeImages[1]} alt="Customer" />
-          </div>
-          <div className={`${styles.floatingProfile} ${styles.profile3}`}>
-            <img src={decorativeImages[2]} alt="Customer" />
-          </div>
-          <div className={`${styles.floatingProfile} ${styles.profile4}`}>
-            <img src={decorativeImages[3]} alt="Customer" />
-          </div>
-          <div className={`${styles.floatingProfile} ${styles.profile5}`}>
-            <img src={decorativeImages[4]} alt="Customer" />
-          </div>
-          <div className={`${styles.floatingProfile} ${styles.profile6}`}>
-            <img src={decorativeImages[5]} alt="Customer" />
-          </div>
-        </div>
-
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
           <p className="text-[#F1663F] text-sm md:text-base font-semibold uppercase tracking-wider mb-3">

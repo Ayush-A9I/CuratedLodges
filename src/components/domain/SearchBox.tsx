@@ -7,9 +7,10 @@ import styles from './SearchBox.module.css';
 interface SearchBoxProps {
   initialRegion?: string;
   initialPark?: string;
+  compact?: boolean;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark = '' }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark = '', compact = false }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>(initialRegion);
   const [selectedPark, setSelectedPark] = useState<string>(initialPark);
 
@@ -52,7 +53,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
   const isDisabled = !selectedRegion || !selectedPark;
 
   return (
-    <div className={styles.searchBox}>
+    <div className={`${styles.searchBox} ${compact ? styles.compact : ''}`}>
       <div className={styles.selectWrapper}>
         <div className={styles.selectGroup}>
           <label className={styles.label}>SELECT REGION</label>
@@ -95,7 +96,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
         disabled={isDisabled}
         className={`${styles.findButton} ${isDisabled ? styles.disabled : ''}`}
       >
-        Find Lodges
+        {compact ? (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        ) : (
+          'Find Lodges'
+        )}
       </button>
     </div>
   );

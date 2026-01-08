@@ -2,10 +2,14 @@ export interface Lodge {
   id: number;
   name: string;
   image: string;
+  images: string[];
   rating: number;
   pricePerNight: string;
   nearestGates: string[];
   link: string;
+  amenities: string[];
+  ecoCertified: boolean;
+  location: string;
 }
 
 export interface Feature {
@@ -33,8 +37,8 @@ export interface LodgesData {
 
 export const lodgesData: LodgesData = {
   india: {
-    "Tadoba National Park": {
-      name: "Tadoba National Park",
+    "Tadoba Andhari Tiger Reserve": {
+      name: "Tadoba Andhari Tiger Reserve",
       description: "Maharashtra's oldest and largest national park, Tadoba is famous for its thriving tiger population and diverse wildlife including leopards, sloth bears, and wild dogs. The park's teak forests and bamboo groves provide an exceptional setting for wildlife viewing.",
       heroImage: "https://images.unsplash.com/photo-1615963244664-5b845b2025ee?w=1920&q=80",
       bestTime: "October to May",
@@ -50,28 +54,52 @@ export const lodgesData: LodgesData = {
           id: 1,
           name: "Tadoba Tiger Lodge",
           image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+          images: [
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+            "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+            "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+          ],
           rating: 4.8,
           pricePerNight: "₹15,000",
           nearestGates: ["Moharli Gate", "Tadoba Gate"],
           link: "https://www.junglore.com/tadoba-tiger-lodge",
+          amenities: ["WiFi", "Pool", "Spa", "Safari", "AC"],
+          ecoCertified: true,
+          location: "Moharli, Chandrapur, Maharashtra",
         },
         {
           id: 2,
           name: "Tiger Trails Jungle Lodge",
           image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+          images: [
+            "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+            "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+            "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+          ],
           rating: 4.7,
           pricePerNight: "₹12,500",
           nearestGates: ["Kolara Gate", "Moharli Gate"],
           link: "https://www.junglore.com/tiger-trails",
+          amenities: ["WiFi", "Pool", "Safari", "Bar"],
+          ecoCertified: true,
+          location: "Kolara, Chandrapur, Maharashtra",
         },
         {
           id: 3,
           name: "Bamboo Forest Safari Lodge",
           image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+          images: [
+            "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+            "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
+          ],
           rating: 4.6,
           pricePerNight: "₹10,000",
           nearestGates: ["Tadoba Gate", "Navegaon Gate"],
           link: "https://www.junglore.com/bamboo-forest",
+          amenities: ["WiFi", "Safari", "Library"],
+          ecoCertified: false,
+          location: "Navegaon, Chandrapur, Maharashtra",
         },
       ],
     },
@@ -92,19 +120,35 @@ export const lodgesData: LodgesData = {
           id: 4,
           name: "Kanha Earth Lodge",
           image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+          images: [
+            "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+            "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+            "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+          ],
           rating: 4.9,
           pricePerNight: "₹18,000",
           nearestGates: ["Khatia Gate", "Mukki Gate"],
           link: "https://www.junglore.com/kanha-earth",
+          amenities: ["WiFi", "Pool", "Spa", "Safari", "Gym", "AC"],
+          ecoCertified: true,
+          location: "Khatia, Mandla, Madhya Pradesh",
         },
         {
           id: 5,
           name: "Barasingha Wilderness Camp",
           image: "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
+          images: [
+            "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
+            "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+            "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+          ],
           rating: 4.7,
           pricePerNight: "₹14,000",
           nearestGates: ["Mukki Gate"],
           link: "https://www.junglore.com/barasingha-camp",
+          amenities: ["WiFi", "Safari", "Bonfire"],
+          ecoCertified: true,
+          location: "Mukki, Mandla, Madhya Pradesh",
         },
       ],
     },

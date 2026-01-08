@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import ParkPageHeader from '../../../../components/layout/ParkPageHeader';
@@ -13,8 +13,11 @@ export default function ParkPage() {
   const params = useParams();
   const region = params.region as string;
   const park = decodeURIComponent(params.park as string);
-  
-  const [selectedGate, setSelectedGate] = useState<string>('all');
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
 
   // Get park data
   const parkData = useMemo(() => {
@@ -23,25 +26,6 @@ export default function ParkPage() {
     if (!regionData) return null;
     return regionData[park];
   }, [region, park]);
-
-  // Get unique gates
-  const gates = useMemo(() => {
-    if (!parkData) return [];
-    const gateSet = new Set<string>();
-    parkData.lodges.forEach(lodge => {
-      lodge.nearestGates.forEach(gate => gateSet.add(gate));
-    });
-    return Array.from(gateSet).sort();
-  }, [parkData]);
-
-  // Filter lodges by gate
-  const filteredLodges = useMemo(() => {
-    if (!parkData) return [];
-    if (selectedGate === 'all') return parkData.lodges;
-    return parkData.lodges.filter(lodge => 
-      lodge.nearestGates.includes(selectedGate)
-    );
-  }, [parkData, selectedGate]);
 
   if (!parkData) {
     return (
@@ -60,47 +44,213 @@ export default function ParkPage() {
       <ParkPageHeader region={region} park={park} />
       
       <main className={styles.main}>
+        {/* Hero Section */}
+        <section className={styles.heroSection}>
+          <div className={styles.heroContainer}>
+            <div className={styles.breadcrumb}>
+              <Link href="/" className={styles.breadcrumbLink}>Home</Link>
+              <span className={styles.breadcrumbSeparator}> &gt; </span>
+              <span className={styles.breadcrumbCurrent}>Curated stays at {park} </span>
+            </div>
+          </div>
+        </section>
+
         {/* Lodges Grid Section */}
         <section className={styles.lodgesSection}>
           <div className={styles.lodgesContainer}>
-            {filteredLodges.length > 0 ? (
+            <div className={styles.filterWrapper}>
+              <div className={styles.filterDropdown}>
+                <select className={styles.gateFilter}>
+                  <option value="">Filter by : All Gates</option>
+                  <option value="mukki">Mukki Gate</option>
+                  <option value="khobra">Khobra Gate</option>
+                  <option value="moharli">Moharli Gate</option>
+                  <option value="kolara">Kolara Gate</option>
+                </select>
+              </div>
+            </div>
+            
+            {parkData.lodges.length > 0 ? (
               <div className={styles.lodgeGrid}>
-                {filteredLodges.map((lodge) => (
+                {parkData.lodges.map((lodge) => (
                   <div key={lodge.id} className={styles.lodgeCardWrapper}>
                     <LodgeCard
                       image={lodge.image}
+                      images={lodge.images}
                       title={lodge.name}
-                      location={`${park}, ${region}`}
+                      location={lodge.location}
                       rating={lodge.rating}
                       price={lodge.pricePerNight}
                       link={lodge.link}
+                      amenities={lodge.amenities}
+                      ecoCertified={lodge.ecoCertified}
                     />
-                    <div className={styles.lodgeGates}>
-                      <svg className={styles.gateIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span className={styles.gatesText}>
-                        Near: {lodge.nearestGates.join(', ')}
-                      </span>
-                    </div>
                   </div>
                 ))}
               </div>
             ) : (
               <div className={styles.noResults}>
-                <p>No lodges found for the selected gate.</p>
-                <button 
-                  onClick={() => setSelectedGate('all')}
-                  className={styles.clearAllButton}
-                >
-                  Show All Lodges
-                </button>
+                <p>No lodges found.</p>
               </div>
             )}
           </div>
         </section>
+
+        {/* Planning Section */}
+        <section className={styles.planningSection}>
+          <div className={styles.planningContainer}>
+            <h2 className={styles.planningTitle}>Planning to stay at {park}?</h2>
+            <p className={styles.planningSubtitle}>
+              Read our field intelligence before you land. Expert tracking tips, gear recommendations, and the secret history of {park}.
+            </p>
+            
+            <div className={styles.planningGrid}>
+              <div className={styles.planningCard}>
+                <div className={styles.planningImageWrapper}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=800" 
+                    alt="Wildlife tracking" 
+                    className={styles.planningImage}
+                  />
+                </div>
+                <div className={styles.planningContent}>
+                  <span className={styles.planningBadge}>Field Intel</span>
+                  <h3 className={styles.planningCardTitle}>Mastering the morning track in {park}</h3>
+                  <p className={styles.planningCardText}>
+                    Why the Mukki grasslands hold the key to the tiger's morning patrol...
+                  </p>
+                  <a href="#" className={styles.planningLink}>
+                    Know More
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div className={styles.planningCard}>
+                <div className={styles.planningImageWrapper}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800" 
+                    alt="Safari experience" 
+                    className={styles.planningImage}
+                  />
+                </div>
+                <div className={styles.planningContent}>
+                  <span className={styles.planningBadge}>Field Intel</span>
+                  <h3 className={styles.planningCardTitle}>Safari prep: what guides won't tell you</h3>
+                  <p className={styles.planningCardText}>
+                    Essential gear, timing strategies, and etiquette for maximizing your wildlife encounters...
+                  </p>
+                  <a href="#" className={styles.planningLink}>
+                    Know More
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <div className={styles.planningCard}>
+                <div className={styles.planningImageWrapper}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1615963244664-5b845b2025ee?w=800" 
+                    alt="Tiger in the wild" 
+                    className={styles.planningImage}
+                  />
+                </div>
+                <div className={styles.planningContent}>
+                  <span className={styles.planningBadge}>Field Intel</span>
+                  <h3 className={styles.planningCardTitle}>Understanding tiger territories</h3>
+                  <p className={styles.planningCardText}>
+                    A naturalist's guide to reading signs, tracking patterns, and predicting movement...
+                  </p>
+                  <a href="#" className={styles.planningLink}>
+                    Know More
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQs Section */}
+        <section className={styles.faqSection}>
+          <div className={styles.faqContainer}>
+            <h2 className={styles.faqTitle}>FAQs</h2>
+            <p className={styles.faqSubtitle}>
+              Everything you need to know about lodges in {park}
+            </p>
+            
+            <div className={styles.faqList}>
+              <div className={styles.faqItem}>
+                <div className={styles.faqQuestion} onClick={() => toggleFaq(0)}>
+                  <h3>What amenities do the lodges typically offer?</h3>
+                  <span className={`${styles.faqIcon} ${openFaqIndex === 0 ? styles.open : ''}`}>+</span>
+                </div>
+                {openFaqIndex === 0 && (
+                  <div className={styles.faqAnswer}>
+                    <p>Most lodges in {park} offer modern amenities including WiFi, air conditioning, swimming pools, spa services, and in-house dining. Many also provide safari vehicles with naturalist guides and gate pick-up services.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.faqItem}>
+                <div className={styles.faqQuestion} onClick={() => toggleFaq(1)}>
+                  <h3>Do lodges include meals in their packages?</h3>
+                  <span className={`${styles.faqIcon} ${openFaqIndex === 1 ? styles.open : ''}`}>+</span>
+                </div>
+                {openFaqIndex === 1 && (
+                  <div className={styles.faqAnswer}>
+                    <p>Yes, most lodges offer full board packages that include breakfast, lunch, and dinner. Many feature multi-cuisine restaurants with local and international dishes, and some offer special bush dinners or bonfire dining experiences.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.faqItem}>
+                <div className={styles.faqQuestion} onClick={() => toggleFaq(2)}>
+                  <h3>Are safari activities included in the lodge booking?</h3>
+                  <span className={`${styles.faqIcon} ${openFaqIndex === 2 ? styles.open : ''}`}>+</span>
+                </div>
+                {openFaqIndex === 2 && (
+                  <div className={styles.faqAnswer}>
+                    <p>Safari drives are typically included in the lodge packages, along with the services of experienced naturalists and guides. Some lodges also offer nature walks, bird watching tours, and cultural village visits as part of their activities.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.faqItem}>
+                <div className={styles.faqQuestion} onClick={() => toggleFaq(3)}>
+                  <h3>What types of accommodations are available at the lodges?</h3>
+                  <span className={`${styles.faqIcon} ${openFaqIndex === 3 ? styles.open : ''}`}>+</span>
+                </div>
+                {openFaqIndex === 3 && (
+                  <div className={styles.faqAnswer}>
+                    <p>Lodges offer a range of accommodations from luxury suites and private villas to comfortable cottages and tented camps. All rooms feature en-suite bathrooms, comfortable beds, and views of the surrounding wilderness or gardens.</p>
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.faqItem}>
+                <div className={styles.faqQuestion} onClick={() => toggleFaq(4)}>
+                  <h3>How far in advance should I book a lodge?</h3>
+                  <span className={`${styles.faqIcon} ${openFaqIndex === 4 ? styles.open : ''}`}>+</span>
+                </div>
+                {openFaqIndex === 4 && (
+                  <div className={styles.faqAnswer}>
+                    <p>We recommend booking your lodge at least 2-3 months in advance, especially during peak wildlife viewing season. Popular eco-certified lodges and boutique properties can fill up quickly, so early booking ensures better availability and rates.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+      
+      <Footer />
     </>
   );
 }

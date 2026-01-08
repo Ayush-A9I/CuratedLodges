@@ -10,7 +10,37 @@
   max-width: 800px;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
+}
+
+/* Compact variant for park page header */
+.searchBox.compact {
+  max-width: 480px;
+  padding: 4px;
+  border-radius: 30px;
+}
+
+.searchBox.compact .selectGroup {
+  padding: 8px 16px;
+}
+
+.searchBox.compact .label {
+  font-size: 0.45rem;
+  margin-bottom: 0;
+}
+
+.searchBox.compact .select {
+  font-size: 0.75rem;
+  padding-right: 14px;
+}
+
+.searchBox.compact .findButton {
+  padding: 0 18px;
+  font-size: 0.75rem;
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .selectWrapper {
@@ -26,6 +56,10 @@
   flex-direction: column;
   padding: 12px 20px;
   position: relative;
+}
+
+.selectGroup:first-child {
+  flex: 0.6;
 }
 
 .selectGroup:first-child::after {

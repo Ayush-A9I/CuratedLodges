@@ -312,7 +312,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1549366021-9f761d450615?q=80&w=2000&auto=format&fit=crop)'
+            backgroundImage: 'url(https://images.unsplash.com/photo-1655102736801-dc15c6552a16?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'
           }}
         />
         
@@ -372,14 +372,17 @@ export default function Home() {
               <div className="overflow-x-auto pb-4 scrollbar-hide">
                 <div className="flex gap-6 min-w-min">
                   {lodgeCardsData.map((lodge) => (
-                    <div key={lodge.id} className="flex-shrink-0 w-[340px]">
+                    <div key={lodge.id} className="flex-shrink-0 w-[400px]">
                       <LodgeCard
                         image={lodge.image}
+                        images={lodge.images}
                         title={lodge.title}
                         location={lodge.location}
                         rating={lodge.rating}
                         price={lodge.price}
                         link={lodge.link}
+                        amenities={lodge.amenities}
+                        ecoCertified={lodge.ecoCertified}
                       />
                     </div>
                   ))}
@@ -462,7 +465,7 @@ export default function Home() {
 
         {/* Latest Field Notes Section */}
         <section className="py-16 px-6 bg-white">
-          <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-[1400px] mx-auto flex flex-col items-center">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-4xl font-bold text-[#1E2D27] mb-2">
                 Latest Field Notes
@@ -472,7 +475,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1200px] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1200px]">
               {/* Left Side - Featured Article */}
               <div className="relative rounded-3xl overflow-hidden group cursor-pointer h-[450px]">
                 <img 

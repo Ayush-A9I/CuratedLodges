@@ -1,3 +1,508 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/FeaturesSection.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+.FeaturesSection_featuresSection__Bd7k2 {
+  padding: 64px 28px;
+  background: #FFFFFF;
+}
+
+.FeaturesSection_container__6AiA3 {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.FeaturesSection_featureCard__X8i_w {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.FeaturesSection_icon__0jM_W {
+  color: #F1663F;
+  margin-bottom: 6px;
+  width: 38px;
+  height: 38px;
+}
+
+.FeaturesSection_title__sIyWk {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1E2D27;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.FeaturesSection_description__RB_sI {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4A5A54;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .FeaturesSection_container__6AiA3 {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .FeaturesSection_featuresSection__Bd7k2 {
+    padding: 60px 20px;
+  }
+
+  .FeaturesSection_container__6AiA3 {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    max-width: 600px;
+  }
+
+  .FeaturesSection_featureCard__X8i_w {
+    text-align: center;
+    align-items: center;
+  }
+
+  .FeaturesSection_title__sIyWk {
+    font-size: 1rem;
+  }
+
+  .FeaturesSection_description__RB_sI {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .FeaturesSection_featuresSection__Bd7k2 {
+    padding: 48px 16px;
+  }
+
+  .FeaturesSection_container__6AiA3 {
+    gap: 40px;
+  }
+
+  .FeaturesSection_icon__0jM_W {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/HouseOfJunglore.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+.HouseOfJunglore_productCard__IWs_U {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  height: 420px;
+  transition: transform 0.3s ease;
+}
+
+.HouseOfJunglore_productCard__IWs_U:hover {
+  /* Removed transform effect */
+}
+
+.HouseOfJunglore_productImage__0uz7t {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.HouseOfJunglore_productImage__0uz7t img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.HouseOfJunglore_productCard__IWs_U:hover .HouseOfJunglore_productImage__0uz7t img {
+  transform: scale(1.1);
+}
+
+.HouseOfJunglore_overlay__GpKys {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    transparent 100%
+  );
+}
+
+.HouseOfJunglore_productContent__lQj2_ {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem;
+  z-index: 10;
+}
+
+.HouseOfJunglore_category__96a6O {
+  color: #F1663F;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+}
+
+.HouseOfJunglore_title__hpnJo {
+  color: white;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.85rem;
+  line-height: 1.2;
+}
+
+.HouseOfJunglore_underline__98Vnx {
+  width: 50px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.HouseOfJunglore_productCard__IWs_U:hover .HouseOfJunglore_underline__98Vnx {
+  width: 240px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .HouseOfJunglore_productCard__IWs_U {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .HouseOfJunglore_productCard__IWs_U {
+    height: 320px;
+  }
+
+  .HouseOfJunglore_title__hpnJo {
+    font-size: 1.35rem;
+  }
+
+  .HouseOfJunglore_productContent__lQj2_ {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .HouseOfJunglore_productCard__IWs_U {
+    height: 300px;
+  }
+
+  .HouseOfJunglore_title__hpnJo {
+    font-size: 1.25rem;
+  }
+
+  .HouseOfJunglore_category__96a6O {
+    font-size: 0.6rem;
+  }
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/LodgeCard.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
+.LodgeCard_card____gwl {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.LodgeCard_card____gwl:hover {
+  transform: translateY(-4px);
+}
+
+.LodgeCard_imageContainer__LeN1V {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.LodgeCard_image__u0jZp {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.LodgeCard_card____gwl:hover .LodgeCard_image__u0jZp {
+  transform: scale(1.08);
+}
+
+.LodgeCard_navButtonLeft__rrd4B,
+.LodgeCard_navButtonRight__1dfhT {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+  color: #1E2D27;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.LodgeCard_navButtonLeft__rrd4B {
+  left: 12px;
+}
+
+.LodgeCard_navButtonRight__1dfhT {
+  right: 12px;
+}
+
+.LodgeCard_imageContainer__LeN1V:hover .LodgeCard_navButtonLeft__rrd4B,
+.LodgeCard_imageContainer__LeN1V:hover .LodgeCard_navButtonRight__1dfhT {
+  opacity: 1;
+}
+
+.LodgeCard_navButtonLeft__rrd4B:hover,
+.LodgeCard_navButtonRight__1dfhT:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.LodgeCard_navButtonLeft__rrd4B:active,
+.LodgeCard_navButtonRight__1dfhT:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.LodgeCard_imageIndicators__QGtIo {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.LodgeCard_indicator__HQxqH {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.LodgeCard_indicator__HQxqH:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.2);
+}
+
+.LodgeCard_indicatorActive__AMIno {
+  background: white;
+  width: 24px;
+  border-radius: 4px;
+}
+
+.LodgeCard_content__Jf8ZB {
+  padding: 20px 20px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.LodgeCard_titleRow__WJM4z {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.LodgeCard_title__0hHto {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.LodgeCard_badges__5cTVI {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.LodgeCard_ecoBadge__jpycn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: #F1F5F3;
+  border-radius: 20px;
+  color: #1E2D27;
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+  height: calc(1.125rem * 1.4);
+}
+
+.LodgeCard_location__MF1_s {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #6B7B75;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+}
+
+.LodgeCard_location__MF1_s svg {
+  flex-shrink: 0;
+}
+
+.LodgeCard_amenities__p5UoW {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.LodgeCard_amenityItem__x__aG {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #F1F5F3;
+  border-radius: 20px;
+  color: #1E2D27;
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.LodgeCard_amenityText__56qxQ {
+  white-space: nowrap;
+}
+
+.LodgeCard_amenityMore__Rfb1l {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background: #F1663F;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.LodgeCard_footer__m04T1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 20px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.LodgeCard_priceContainer__exXXZ {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.LodgeCard_fromText__YaP6f {
+  font-size: 0.8rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.LodgeCard_price__CD6xC {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F1663F;
+}
+
+.LodgeCard_nightText__6mXgt {
+  font-size: 0.875rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.LodgeCard_arrowButton__C_E4j {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #1E2D27;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.LodgeCard_card____gwl:hover .LodgeCard_arrowButton__C_E4j {
+  background: #F1663F;
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .LodgeCard_imageContainer__LeN1V {
+    height: 220px;
+  }
+
+  .LodgeCard_title__0hHto {
+    font-size: 1.25rem;
+  }
+
+  .LodgeCard_content__Jf8ZB {
+    padding: 20px 20px 12px;
+  }
+
+  .LodgeCard_footer__m04T1 {
+    padding: 16px 20px 20px;
+  }
+
+  .LodgeCard_price__CD6xC {
+    font-size: 1.25rem;
+  }
+
+  .LodgeCard_arrowButton__C_E4j {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/SearchBox.module.css ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************/
@@ -13,7 +518,37 @@
   max-width: 800px;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
+}
+
+/* Compact variant for park page header */
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ {
+  max-width: 480px;
+  padding: 4px;
+  border-radius: 30px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_selectGroup__DqSdC {
+  padding: 8px 16px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_label__TDkb5 {
+  font-size: 0.45rem;
+  margin-bottom: 0;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_select__Uixz1 {
+  font-size: 0.75rem;
+  padding-right: 14px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_findButton__eZ_DE {
+  padding: 0 18px;
+  font-size: 0.75rem;
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .SearchBox_selectWrapper__2pAOJ {
@@ -29,6 +564,10 @@
   flex-direction: column;
   padding: 12px 20px;
   position: relative;
+}
+
+.SearchBox_selectGroup__DqSdC:first-child {
+  flex: 0.6;
 }
 
 .SearchBox_selectGroup__DqSdC:first-child::after {
@@ -648,380 +1187,6 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 1.5rem;
-  }
-}
-
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/FeaturesSection.module.css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-.FeaturesSection_featuresSection__Bd7k2 {
-  padding: 64px 28px;
-  background: #FFFFFF;
-}
-
-.FeaturesSection_container__6AiA3 {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
-}
-
-.FeaturesSection_featureCard__X8i_w {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-}
-
-.FeaturesSection_icon__0jM_W {
-  color: #F1663F;
-  margin-bottom: 6px;
-  width: 38px;
-  height: 38px;
-}
-
-.FeaturesSection_title__sIyWk {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1E2D27;
-  letter-spacing: 0.5px;
-  margin: 0;
-}
-
-.FeaturesSection_description__RB_sI {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #4A5A54;
-  margin: 0;
-  font-weight: 400;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .FeaturesSection_container__6AiA3 {
-    gap: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .FeaturesSection_featuresSection__Bd7k2 {
-    padding: 60px 20px;
-  }
-
-  .FeaturesSection_container__6AiA3 {
-    grid-template-columns: 1fr;
-    gap: 48px;
-    max-width: 600px;
-  }
-
-  .FeaturesSection_featureCard__X8i_w {
-    text-align: center;
-    align-items: center;
-  }
-
-  .FeaturesSection_title__sIyWk {
-    font-size: 1rem;
-  }
-
-  .FeaturesSection_description__RB_sI {
-    font-size: 0.875rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .FeaturesSection_featuresSection__Bd7k2 {
-    padding: 48px 16px;
-  }
-
-  .FeaturesSection_container__6AiA3 {
-    gap: 40px;
-  }
-
-  .FeaturesSection_icon__0jM_W {
-    width: 32px;
-    height: 32px;
-  }
-}
-
-/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/LodgeCard.module.css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************/
-.LodgeCard_card____gwl {
-  background: white;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-
-.LodgeCard_card____gwl:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.LodgeCard_imageContainer__LeN1V {
-  position: relative;
-  width: 100%;
-  height: 240px;
-  overflow: hidden;
-}
-
-.LodgeCard_image__u0jZp {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.LodgeCard_card____gwl:hover .LodgeCard_image__u0jZp {
-  transform: scale(1.08);
-}
-
-.LodgeCard_rating__fLrGn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: white;
-  padding: 6px 12px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: #1E2D27;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.LodgeCard_content__Jf8ZB {
-  padding: 20px 20px 14px;
-  flex: 1;
-}
-
-.LodgeCard_title__0hHto {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1E2D27;
-  margin: 0 0 8px 0;
-  line-height: 1.3;
-}
-
-.LodgeCard_location__MF1_s {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #6B7B75;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.LodgeCard_location__MF1_s svg {
-  flex-shrink: 0;
-}
-
-.LodgeCard_footer__m04T1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px 20px;
-  border-top: 1px solid #E5E7EB;
-}
-
-.LodgeCard_priceContainer__exXXZ {
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-}
-
-.LodgeCard_fromText__YaP6f {
-  font-size: 0.8rem;
-  color: #1E2D27;
-  font-weight: 400;
-}
-
-.LodgeCard_price__CD6xC {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #F1663F;
-}
-
-.LodgeCard_nightText__6mXgt {
-  font-size: 0.875rem;
-  color: #1E2D27;
-  font-weight: 400;
-}
-
-.LodgeCard_arrowButton__C_E4j {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  background: #1E2D27;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.LodgeCard_card____gwl:hover .LodgeCard_arrowButton__C_E4j {
-  background: #F1663F;
-  transform: translateX(4px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .LodgeCard_imageContainer__LeN1V {
-    height: 220px;
-  }
-
-  .LodgeCard_title__0hHto {
-    font-size: 1.25rem;
-  }
-
-  .LodgeCard_content__Jf8ZB {
-    padding: 20px 20px 12px;
-  }
-
-  .LodgeCard_footer__m04T1 {
-    padding: 16px 20px 20px;
-  }
-
-  .LodgeCard_price__CD6xC {
-    font-size: 1.25rem;
-  }
-
-  .LodgeCard_arrowButton__C_E4j {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/HouseOfJunglore.module.css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-.HouseOfJunglore_productCard__IWs_U {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  cursor: pointer;
-  height: 420px;
-  transition: transform 0.3s ease;
-}
-
-.HouseOfJunglore_productCard__IWs_U:hover {
-  /* Removed transform effect */
-}
-
-.HouseOfJunglore_productImage__0uz7t {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.HouseOfJunglore_productImage__0uz7t img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.HouseOfJunglore_productCard__IWs_U:hover .HouseOfJunglore_productImage__0uz7t img {
-  transform: scale(1.1);
-}
-
-.HouseOfJunglore_overlay__GpKys {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.5) 50%,
-    transparent 100%
-  );
-}
-
-.HouseOfJunglore_productContent__lQj2_ {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.75rem;
-  z-index: 10;
-}
-
-.HouseOfJunglore_category__96a6O {
-  color: #F1663F;
-  font-size: 0.6rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 0.6rem;
-}
-
-.HouseOfJunglore_title__hpnJo {
-  color: white;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.85rem;
-  line-height: 1.2;
-}
-
-.HouseOfJunglore_underline__98Vnx {
-  width: 50px;
-  height: 3px;
-  background-color: white;
-  border-radius: 2px;
-  transition: width 0.4s ease;
-}
-
-.HouseOfJunglore_productCard__IWs_U:hover .HouseOfJunglore_underline__98Vnx {
-  width: 240px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .HouseOfJunglore_productCard__IWs_U {
-    height: 350px;
-  }
-}
-
-@media (max-width: 768px) {
-  .HouseOfJunglore_productCard__IWs_U {
-    height: 320px;
-  }
-
-  .HouseOfJunglore_title__hpnJo {
-    font-size: 1.35rem;
-  }
-
-  .HouseOfJunglore_productContent__lQj2_ {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .HouseOfJunglore_productCard__IWs_U {
-    height: 300px;
-  }
-
-  .HouseOfJunglore_title__hpnJo {
-    font-size: 1.25rem;
-  }
-
-  .HouseOfJunglore_category__96a6O {
-    font-size: 0.6rem;
   }
 }
 

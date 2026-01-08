@@ -23,7 +23,7 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
         
         {/* Integrated Search Box */}
         <div className={styles.searchWrapper}>
-          <SearchBox initialRegion={region} initialPark={park} />
+          <SearchBox initialRegion={region} initialPark={park} compact={true} />
         </div>
 
         {/* Right Action Button */}

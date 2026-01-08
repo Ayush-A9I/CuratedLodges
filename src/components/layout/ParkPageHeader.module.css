@@ -8,8 +8,7 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(205, 217, 217, 0.3);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 0.5rem 2rem;
+  padding: 1rem 8rem;
 }
 
 .container {
@@ -31,7 +30,7 @@
 
 .logo {
   font-family: 'DM Sans', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.55rem;
   font-weight: 900;
   letter-spacing: -0.05em;
   text-transform: uppercase;
@@ -54,7 +53,7 @@
 
 .poweredBy {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.55rem;
+  font-size: 0.555rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -65,9 +64,40 @@
 /* Search Wrapper - Centered and Flexible */
 .searchWrapper {
   flex: 1;
-  max-width: 900px;
+  max-width: 600px;
   display: flex;
   justify-content: center;
+}
+
+/* Make search box much more compact in park page header */
+.searchWrapper :global(.searchBox) {
+  max-width: 550px;
+  padding: 2px;
+  border-radius: 30px;
+  transform: scale(0.75);
+  transform-origin: center;
+}
+
+.searchWrapper :global(.selectGroup) {
+  padding: 4px 10px;
+}
+
+.searchWrapper :global(.label) {
+  font-size: 0.4rem;
+  margin-bottom: 0px;
+  letter-spacing: 0.5px;
+}
+
+.searchWrapper :global(.select) {
+  font-size: 0.7rem;
+  padding-right: 14px;
+}
+
+.searchWrapper :global(.findButton) {
+  padding: 0 16px;
+  font-size: 0.7rem;
+  min-width: 100px;
+  letter-spacing: 0.5px;
 }
 
 /* Actions */
@@ -95,13 +125,11 @@
   text-decoration: none;
   background: #1E2D27;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .signInButton:hover {
   background: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .signInButton:active {

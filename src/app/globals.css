@@ -7,7 +7,8 @@
 
 @font-face {
 	font-family: 'DM Sans';
-	src: url('/assests/fonts/DMSans-Regular.woff2') format('woff2');
+	src: url('/assests/fonts/DMSans18pt-Regular.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-Regular.woff') format('woff');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
@@ -15,7 +16,8 @@
 
 @font-face {
 	font-family: 'DM Sans';
-	src: url('/assests/fonts/DMSans-Medium.woff2') format('woff2');
+	src: url('/assests/fonts/DMSans18pt-Medium.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-Medium.woff') format('woff');
 	font-weight: 500;
 	font-style: normal;
 	font-display: swap;
@@ -23,8 +25,36 @@
 
 @font-face {
 	font-family: 'DM Sans';
-	src: url('/assests/fonts/DMSans-Bold.woff2') format('woff2');
+	src: url('/assests/fonts/DMSans18pt-SemiBold.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-SemiBold.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans18pt-Bold.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-Bold.woff') format('woff');
 	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans18pt-ExtraBold.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-ExtraBold.woff') format('woff');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'DM Sans';
+	src: url('/assests/fonts/DMSans18pt-Black.woff2') format('woff2'),
+	     url('/assests/fonts/DMSans18pt-Black.woff') format('woff');
+	font-weight: 900;
 	font-style: normal;
 	font-display: swap;
 }
@@ -59,4 +89,11 @@ html, body {
 	font-family: var(--font-sans);
 	margin: 0;
 	padding: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
