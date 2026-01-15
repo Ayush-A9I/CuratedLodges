@@ -148,40 +148,73 @@
 }
 
 @media (max-width: 1024px) {
+  .header {
+    padding: 0.75rem 1.5rem;
+  }
+
   .container {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
-    align-items: stretch;
+    align-items: center;
   }
 
   .logoWrapper {
-    align-self: flex-start;
-  }
-
-  .searchWrapper {
-    max-width: 100%;
+    flex: 0 0 auto;
+    order: 1;
   }
 
   .actions {
-    align-self: flex-end;
+    flex: 0 0 auto;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .searchWrapper {
+    flex: 1 1 100%;
+    order: 3;
+    max-width: 100%;
+  }
+
+  .searchWrapper :global(.searchBox) {
+    transform: scale(0.85);
   }
 }
 
 @media (max-width: 768px) {
   .header {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
 
-  .logo {
-    font-size: 1.25rem;
+  .container {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    align-items: center;
   }
 
-  .poweredBy {
-    font-size: 0.5rem;
+  .logoWrapper {
+    display: none;
+  }
+
+  .searchWrapper {
+    flex: 1;
+    order: 1;
+    max-width: none;
+  }
+
+  .actions {
+    order: 2;
+    margin-left: 0;
   }
 
   .signInButton {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.55rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+  }
+
+  .searchWrapper :global(.searchBox) {
+    transform: scale(0.9);
   }
 }

@@ -390,41 +390,74 @@
 }
 
 @media (max-width: 1024px) {
+  .ParkPageHeader_header__4wGVF {
+    padding: 0.75rem 1.5rem;
+  }
+
   .ParkPageHeader_container__NygjZ {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
-    align-items: stretch;
+    align-items: center;
   }
 
   .ParkPageHeader_logoWrapper__TkCCv {
-    align-self: flex-start;
-  }
-
-  .ParkPageHeader_searchWrapper__Waqr4 {
-    max-width: 100%;
+    flex: 0 0 auto;
+    order: 1;
   }
 
   .ParkPageHeader_actions__zEZaY {
-    align-self: flex-end;
+    flex: 0 0 auto;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    flex: 1 1 100%;
+    order: 3;
+    max-width: 100%;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 .searchBox {
+    transform: scale(0.85);
   }
 }
 
 @media (max-width: 768px) {
   .ParkPageHeader_header__4wGVF {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
   }
 
-  .ParkPageHeader_logo__nALgV {
-    font-size: 1.25rem;
+  .ParkPageHeader_container__NygjZ {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    align-items: center;
   }
 
-  .ParkPageHeader_poweredBy__XQWvh {
-    font-size: 0.5rem;
+  .ParkPageHeader_logoWrapper__TkCCv {
+    display: none;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    flex: 1;
+    order: 1;
+    max-width: none;
+  }
+
+  .ParkPageHeader_actions__zEZaY {
+    order: 2;
+    margin-left: 0;
   }
 
   .ParkPageHeader_signInButton__40xNg {
-    padding: 0.75rem 1.25rem;
-    font-size: 0.55rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 .searchBox {
+    transform: scale(0.9);
   }
 }
 
@@ -1925,6 +1958,204 @@
   flex-shrink: 0;
 }
 
+/* Explore Jungles CTA */
+.park_exploreJunglesCTA__lICPF {
+  margin-top: 4rem;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.park_exploreJunglesContent___U01P {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.park_exploreJunglesLeft__J0UiF {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.park_exploreJunglesImageWrapper__kaz_K {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.park_exploreJunglesImage__X53rl {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
+.park_exploreJunglesRight__WZuIb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 3rem 3rem 2rem;
+}
+
+.park_exploreJunglesTextWrapper__wzELS {
+  max-width: 600px;
+}
+
+.park_exploreJunglesLabel__RuQ5q {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #F1663F;
+  letter-spacing: 2.5px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.park_exploreJunglesTitle__RllFJ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.park_exploreJunglesDescription__Zd3ax {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 2rem 0;
+  line-height: 1.7;
+}
+
+.park_exploreJunglesButton__6XaQa {
+  font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  background: #FFFFFF;
+  color: #1E2D27;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.park_exploreJunglesButton__6XaQa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(241, 102, 63, 0.15), transparent);
+  transition: left 0.6s ease;
+}
+
+.park_exploreJunglesButton__6XaQa:hover::before {
+  left: 100%;
+}
+
+.park_exploreJunglesButton__6XaQa:hover {
+  background: #F1F5F3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.park_exploreJunglesButton__6XaQa span {
+  position: relative;
+  z-index: 1;
+}
+
+.park_exploreJunglesButton__6XaQa svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.park_exploreJunglesButton__6XaQa:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Design for Explore Jungles CTA */
+@media (max-width: 1024px) {
+  .park_exploreJunglesContent___U01P {
+    grid-template-columns: 1fr;
+  }
+
+  .park_exploreJunglesLeft__J0UiF {
+    padding: 0;
+    min-height: 300px;
+  }
+
+  .park_exploreJunglesImageWrapper__kaz_K {
+    min-height: 300px;
+  }
+
+  .park_exploreJunglesRight__WZuIb {
+    padding: 2.5rem 2rem;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .park_exploreJunglesContent___U01P {
+    min-height: auto;
+  }
+
+  .park_exploreJunglesLeft__J0UiF {
+    min-height: 250px;
+  }
+
+  .park_exploreJunglesImageWrapper__kaz_K {
+    min-height: 250px;
+  }
+
+  .park_exploreJunglesRight__WZuIb {
+    padding: 2rem 1.5rem;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.5rem;
+  }
+
+  .park_exploreJunglesDescription__Zd3ax {
+    font-size: 0.95rem;
+  }
+
+  .park_exploreJunglesButton__6XaQa {
+    padding: 1rem 2rem;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
 /* FAQ Section */
 .park_faqSection__vOM36 {
   padding: 4rem 3rem;
@@ -2097,6 +2328,33 @@
   }
 
   .park_planningSubtitle__WB3Cp {
+    font-size: 0.9rem;
+  }
+
+  .park_exploreJunglesCTA__lICPF {
+    padding: 2rem;
+  }
+
+  .park_exploreJunglesContent___U01P {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .park_exploreJunglesIcon__R79Tb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .park_exploreJunglesIcon__R79Tb svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.35rem;
+  }
+
+  .park_exploreJunglesDescription__Zd3ax {
     font-size: 0.9rem;
   }
 }

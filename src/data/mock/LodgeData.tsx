@@ -1,15 +1,57 @@
+export interface RoomType {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  amenities: string[];
+}
+
+export interface Naturalist {
+  id: number;
+  name: string;
+  role: string;
+  experience: string;
+  specialty: string;
+  price: number;
+  image: string;
+}
+
+export interface BankOffer {
+  icon: string;
+  bankName: string;
+  offer: string;
+  code: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface Lodge {
   id: number;
   name: string;
   image: string;
   images: string[];
   rating: number;
-  pricePerNight: string;
+  pricePerNight: number;
   nearestGates: string[];
   link: string;
   amenities: string[];
   ecoCertified: boolean;
   location: string;
+  about?: {
+    description: string[];
+  };
+  jungloreStory?: {
+    reason: string[];
+    highlights: Array<{ icon: string; text: string }>;
+  };
+  roomTypes?: RoomType[];
+  naturalists?: Naturalist[];
+  bankOffers?: BankOffer[];
+  faqs?: FAQ[];
 }
 
 export interface Feature {
@@ -55,17 +97,137 @@ export const lodgesData: LodgesData = {
           name: "Tadoba Tiger Lodge",
           image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
           images: [
+            "https://images.unsplash.com/photo-1587061949409-02df41d5e562?w=1200",
             "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
             "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
             "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+            "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200",
+            "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200",
+            "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=1200",
+            "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200"
           ],
           rating: 4.8,
-          pricePerNight: "₹15,000",
+          pricePerNight: 15000,
           nearestGates: ["Moharli Gate", "Tadoba Gate"],
           link: "https://www.junglore.com/tadoba-tiger-lodge",
           amenities: ["WiFi", "Pool", "Spa", "Safari", "AC"],
           ecoCertified: true,
           location: "Moharli, Chandrapur, Maharashtra",
+          about: {
+            description: [
+              "Experience luxury in the heart of the wilderness at Tadoba Tiger Lodge. Our resort offers an unparalleled blend of comfort and adventure, situated just minutes from the park entrance. With stunning views of the surrounding forest and world-class amenities, your stay promises to be memorable.",
+              "Each room is thoughtfully designed to provide maximum comfort while maintaining harmony with nature. Wake up to the sounds of the jungle and enjoy breakfast on your private deck as you spot wildlife from your room."
+            ]
+          },
+          jungloreStory: {
+            reason: [
+              "After extensive research and personal visits, we selected Tadoba Tiger Lodge for its exceptional commitment to conservation and authentic wildlife experiences. The lodge's experienced naturalists and prime location near prime tiger territories make it an ideal base for serious wildlife enthusiasts.",
+              "What sets this property apart is their dedication to sustainable tourism. They work closely with local communities, employ eco-friendly practices, and contribute significantly to conservation efforts in the region. Their guides are among the best we've encountered, with deep knowledge of animal behavior and tracking skills honed over decades."
+            ],
+            highlights: [
+              { icon: "🌿", text: "100% eco-friendly operations with solar power and rainwater harvesting" },
+              { icon: "🐅", text: "Expert naturalists with 15+ years tracking experience" },
+              { icon: "👥", text: "Employs 80% staff from local tribal communities" },
+              { icon: "🏆", text: "Award-winning sustainable tourism practices" }
+            ]
+          },
+          roomTypes: [
+            {
+              id: 1,
+              name: "Deluxe Room",
+              price: 9000,
+              image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800",
+              description: "Spacious room with garden view and modern amenities. Perfect for couples seeking comfort and tranquility in nature's embrace.",
+              amenities: ["King Bed", "AC", "WiFi", "Mini Bar"]
+            },
+            {
+              id: 2,
+              name: "Premium Suite",
+              price: 12000,
+              image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800",
+              description: "Luxury suite with private balcony overlooking the forest. Enjoy morning tea while watching wildlife from your personal deck.",
+              amenities: ["King Bed", "AC", "WiFi", "Bathtub", "Private Deck"]
+            },
+            {
+              id: 3,
+              name: "Luxury Villa",
+              price: 18000,
+              image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
+              description: "Exclusive villa with pool access and butler service. Experience ultimate luxury with panoramic views and personalized hospitality.",
+              amenities: ["King Bed", "AC", "WiFi", "Plunge Pool", "Butler Service"]
+            }
+          ],
+          naturalists: [
+            {
+              id: 1,
+              name: "Arjun Singh",
+              role: "Senior Naturalist",
+              experience: "15 years",
+              specialty: "Tiger behavior & tracking",
+              price: 150,
+              image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300"
+            },
+            {
+              id: 2,
+              name: "Priya Sharma",
+              role: "Wildlife Photographer",
+              experience: "12 years",
+              specialty: "Bird watching & photography",
+              price: 120,
+              image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300"
+            },
+            {
+              id: 3,
+              name: "Vikram Patel",
+              role: "Conservation Expert",
+              experience: "20 years",
+              specialty: "Ecology & conservation",
+              price: 180,
+              image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300"
+            }
+          ],
+          bankOffers: [
+            {
+              icon: "💳",
+              bankName: "HDFC Bank",
+              offer: "10% instant discount up to ₹2,000",
+              code: "HDFC10"
+            },
+            {
+              icon: "🏦",
+              bankName: "ICICI Bank",
+              offer: "15% cashback up to ₹3,000",
+              code: "ICICI15"
+            },
+            {
+              icon: "💰",
+              bankName: "SBI Cards",
+              offer: "₹1,500 off on bookings above ₹15,000",
+              code: "SBI1500"
+            }
+          ],
+          faqs: [
+            {
+              question: "What's included in the room rate?",
+              answer: "All room rates include accommodation, breakfast, lunch, dinner, and tea/coffee. Safari permits and guide charges are additional."
+            },
+            {
+              question: "How do I book safari permits?",
+              answer: "Safari permits must be booked separately through the official forest department website. We provide assistance with the booking process and our team can guide you through it."
+            },
+            {
+              question: "Is the naturalist service mandatory?",
+              answer: "No, hiring a naturalist is optional but highly recommended. Our expert naturalists significantly enhance your wildlife experience with their tracking skills and knowledge."
+            },
+            {
+              question: "What's your cancellation policy?",
+              answer: "Free cancellation up to 7 days before check-in. Cancellations within 7 days will incur a 50% charge. No refund for no-shows."
+            },
+            {
+              question: "Do you provide airport/railway transfers?",
+              answer: "Yes, we offer pick-up and drop-off services from Nagpur Airport and Railway Station at an additional charge. Please inform us in advance to arrange the transfer."
+            }
+          ]
         },
         {
           id: 2,
@@ -77,7 +239,7 @@ export const lodgesData: LodgesData = {
             "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
           ],
           rating: 4.7,
-          pricePerNight: "₹12,500",
+          pricePerNight: 12500,
           nearestGates: ["Kolara Gate", "Moharli Gate"],
           link: "https://www.junglore.com/tiger-trails",
           amenities: ["WiFi", "Pool", "Safari", "Bar"],
@@ -94,7 +256,7 @@ export const lodgesData: LodgesData = {
             "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
           ],
           rating: 4.6,
-          pricePerNight: "₹10,000",
+          pricePerNight: 10000,
           nearestGates: ["Tadoba Gate", "Navegaon Gate"],
           link: "https://www.junglore.com/bamboo-forest",
           amenities: ["WiFi", "Safari", "Library"],
@@ -126,7 +288,7 @@ export const lodgesData: LodgesData = {
             "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
           ],
           rating: 4.9,
-          pricePerNight: "₹18,000",
+          pricePerNight: 18000,
           nearestGates: ["Khatia Gate", "Mukki Gate"],
           link: "https://www.junglore.com/kanha-earth",
           amenities: ["WiFi", "Pool", "Spa", "Safari", "Gym", "AC"],
@@ -143,7 +305,7 @@ export const lodgesData: LodgesData = {
             "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
           ],
           rating: 4.7,
-          pricePerNight: "₹14,000",
+          pricePerNight: 14000,
           nearestGates: ["Mukki Gate"],
           link: "https://www.junglore.com/barasingha-camp",
           amenities: ["WiFi", "Safari", "Bonfire"],

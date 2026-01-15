@@ -942,6 +942,203 @@
   flex-shrink: 0;
 }
 
+/* Explore Jungles CTA */
+.exploreJunglesCTA {
+  margin-top: 4rem;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.exploreJunglesContent {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.exploreJunglesLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.exploreJunglesImageWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.exploreJunglesImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
+.exploreJunglesRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 3rem 3rem 2rem;
+}
+
+.exploreJunglesTextWrapper {
+  max-width: 600px;
+}
+
+.exploreJunglesLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #F1663F;
+  letter-spacing: 2.5px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.exploreJunglesTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.exploreJunglesDescription {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 2rem 0;
+  line-height: 1.7;
+}
+
+.exploreJunglesButton {
+  font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  background: #FFFFFF;
+  color: #1E2D27;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.exploreJunglesButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(241, 102, 63, 0.15), transparent);
+  transition: left 0.6s ease;
+}
+
+.exploreJunglesButton:hover::before {
+  left: 100%;
+}
+
+.exploreJunglesButton:hover {
+  background: #F1F5F3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.exploreJunglesButton span {
+  position: relative;
+  z-index: 1;
+}
+
+.exploreJunglesButton svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.exploreJunglesButton:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Design for Explore Jungles CTA */
+@media (max-width: 1024px) {
+  .exploreJunglesContent {
+    grid-template-columns: 1fr;
+  }
+
+  .exploreJunglesLeft {
+    padding: 0;
+    min-height: 300px;
+  }
+
+  .exploreJunglesImageWrapper {
+    min-height: 300px;
+  }
+
+  .exploreJunglesRight {
+    padding: 2.5rem 2rem;
+  }
+
+  .exploreJunglesTitle {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .exploreJunglesContent {
+    min-height: auto;
+  }
+
+  .exploreJunglesLeft {
+    min-height: 250px;
+  }
+
+  .exploreJunglesImageWrapper {
+    min-height: 250px;
+  }
+
+  .exploreJunglesRight {
+    padding: 2rem 1.5rem;
+  }
+
+  .exploreJunglesTitle {
+    font-size: 1.5rem;
+  }
+
+  .exploreJunglesDescription {
+    font-size: 0.95rem;
+  }
+
+  .exploreJunglesButton {
+    padding: 1rem 2rem;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
 /* FAQ Section */
 .faqSection {
   padding: 4rem 3rem;
@@ -1114,6 +1311,33 @@
   }
 
   .planningSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .exploreJunglesCTA {
+    padding: 2rem;
+  }
+
+  .exploreJunglesContent {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .exploreJunglesIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .exploreJunglesIcon svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .exploreJunglesTitle {
+    font-size: 1.35rem;
+  }
+
+  .exploreJunglesDescription {
     font-size: 0.9rem;
   }
 }

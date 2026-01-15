@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ParkPageHeader from '../../../../components/layout/ParkPageHeader';
 import Footer from '../../../../components/layout/Footer';
@@ -11,9 +11,18 @@ import styles from './park.module.css';
 
 export default function ParkPage() {
   const params = useParams();
+  const router = useRouter();
   const region = params.region as string;
   const park = decodeURIComponent(params.park as string);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  // Helper function to create URL-friendly slugs
+  const createSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -72,21 +81,29 @@ export default function ParkPage() {
             
             {parkData.lodges.length > 0 ? (
               <div className={styles.lodgeGrid}>
-                {parkData.lodges.map((lodge) => (
-                  <div key={lodge.id} className={styles.lodgeCardWrapper}>
-                    <LodgeCard
-                      image={lodge.image}
-                      images={lodge.images}
-                      title={lodge.name}
-                      location={lodge.location}
-                      rating={lodge.rating}
-                      price={lodge.pricePerNight}
-                      link={lodge.link}
-                      amenities={lodge.amenities}
-                      ecoCertified={lodge.ecoCertified}
-                    />
-                  </div>
-                ))}
+                {parkData.lodges.map((lodge) => {
+                  // Get the minimum price from room types or fall back to pricePerNight
+                  const minPrice = lodge.roomTypes && lodge.roomTypes.length > 0
+                    ? Math.min(...lodge.roomTypes.map(room => room.price))
+                    : lodge.pricePerNight;
+
+                  return (
+                    <div key={lodge.id} className={styles.lodgeCardWrapper}>
+                      <LodgeCard
+                        image={lodge.image}
+                        images={lodge.images}
+                        title={lodge.name}
+                        location={lodge.location}
+                        rating={lodge.rating}
+                        price={minPrice.toString()}
+                        link={lodge.link}
+                        amenities={lodge.amenities}
+                        ecoCertified={lodge.ecoCertified}
+                        onClick={() => window.open(`/park/${region}/${params.park}/${createSlug(lodge.name)}`, '_blank')}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className={styles.noResults}>
@@ -171,6 +188,41 @@ export default function ParkPage() {
                       <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                   </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Explore Jungles CTA */}
+            <div className={styles.exploreJunglesCTA}>
+              <div className={styles.exploreJunglesContent}>
+                <div className={styles.exploreJunglesLeft}>
+                  <div className={styles.exploreJunglesImageWrapper}>
+                    <img 
+                      src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=800&q=80" 
+                      alt="Wildlife Research" 
+                      className={styles.exploreJunglesImage}
+                    />
+                  </div>
+                </div>
+                <div className={styles.exploreJunglesRight}>
+                  <div className={styles.exploreJunglesTextWrapper}>
+                    <span className={styles.exploreJunglesLabel}>Wildlife Knowledge Hub</span>
+                    <h3 className={styles.exploreJunglesTitle}>Dive Deeper Into Wildlife Exploration</h3>
+                    <p className={styles.exploreJunglesDescription}>
+                      Access expert insights, conservation research, and comprehensive guides on wildlife behavior and natural habitats
+                    </p>
+                    <a 
+                      href="https://explorejungles.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.exploreJunglesButton}
+                    >
+                      <span>Explore Jungles</span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -14,6 +14,7 @@ interface LodgeCardProps {
   link?: string;
   amenities?: string[];
   ecoCertified?: boolean;
+  onClick?: () => void;
 }
 
 const amenityIcons: { [key: string]: { icon: React.ReactNode; label: string } } = {
@@ -38,6 +39,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   link = '#',
   amenities = [],
   ecoCertified = false,
+  onClick,
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -52,7 +54,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   };
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
       <div className={styles.imageContainer}>
         <img 
           src={images[currentImageIndex]} 
