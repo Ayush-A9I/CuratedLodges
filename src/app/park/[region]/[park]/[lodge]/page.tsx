@@ -416,13 +416,13 @@ export default function LodgeDetailPage() {
               <div className={styles.storyContent}>
                 <p>
                   After extensive research and personal visits, we selected {lodgeData?.name || 'this lodge'} for its exceptional commitment to conservation and 
-                  authentic wildlife experiences. The lodge's experienced naturalists and prime location near prime tiger territories 
+                  authentic wildlife experiences. The lodge&apos;s experienced naturalists and prime location near prime tiger territories 
                   make it an ideal base for serious wildlife enthusiasts.
                 </p>
                 <p>
                   What sets this property apart is their dedication to sustainable tourism. They work closely with local communities, 
                   employ eco-friendly practices, and contribute significantly to conservation efforts in the region. Their guides are 
-                  among the best we've encountered, with deep knowledge of animal behavior and tracking skills honed over decades.
+                  among the best we&apos;ve encountered, with deep knowledge of animal behavior and tracking skills honed over decades.
                 </p>
               </div>
             </section>
@@ -498,7 +498,7 @@ export default function LodgeDetailPage() {
                 <div className={styles.expeditionBadge}>ALL-IN-ONE PACKAGE</div>
                 <h2>Junglore Expedition</h2>
                 <p>
-                  Don't just stay, explore. Our curated expedition includes accommodation, all meals, safaris, and more.
+                  Don&apos;t just stay, explore. Our curated expedition includes accommodation, all meals, safaris, and more.
                 </p>
                 <div className={styles.expeditionFeatures}>
                   <div className={styles.expeditionFeature}>
@@ -534,7 +534,7 @@ export default function LodgeDetailPage() {
               <h2>Bank Offers</h2>
               <div className={styles.offersGrid}>
                 <div className={styles.offerCard}>
-                  <div className={styles.offerBadge}>T&C'S APPLY</div>
+                  <div className={styles.offerBadge}>T&C&apos;S APPLY</div>
                   <div className={styles.offerCardContent}>
                     <div className={styles.offerLeft}>
                       <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=200" alt="Premium Upgrade" className={styles.offerImage} />
@@ -547,7 +547,7 @@ export default function LodgeDetailPage() {
                   </div>
                 </div>
                 <div className={styles.offerCard}>
-                  <div className={styles.offerBadge}>T&C'S APPLY</div>
+                  <div className={styles.offerBadge}>T&C&apos;S APPLY</div>
                   <div className={styles.offerCardContent}>
                     <div className={styles.offerLeft}>
                       <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=200" alt="Bank Offer" className={styles.offerImage} />
@@ -560,7 +560,7 @@ export default function LodgeDetailPage() {
                   </div>
                 </div>
                 <div className={styles.offerCard}>
-                  <div className={styles.offerBadge}>T&C'S APPLY</div>
+                  <div className={styles.offerBadge}>T&C&apos;S APPLY</div>
                   <div className={styles.offerCardContent}>
                     <div className={styles.offerLeft}>
                       <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=200" alt="Travel Benefits" className={styles.offerImage} />
@@ -573,7 +573,7 @@ export default function LodgeDetailPage() {
                   </div>
                 </div>
                 <div className={styles.offerCard}>
-                  <div className={styles.offerBadge}>T&C'S APPLY</div>
+                  <div className={styles.offerBadge}>T&C&apos;S APPLY</div>
                   <div className={styles.offerCardContent}>
                     <div className={styles.offerLeft}>
                       <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=200" alt="Corporate Benefits" className={styles.offerImage} />
