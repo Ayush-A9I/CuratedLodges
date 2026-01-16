@@ -4769,3 +4769,170 @@
   }
 }
 
+/* Share Modal */
+.lodge_shareModalOverlay__JLsBG {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+}
+
+.lodge_shareModalContent__tyDD8 {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: lodge_modalSlideUp__CBkIe 0.3s ease-out;
+}
+
+@keyframes lodge_modalSlideUp__CBkIe {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lodge_shareModalClose__iSQyU {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.lodge_shareModalClose__iSQyU:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #1E2D27;
+  transform: scale(1.05);
+}
+
+.lodge_sharePreview__w_3Pv {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lodge_sharePreviewImage__f0Kmc {
+  width: 100%;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.lodge_sharePreviewTitle__X2_bS {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 0.25rem 0;
+}
+
+.lodge_sharePreviewLocation__Ujcr8 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.lodge_shareActions__dRL_q {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.lodge_shareActionItem__o1QEb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lodge_shareActionItem__o1QEb:hover .lodge_shareActionIcon__FlBBO {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.lodge_shareActionIcon__FlBBO {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: #333;
+}
+
+.lodge_whatsappIcon__h4g2k {
+  background: #25D366;
+  border-color: #25D366;
+  color: white;
+}
+
+.lodge_shareActionLabel__ZVZl_ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .lodge_shareModalContent__tyDD8 {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .lodge_sharePreviewImage__f0Kmc {
+    height: 160px;
+  }
+
+  .lodge_sharePreviewTitle__X2_bS {
+    font-size: 1.125rem;
+  }
+
+  .lodge_shareActions__dRL_q {
+    gap: 1.5rem;
+  }
+
+  .lodge_shareActionIcon__FlBBO {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+
