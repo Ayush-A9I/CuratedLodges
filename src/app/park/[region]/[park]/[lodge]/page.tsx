@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Head from 'next/head';
 import Header from '../../../../../components/layout/Header';
 import Footer from '../../../../../components/layout/Footer';
 import { lodgesData } from '../../../../../data/mock/LodgeData';
@@ -263,6 +264,57 @@ export default function LodgeDetailPage() {
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
+
+  // Update meta tags dynamically for social sharing
+  useEffect(() => {
+    if (lodgeData) {
+      const title = `${lodgeData.name} - ${lodgeData.location}`;
+      const description = lodgeData.about?.description?.[0] || `Experience luxury and wildlife at ${lodgeData.name}`;
+      const imageUrl = lodgeData.images?.[0] || '';
+      const url = window.location.href;
+
+      // Update document title
+      document.title = title;
+
+      // Update or create meta tags
+      const updateMetaTag = (property: string, content: string) => {
+        let meta = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement;
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute('property', property);
+          document.head.appendChild(meta);
+        }
+        meta.content = content;
+      };
+
+      const updateMetaName = (name: string, content: string) => {
+        let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute('name', name);
+          document.head.appendChild(meta);
+        }
+        meta.content = content;
+      };
+
+      // Open Graph tags
+      updateMetaTag('og:title', title);
+      updateMetaTag('og:description', description);
+      updateMetaTag('og:image', imageUrl);
+      updateMetaTag('og:url', url);
+      updateMetaTag('og:type', 'website');
+      updateMetaTag('og:site_name', 'Curated Lodges');
+
+      // Twitter Card tags
+      updateMetaName('twitter:card', 'summary_large_image');
+      updateMetaName('twitter:title', title);
+      updateMetaName('twitter:description', description);
+      updateMetaName('twitter:image', imageUrl);
+
+      // Standard meta tags
+      updateMetaName('description', description);
+    }
+  }, [lodgeData]);
 
   const handleShare = async () => {
     const shareData = {
