@@ -709,13 +709,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
   padding: 2rem;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 .roomModalContent {
@@ -726,17 +728,17 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  animation: slideUp 0.3s ease;
+  animation: modalScale 0.2s ease;
 }
 
-@keyframes slideUp {
+@keyframes modalScale {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
@@ -3072,7 +3074,7 @@
 
 .checkoutInputGroup input[type="date"],
 .checkoutInputGroup select {
-  padding: 0.8rem 0.875rem;
+  padding: 0.8rem 2.5rem 0.8rem 0.875rem;
   border: 1.5px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-size: 0.875rem;
@@ -3081,6 +3083,10 @@
   background: white;
   transition: all 0.2s;
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
 }
 
 .checkoutInputGroup input[type="date"]:focus,
@@ -3192,13 +3198,13 @@
 }
 
 .checkoutRoomOption:hover {
-  border-color: #F1663F;
-  background: rgba(241, 102, 63, 0.02);
+  border-color: rgba(0, 0, 0, 0.15);
+  background: white;
 }
 
 .checkoutRoomSelected {
-  border-color: #F1663F !important;
-  background: rgba(241, 102, 63, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
 }
 
 .checkoutRoomIcon {
@@ -3270,9 +3276,9 @@
 .checkoutSchedule {
   margin-top: 1.25rem;
   padding: 1.25rem;
-  background: rgba(241, 102, 63, 0.03);
+  background: rgba(0, 0, 0, 0.02);
   border-radius: 10px;
-  border: 1px solid rgba(241, 102, 63, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .checkoutScheduleHeader {
@@ -3416,6 +3422,625 @@
   }
 }
 
+/* Bank Offer Modal */
+.offerModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1.5rem;
+}
+
+.offerModalContent {
+  background: #FFFFFF;
+  border-radius: 16px;
+  max-width: 650px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.offerModalClose {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #1E2D27;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.offerModalClose:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: rotate(90deg);
+}
+
+.offerModalHeader {
+  padding: 2rem 2rem 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.offerModalHeader h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0;
+  padding-right: 2rem;
+  line-height: 1.3;
+}
+
+.offerModalBody {
+  padding: 2rem;
+}
+
+.offerModalSection {
+  margin-bottom: 2rem;
+}
+
+.offerModalSection:last-child {
+  margin-bottom: 0;
+}
+
+.offerModalSection h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 0.875rem 0;
+}
+
+.offerModalSection p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: rgba(30, 45, 39, 0.8);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.offerModalFooter {
+  padding: 1.5rem 2rem 2rem 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.offerModalButton {
+  font-family: 'DM Sans', sans-serif;
+  background: #1E2D27;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.offerModalButton:hover {
+  background: #2d4038;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Personal Info Step - Now integrated in right panel */
+.checkoutBack {
+  background: transparent;
+  border: none;
+  font-size: 1.125rem;
+  color: #1E2D27;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.checkoutBack:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.personalInfoForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1E2D27;
+}
+
+.fieldDescription {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8125rem;
+  color: rgba(30, 45, 39, 0.6);
+  margin: -0.25rem 0 0 0;
+}
+
+.formGroup input,
+.formGroup textarea {
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgba(30, 45, 39, 0.2);
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  color: #1E2D27;
+  transition: all 0.2s ease;
+  background: #F8F9FA;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #1E2D27;
+  background: #FFFFFF;
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.communicationPreferences {
+  margin: 0.5rem 0;
+}
+
+.communicationPreferences h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1E2D27;
+  margin: 0 0 1rem 0;
+}
+
+.whatsappOption {
+  background: #FFE8A1;
+  border: 1px solid #E6D085;
+  border-radius: 12px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.whatsappOption:hover {
+  border-color: #D4B968;
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.checkboxWrapper input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #1E2D27;
+}
+
+.whatsappLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1E2D27;
+}
+
+.whatsappDesc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(30, 45, 39, 0.7);
+  margin: 0;
+  line-height: 1.5;
+  padding-left: 2rem;
+}
+
+.proceedToPayBtn {
+  font-family: 'DM Sans', sans-serif;
+  background: #1E2D27;
+  color: #FFFFFF;
+  border: none;
+  padding: 1.125rem 2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.proceedToPayBtn:hover:not(:disabled) {
+  background: #2d4038;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 45, 39, 0.2);
+}
+
+.proceedToPayBtn:disabled {
+  background: rgba(30, 45, 39, 0.3);
+  cursor: not-allowed;
+}
+
+/* Booking Confirmed Step */
+.bookingConfirmed {
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(30, 45, 39, 0.15);
+}
+
+/* Custom Scrollbar for Booking Confirmed Popup */
+.bookingConfirmed::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bookingConfirmed::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.bookingConfirmed::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.bookingConfirmed::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Firefox Scrollbar */
+.bookingConfirmed {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.05);
+}
+
+.confirmedContent {
+  padding: 3rem 3rem 2.5rem 3rem;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.confirmedIcon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.confirmedContent h2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.confirmedSubtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  color: rgba(30, 45, 39, 0.65);
+  margin: 0 0 2rem 0;
+  font-weight: 400;
+}
+
+.confirmedMessage {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  color: rgba(30, 45, 39, 0.7);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+}
+
+.confirmedMessage strong {
+  color: #1E2D27;
+  font-weight: 600;
+}
+
+.downloadBtn {
+  font-family: 'DM Sans', sans-serif;
+  background: #1E2D27;
+  color: #FFFFFF;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(30, 45, 39, 0.2);
+  margin-bottom: 2.5rem;
+}
+
+.downloadBtn:hover {
+  background: #2d4038;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(30, 45, 39, 0.3);
+}
+
+/* House of Junglore Promo Section - Horizontal Layout */
+.junglorePromo {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  background: #1E2D27;
+  border-radius: 20px;
+  margin-top: 1rem;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(30, 45, 39, 0.2);
+  min-height: 320px;
+  max-height: 340px;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.junglorePromoLeft {
+  position: relative;
+  overflow: hidden;
+}
+
+.junglorePromoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jungloreImageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(30, 45, 39, 0) 0%, rgba(30, 45, 39, 0.4) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.jungloreOfferBadge {
+  background: rgba(241, 102, 63, 0.95);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(241, 102, 63, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 16px rgba(241, 102, 63, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(241, 102, 63, 0.6);
+  }
+}
+
+.junglorePromoRight {
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #1E2D27 0%, #0f1a15 100%);
+  text-align: left;
+}
+
+.junglorePromoBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+}
+
+.brandIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #F1663F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.junglorePromoBrand span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #F1663F;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.junglorePromoRight h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.junglorePromoDesc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.jungloreCodeSection {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.25rem;
+  transition: border-color 0.3s ease;
+}
+
+.jungloreCodeSection:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.codeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.codeInfo {
+  padding-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.codeLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.125rem;
+}
+
+.codeText {
+  font-family: 'Courier New', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 4px;
+}
+
+.copyBtn {
+  background: #FFFFFF;
+  color: #1E2D27;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  min-width: 70px;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.copyBtn:hover {
+  background: #f5f5f5;
+}
+
+.jungloreVisitLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.jungloreVisitLink:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  text-underline-offset: 2px;
+}
+
+.jungloreVisitLink svg {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.jungloreVisitLink:hover svg {
+  transform: translateX(2px);
+}
+
+
+
+
 @media (max-width: 480px) {
   .checkoutSummary {
     padding: 1rem;
@@ -3444,5 +4069,188 @@
 
   .checkoutRoomOption {
     padding: 1rem;
+  }
+
+  /* Offer Modal Responsive */
+  .offerModal {
+    padding: 1rem;
+  }
+
+  .offerModalContent {
+    border-radius: 12px;
+    max-height: 85vh;
+  }
+
+  .offerModalClose {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.75rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .offerModalHeader {
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+  }
+
+  .offerModalHeader h2 {
+    font-size: 1.375rem;
+    padding-right: 2.5rem;
+  }
+
+  .offerModalBody {
+    padding: 1.5rem;
+  }
+
+  .offerModalSection {
+    margin-bottom: 1.5rem;
+  }
+
+  .offerModalSection h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .offerModalSection p {
+    font-size: 0.875rem;
+  }
+
+  .offerModalFooter {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .offerModalButton {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  /* Personal Info Responsive */
+  .checkoutBack {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .checkoutTitle {
+    font-size: 1.5rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .formGroup input,
+  .formGroup textarea {
+    font-size: 0.875rem;
+    padding: 0.75rem 0.875rem;
+  }
+
+  .whatsappOption {
+    padding: 1rem;
+  }
+
+  .whatsappLabel {
+    font-size: 0.9375rem;
+  }
+
+  .whatsappDesc {
+    font-size: 0.8125rem;
+  }
+
+  /* Booking Confirmed Responsive */
+  .bookingConfirmed {
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+
+  .confirmedContent {
+    padding: 2rem 1.5rem 1.75rem 1.5rem;
+  }
+
+  .confirmedIcon svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  .confirmedContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .confirmedSubtitle {
+    font-size: 0.875rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .confirmedMessage {
+    font-size: 0.875rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .downloadBtn {
+    width: 100%;
+    padding: 0.875rem 1.75rem;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+  }
+
+  .junglorePromo {
+    grid-template-columns: 1fr;
+    margin-top: 0.5rem;
+    border-radius: 16px;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .junglorePromoLeft {
+    height: 200px;
+  }
+
+  .junglorePromoRight {
+    padding: 1.5rem 1.25rem;
+    gap: 0.875rem;
+  }
+
+  .brandIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .brandIcon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .junglorePromoBrand span {
+    font-size: 0.5625rem;
+    letter-spacing: 1px;
+  }
+
+  .junglorePromoRight h3 {
+    font-size: 1.25rem;
+  }
+
+  .junglorePromoDesc {
+    font-size: 0.6875rem;
+  }
+
+  .codeText {
+    font-size: 1rem;
+    letter-spacing: 3px;
+  }
+
+  .copyBtn {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.5625rem;
+    min-width: 60px;
+  }
+
+  .jungloreVisitLink {
+    font-size: 0.5625rem;
+  }
+
+  .jungloreVisitLink svg {
+    width: 12px;
+    height: 12px;
   }
 }

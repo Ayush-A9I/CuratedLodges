@@ -75,6 +75,34 @@ export default function LodgeDetailPage() {
     "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1200",
   ];
 
+  // Bank Offers with detailed information
+  const bankOffersDetails = [
+    {
+      title: "10% Off with HDFC Bank",
+      shortDesc: "Get instant 10% discount on bookings above ₹20,000 with HDFC Credit Cards",
+      fullDesc: "Get an instant 10% discount on your booking when you pay using HDFC Bank Credit Cards. This offer is valid on bookings above ₹20,000. Maximum discount is capped at ₹5,000 per transaction. The discount will be applied automatically at checkout. Valid for both domestic and international bookings.",
+      termsAndConditions: "Offer valid only on HDFC Bank Credit Cards. Minimum booking amount should be ₹20,000. Maximum discount is ₹5,000. Offer cannot be clubbed with any other offers. Valid till 31st December 2026. The offer is applicable on net rates only."
+    },
+    {
+      title: "15% Off with SBI Cards",
+      shortDesc: "Save 15% on your stay with SBI Credit/Debit Cards. Maximum discount ₹5,000",
+      fullDesc: "Enjoy a generous 15% discount on your lodge booking when you use SBI Credit or Debit Cards. This exclusive offer helps you save more on your wildlife adventure. The discount applies to the total booking amount and will be reflected instantly during payment. Perfect for both weekend getaways and extended stays.",
+      termsAndConditions: "Valid on SBI Credit and Debit Cards only. Maximum discount of ₹5,000 per booking. Minimum transaction value of ₹15,000 required. Cannot be combined with other promotional offers. Offer valid for bookings made between January 2026 to December 2026. Blackout dates may apply during peak season."
+    },
+    {
+      title: "EMI Options Available",
+      shortDesc: "Convert your booking to No Cost EMI for 3, 6, or 9 months with select banks",
+      fullDesc: "Make your dream wildlife vacation more affordable with our No Cost EMI options. Convert your booking amount into easy monthly installments of 3, 6, or 9 months with absolutely zero interest charges. Available on select credit cards from major banks including HDFC, ICICI, SBI, Axis, and more. Processing fees waived for EMI transactions.",
+      termsAndConditions: "No Cost EMI available on select credit cards only. Minimum booking amount of ₹25,000 required. Available tenure options: 3, 6, or 9 months. Processing fees and GST will be borne by the merchant. Subject to bank approval. EMI option visible only for eligible cards during payment. Pre-closure charges may apply as per bank policies."
+    },
+    {
+      title: "Friday: Up to 15% OFF* on Dom. Flights & Hotels",
+      shortDesc: "Valid on ICICI Bank Business Credit Cards.",
+      fullDesc: "Exclusive Friday offer for ICICI Bank Business Credit Card holders. Get up to 15% discount on domestic flight bookings and hotel accommodations. Perfect for planning your business retreats or team outings to our wilderness lodges. The offer is designed to help corporate travelers enjoy premium wildlife experiences at reduced costs.",
+      termsAndConditions: "Valid only on Fridays for ICICI Bank Business Credit Cards. Maximum discount of ₹7,500 per booking. Applicable on domestic flights and hotel bookings only. Minimum booking value should be ₹20,000. Offer subject to availability. Cannot be combined with any other ongoing promotions. Valid for bookings made and travel completed within the promotional period."
+    }
+  ];
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [mobileHeroIndex, setMobileHeroIndex] = useState(0);
   const [checkIn, setCheckIn] = useState('');
@@ -97,6 +125,17 @@ export default function LodgeDetailPage() {
   const [naturalistSessions, setNaturalistSessions] = useState(0);
   const [sessionAllocations, setSessionAllocations] = useState<{[date: string]: number}>({});
   const [selectedNaturalist, setSelectedNaturalist] = useState<string>('');
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState<any>(null);
+  const [checkoutStep, setCheckoutStep] = useState<'details' | 'personal' | 'confirmed'>('details');
+  const [guestFirstName, setGuestFirstName] = useState('');
+  const [guestLastName, setGuestLastName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [guestPhone, setGuestPhone] = useState('');
+  const [whatsappEnabled, setWhatsappEnabled] = useState(false);
+  const [specialRequests, setSpecialRequests] = useState('');
+  const [bookingId, setBookingId] = useState('');
+  const [discountCodeCopied, setDiscountCodeCopied] = useState(false);
 
   const handleMobileHeroPrev = () => {
     setMobileHeroIndex(prev => 
@@ -207,15 +246,19 @@ export default function LodgeDetailPage() {
 
   // Prevent background scroll when modal is open
   useEffect(() => {
-    if (isCheckoutModalOpen) {
+    if (isCheckoutModalOpen || isOfferModalOpen || roomModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
+      // Reset checkout step when modal closes
+      if (!isCheckoutModalOpen) {
+        setCheckoutStep('details');
+      }
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isCheckoutModalOpen]);
+  }, [isCheckoutModalOpen, isOfferModalOpen, roomModalOpen]);
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -542,7 +585,10 @@ export default function LodgeDetailPage() {
                     <div className={styles.offerRight}>
                       <h3>10% Off with HDFC Bank</h3>
                       <p>Get instant 10% discount on bookings above ₹20,000 with HDFC Credit Cards</p>
-                      {/* <button className={styles.offerButton}>BOOK NOW</button> */}
+                      <button className={styles.offerButton} onClick={() => {
+                        setSelectedOffer(bankOffersDetails[0]);
+                        setIsOfferModalOpen(true);
+                      }}>Explore</button>
                     </div>
                   </div>
                 </div>
@@ -555,7 +601,10 @@ export default function LodgeDetailPage() {
                     <div className={styles.offerRight}>
                       <h3>15% Off with SBI Cards</h3>
                       <p>Save 15% on your stay with SBI Credit/Debit Cards. Maximum discount ₹5,000</p>
-                      {/* <button className={styles.offerButton}>EXPLORE NOW</button> */}
+                      <button className={styles.offerButton} onClick={() => {
+                        setSelectedOffer(bankOffersDetails[1]);
+                        setIsOfferModalOpen(true);
+                      }}>Know More</button>
                     </div>
                   </div>
                 </div>
@@ -568,7 +617,10 @@ export default function LodgeDetailPage() {
                     <div className={styles.offerRight}>
                       <h3>EMI Options Available</h3>
                       <p>Convert your booking to No Cost EMI for 3, 6, or 9 months with select banks</p>
-                      {/* <button className={styles.offerButton}>REGISTER NOW</button> */}
+                      <button className={styles.offerButton} onClick={() => {
+                        setSelectedOffer(bankOffersDetails[2]);
+                        setIsOfferModalOpen(true);
+                      }}>Know More</button>
                     </div>
                   </div>
                 </div>
@@ -581,7 +633,10 @@ export default function LodgeDetailPage() {
                     <div className={styles.offerRight}>
                       <h3>Friday: Up to 15% OFF* on Dom. Flights & Hotels</h3>
                       <p>Valid on ICICI Bank Business Credit Cards.</p>
-                      {/* <button className={styles.offerButton}>BOOK NOW</button> */}
+                      <button className={styles.offerButton} onClick={() => {
+                        setSelectedOffer(bankOffersDetails[3]);
+                        setIsOfferModalOpen(true);
+                      }}>Explore</button>
                     </div>
                   </div>
                 </div>
@@ -751,6 +806,8 @@ export default function LodgeDetailPage() {
         {isCheckoutModalOpen && (
           <div className={styles.checkoutModal} onClick={() => setIsCheckoutModalOpen(false)}>
             <div className={styles.checkoutModalContent} onClick={(e) => e.stopPropagation()}>
+              {(checkoutStep === 'details' || checkoutStep === 'personal') && (
+                <>
               {/* Left Panel - Reservation Summary */}
               <div className={styles.checkoutLeft}>
                 <div className={styles.checkoutImage}>
@@ -806,6 +863,9 @@ export default function LodgeDetailPage() {
               {/* Right Panel - Form */}
               <div className={styles.checkoutRight}>
                 <button className={styles.checkoutClose} onClick={() => setIsCheckoutModalOpen(false)}>×</button>
+                
+                {checkoutStep === 'details' && (
+                  <>
                 <h2 className={styles.checkoutTitle}>Configure Your Stay</h2>
 
                 {/* Section 1: Dates & Guests */}
@@ -932,7 +992,7 @@ export default function LodgeDetailPage() {
                   {selectedNaturalist && (
                     <>
                       <div className={styles.checkoutSessionCounter}>
-                        <label>HOW MANY SESSIONS?</label>
+                        <label>How Many Sessions?</label>
                         <div className={styles.checkoutCounterControls}>
                           <button onClick={() => {
                             setNaturalistSessions(Math.max(0, naturalistSessions - 1));
@@ -949,7 +1009,7 @@ export default function LodgeDetailPage() {
                       {naturalistSessions > 0 && checkoutCheckIn && checkoutCheckOut && (
                         <div className={styles.checkoutSchedule}>
                           <div className={styles.checkoutScheduleHeader}>
-                            <label>SCHEDULE DATES</label>
+                            <label>Schedule Dates</label>
                             <span className={styles.checkoutAllocated}>
                               Allocated: {getTotalAllocated()}/{naturalistSessions}
                             </span>
@@ -998,14 +1058,226 @@ export default function LodgeDetailPage() {
                 <button 
                   className={styles.checkoutCompleteBtn}
                   disabled={!checkoutCheckIn || !checkoutCheckOut || !checkoutRoomType || (naturalistSessions > 0 && getTotalAllocated() < naturalistSessions)}
+                  onClick={() => setCheckoutStep('personal')}
                 >
-                  Complete Reservation →
+                  Complete Reservation 
                 </button>
+                  </>
+                )}
+
+                {checkoutStep === 'personal' && (
+                  <>
+                    <button className={styles.checkoutBack} onClick={() => setCheckoutStep('details')}>← Back</button>
+                    
+                    <h2 className={styles.checkoutTitle}>Personal Information</h2>
+                    
+                    <div className={styles.personalInfoForm}>
+                      <div className={styles.formRow}>
+                        <div className={styles.formGroup}>
+                          <label>First Name</label>
+                          <input 
+                            type="text" 
+                            value={guestFirstName}
+                            onChange={(e) => setGuestFirstName(e.target.value)}
+                            placeholder="Enter first name"
+                          />
+                        </div>
+                        <div className={styles.formGroup}>
+                          <label>Last Name</label>
+                          <input 
+                            type="text" 
+                            value={guestLastName}
+                            onChange={(e) => setGuestLastName(e.target.value)}
+                            placeholder="Enter last name"
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label>Email</label>
+                        <input 
+                          type="email" 
+                          value={guestEmail}
+                          onChange={(e) => setGuestEmail(e.target.value)}
+                          placeholder="Enter email address"
+                        />
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label>Phone Number</label>
+                        <input 
+                          type="tel" 
+                          value={guestPhone}
+                          onChange={(e) => setGuestPhone(e.target.value)}
+                          placeholder="Enter phone number"
+                        />
+                      </div>
+
+                      <div className={styles.communicationPreferences}>
+                        <h3>Communication Preferences</h3>
+                        <div className={styles.whatsappOption} onClick={() => setWhatsappEnabled(!whatsappEnabled)}>
+                          <div className={styles.checkboxWrapper}>
+                            <input 
+                              type="checkbox" 
+                              checked={whatsappEnabled}
+                              onChange={(e) => setWhatsappEnabled(e.target.checked)}
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                            <span className={styles.whatsappLabel}>Enable WhatsApp Communications</span>
+                          </div>
+                          <p className={styles.whatsappDesc}>Receive instant updates, pre-trip guides, and direct access to your naturalist guide. Highly recommended for the best experience.</p>
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label>Special Requests</label>
+                        <p className={styles.fieldDescription}>Dietary restrictions, accessibility needs, or special occasions</p>
+                        <textarea 
+                          value={specialRequests}
+                          onChange={(e) => setSpecialRequests(e.target.value)}
+                          placeholder="Let us know how we can make your stay perfect..."
+                          rows={5}
+                        />
+                      </div>
+
+                      <button 
+                        className={styles.proceedToPayBtn}
+                        disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone}
+                        onClick={() => {
+                          const newBookingId = 'JL' + Date.now().toString().slice(-8);
+                          setBookingId(newBookingId);
+                          setCheckoutStep('confirmed');
+                        }}
+                      >
+                        Proceed to Pay
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
+            </>
+              )}
+
+              {/* Booking Confirmed Step */}
+              {checkoutStep === 'confirmed' && (
+                <div className={styles.bookingConfirmed}>
+                  <button className={styles.checkoutClose} onClick={() => {
+                    setIsCheckoutModalOpen(false);
+                    setCheckoutStep('details');
+                  }}>×</button>
+                  
+                  <div className={styles.confirmedContent}>
+                    <div className={styles.confirmedIcon}>
+                      <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#F1663F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                      </svg>
+                    </div>
+                    
+                    <h2>Booking Confirmed!</h2>
+                    <p className={styles.confirmedSubtitle}>We&apos;re getting {lodgeData?.name || 'the Lodge'} ready for your arrival.</p>
+
+                    <p className={styles.confirmedMessage}>
+                      A confirmation email has been sent to <strong>{guestEmail}</strong> with your booking details.
+                    </p>
+
+                    {/* House of Junglore Section */}
+                    <div className={styles.junglorePromo}>
+                      <div className={styles.junglorePromoLeft}>
+                        <img 
+                          src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&h=400&fit=crop" 
+                          alt="Safari Binoculars" 
+                          className={styles.junglorePromoImage}
+                        />
+                      </div>
+                      
+                      <div className={styles.junglorePromoRight}>
+                        <div className={styles.junglorePromoBrand}>
+                          <div className={styles.brandIcon}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <circle cx="9" cy="21" r="1"/>
+                              <circle cx="20" cy="21" r="1"/>
+                              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                            </svg>
+                          </div>
+                          <span>HOUSE OF JUNGLORE</span>
+                        </div>
+                        
+                        <h3>Unlock 10% Off Gear</h3>  
+                        <p className={styles.junglorePromoDesc}>Exclusive access to premium safari wear & handcrafted binoculars for your trip.</p>
+                        
+                        <div className={styles.jungloreCodeSection}>
+                          <div className={styles.codeWrapper}>
+                            <div className={styles.codeInfo}>
+                              <span className={styles.codeLabel}>VOUCHER CODE</span>
+                              <span className={styles.codeText}>TADOBA-10</span>
+                            </div>
+                            <button 
+                              className={styles.copyBtn}
+                              onClick={() => {
+                                navigator.clipboard.writeText('WILD20');
+                                setDiscountCodeCopied(true);
+                                setTimeout(() => setDiscountCodeCopied(false), 2000);
+                              }}
+                            >
+                              {discountCodeCopied ? 'COPIED' : 'COPY'}
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <a 
+                          href="https://houseofjunglore.com" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={styles.jungloreVisitLink}
+                        >
+                          <span>Visit houseofjunglore.com</span>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            <polyline points="15 3 21 3 21 9"/>
+                            <line x1="10" y1="14" x2="21" y2="3"/>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
       </main>
+
+      {/* Bank Offer Details Modal */}
+      {isOfferModalOpen && selectedOffer && (
+        <div className={styles.offerModal} onClick={() => setIsOfferModalOpen(false)}>
+          <div className={styles.offerModalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.offerModalClose} onClick={() => setIsOfferModalOpen(false)}>×</button>
+            
+            <div className={styles.offerModalHeader}>
+              <h2>{selectedOffer.title}</h2>
+            </div>
+
+            <div className={styles.offerModalBody}>
+              <div className={styles.offerModalSection}>
+                <h3>Offer Details</h3>
+                <p>{selectedOffer.fullDesc}</p>
+              </div>
+
+              <div className={styles.offerModalSection}>
+                <h3>Terms & Conditions</h3>
+                <p>{selectedOffer.termsAndConditions}</p>
+              </div>
+            </div>
+
+            <div className={styles.offerModalFooter}>
+              <button className={styles.offerModalButton} onClick={() => setIsOfferModalOpen(false)}>
+                Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       <Footer />
     </>
