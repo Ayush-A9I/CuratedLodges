@@ -1301,9 +1301,9 @@
 
 .Header_navLink__LzXns {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.71rem;
+  font-size: 0.81rem;
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 0.3em;
   text-decoration: none;
   position: relative;
@@ -1341,6 +1341,34 @@
 
 .Header_navLink__LzXns:hover .Header_underline__g4dNv {
   width: 100%;
+}
+
+/* Dark mode - force dark text even when transparent (for white background pages) */
+.Header_darkMode__GpYdD .Header_logo__e5KhT {
+  color: #1E2D27;
+}
+
+.Header_darkMode__GpYdD .Header_poweredBy__6fYeE {
+  color: #1E2D27;
+}
+
+.Header_darkMode__GpYdD .Header_navLink__LzXns {
+  color: #1E2D27;
+}
+
+/* Dark mode button styles - override both transparent and scrolled states */
+.Header_darkMode__GpYdD.Header_transparent__7W1v_ .Header_conciergeButton__NM3hY,
+.Header_darkMode__GpYdD.Header_scrolled__sfZwa .Header_conciergeButton__NM3hY {
+  background: transparent;
+  color: #1E2D27;
+  border: 1.5px solid #1E2D27;
+  box-shadow: none;
+}
+
+.Header_darkMode__GpYdD.Header_transparent__7W1v_ .Header_conciergeButton__NM3hY:hover,
+.Header_darkMode__GpYdD.Header_scrolled__sfZwa .Header_conciergeButton__NM3hY:hover {
+  background: #1E2D27;
+  color: #FFFFFF;
 }
 
 /* Concierge Button */

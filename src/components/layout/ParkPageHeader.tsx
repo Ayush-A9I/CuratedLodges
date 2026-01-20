@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import SearchBox from '../domain/SearchBox';
 import styles from './ParkPageHeader.module.css';
 
@@ -15,9 +16,9 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
       <div className={styles.container}>
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
-          <a href="/" className={styles.logo}>
+          <Link href="/" className={styles.logo}>
             Curated Lodges<span className={styles.dot}>.</span>
-          </a>
+          </Link>
           <div className={styles.poweredBy}>Powered by Junglore</div>
         </div>
         

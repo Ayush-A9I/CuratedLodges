@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../../../../../components/layout/Header';
@@ -138,6 +138,8 @@ export default function LodgeDetailPage() {
   const [discountCodeCopied, setDiscountCodeCopied] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const checkInInputRef = useRef<HTMLInputElement>(null);
+  const checkOutInputRef = useRef<HTMLInputElement>(null);
 
   const handleMobileHeroPrev = () => {
     setMobileHeroIndex(prev => 
@@ -289,7 +291,7 @@ export default function LodgeDetailPage() {
 
   return (
     <>
-      <Header forceVisible={true} forceScrolled={true} />
+      <Header forceVisible={true} darkMode={true} />
       
       <main className={styles.main}>
         {/* Hero Section with Images */}
@@ -879,9 +881,10 @@ export default function LodgeDetailPage() {
                   </div>
                   
                   <div className={styles.checkoutDateInputs}>
-                    <div className={styles.checkoutInputGroup}>
+                    <div className={styles.checkoutInputGroup} onClick={() => checkInInputRef.current?.showPicker()}>
                       <label>CHECK-IN</label>
                       <input 
+                        ref={checkInInputRef}
                         type="date" 
                         value={checkoutCheckIn}
                         onChange={(e) => {
@@ -891,9 +894,10 @@ export default function LodgeDetailPage() {
                         min={new Date().toISOString().split('T')[0]}
                       />
                     </div>
-                    <div className={styles.checkoutInputGroup}>
+                    <div className={styles.checkoutInputGroup} onClick={() => checkOutInputRef.current?.showPicker()}>
                       <label>CHECK-OUT</label>
                       <input 
+                        ref={checkOutInputRef}
                         type="date" 
                         value={checkoutCheckOut}
                         onChange={(e) => {

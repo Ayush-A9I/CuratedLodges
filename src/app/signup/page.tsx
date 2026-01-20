@@ -39,7 +39,7 @@ export default function SignUpPage() {
 
   return (
     <>
-      <Header forceVisible={true} forceScrolled={true} />
+      <Header forceVisible={true} darkMode={true} />
       <div className={styles.pageContainer}>
         {/* Background */}
         <div className={styles.background}>

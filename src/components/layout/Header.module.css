@@ -106,9 +106,9 @@
 
 .navLink {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.71rem;
+  font-size: 0.81rem;
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 0.3em;
   text-decoration: none;
   position: relative;
@@ -146,6 +146,34 @@
 
 .navLink:hover .underline {
   width: 100%;
+}
+
+/* Dark mode - force dark text even when transparent (for white background pages) */
+.darkMode .logo {
+  color: #1E2D27;
+}
+
+.darkMode .poweredBy {
+  color: #1E2D27;
+}
+
+.darkMode .navLink {
+  color: #1E2D27;
+}
+
+/* Dark mode button styles - override both transparent and scrolled states */
+.darkMode.transparent .conciergeButton,
+.darkMode.scrolled .conciergeButton {
+  background: transparent;
+  color: #1E2D27;
+  border: 1.5px solid #1E2D27;
+  box-shadow: none;
+}
+
+.darkMode.transparent .conciergeButton:hover,
+.darkMode.scrolled .conciergeButton:hover {
+  background: #1E2D27;
+  color: #FFFFFF;
 }
 
 /* Concierge Button */

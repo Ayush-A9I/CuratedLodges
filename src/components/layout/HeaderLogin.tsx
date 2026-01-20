@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import styles from './Header.module.css';
 
 const HeaderLogin: React.FC<{ userName: string }> = ({ userName }) => {
@@ -15,7 +16,7 @@ const HeaderLogin: React.FC<{ userName: string }> = ({ userName }) => {
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
-      <div className={styles.logo}>Curated Lodges</div>
+      <Link href="/" className={styles.logo}>Curated Lodges</Link>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className={styles.navItem}>Destinations</li>

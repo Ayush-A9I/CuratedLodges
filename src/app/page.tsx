@@ -300,6 +300,8 @@ import LodgeCard from '../components/domain/LodgeCard'
 import Testimonials from '../components/domain/Testimonials'
 import HouseOfJunglore from '../components/domain/HouseOfJunglore'
 import { lodgeCardsData } from '../data/lodgeCards'
+import { fieldNotesData } from '../data/mock/FieldNotesData'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -477,93 +479,50 @@ export default function Home() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1200px]">
               {/* Left Side - Featured Article */}
-              <div className="relative rounded-3xl overflow-hidden group cursor-pointer h-[450px]">
+              <Link href={`/field-notes/${fieldNotesData[0].slug}`} className="relative rounded-3xl overflow-hidden group cursor-pointer h-[450px]">
                 <img 
-                  src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=800" 
-                  alt="Tracking in Kanha" 
+                  src={fieldNotesData[0].image} 
+                  alt={fieldNotesData[0].title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <span className="inline-block bg-[#F1F5F3] text-[#1E2D27] text-xs font-semibold px-3 py-1.5 rounded-full mb-3 uppercase tracking-wide">
-                    Field Notes
+                    {fieldNotesData[0].park}
                   </span>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
-                    The Art of Tracking: A Guide to Kanha
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight capitalize">
+                    {fieldNotesData[0].title.toLowerCase()}
                   </h3>
                   <p className="text-white/90 text-xs flex items-center gap-2">
-                    By <span className="font-semibold">Dr. Aris Thorne</span>
+                    By <span className="font-semibold">{fieldNotesData[0].author}</span>
                   </p>
                 </div>
-              </div>
+              </Link>
 
               {/* Right Side - Article List */}
               <div className="flex flex-col gap-5">
-                {/* Article 1 */}
-                <div className="flex gap-3 group cursor-pointer">
-                  <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" 
-                      alt="Golden Hour Photography" 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <span className="inline-block text-[#F1663F] text-xs font-semibold uppercase tracking-wide mb-1.5">
-                      Technique
-                    </span>
-                    <h4 className="text-base font-bold text-[#1E2D27] mb-1.5 leading-tight group-hover:text-[#F1663F] transition-colors">
-                      Photography in the Golden Hour
-                    </h4>
-                    <p className="text-[#6B7B75] text-xs">
-                      By Maya Krishnan
-                    </p>
-                  </div>
-                </div>
-
-                {/* Article 2 */}
-                <div className="flex gap-3 group cursor-pointer">
-                  <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=400" 
-                      alt="Sustainable Lodging" 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <span className="inline-block text-[#F1663F] text-xs font-semibold uppercase tracking-wide mb-1.5">
-                      Impact
-                    </span>
-                    <h4 className="text-base font-bold text-[#1E2D27] mb-1.5 leading-tight group-hover:text-[#F1663F] transition-colors">
-                      Sustainable Lodging: More than a Buzzword
-                    </h4>
-                    <p className="text-[#6B7B75] text-xs">
-                      By Junglore Team
-                    </p>
-                  </div>
-                </div>
-
-                {/* Article 3 */}
-                <div className="flex gap-3 group cursor-pointer">
-                  <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400" 
-                      alt="Safari Packing" 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <span className="inline-block text-[#F1663F] text-xs font-semibold uppercase tracking-wide mb-1.5">
-                      Prep
-                    </span>
-                    <h4 className="text-base font-bold text-[#1E2D27] mb-1.5 leading-tight group-hover:text-[#F1663F] transition-colors">
-                      What to Pack for Your First Safari
-                    </h4>
-                    <p className="text-[#6B7B75] text-xs">
-                      By Samuel Ott
-                    </p>
-                  </div>
-                </div>
+                {fieldNotesData.slice(1, 4).map((note) => (
+                  <Link key={note.id} href={`/field-notes/${note.slug}`} className="flex gap-3 group cursor-pointer">
+                    <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
+                      <img 
+                        src={note.image} 
+                        alt={note.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <span className="inline-block text-[#F1663F] text-xs font-semibold uppercase tracking-wide mb-1.5">
+                        {note.park}
+                      </span>
+                      <h4 className="text-base font-bold text-[#1E2D27] mb-1.5 leading-tight group-hover:text-[#F1663F] transition-colors capitalize">
+                        {note.title.toLowerCase()}
+                      </h4>
+                      <p className="text-[#6B7B75] text-xs">
+                        By {note.author}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

@@ -644,6 +644,7 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: visible;
 }
@@ -1049,6 +1050,7 @@
   margin: 0 0 1.25rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -3062,6 +3064,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  cursor: pointer;
 }
 
 .checkoutInputGroup label {
@@ -3074,7 +3077,7 @@
 
 .checkoutInputGroup input[type="date"],
 .checkoutInputGroup select {
-  padding: 0.8rem 2.5rem 0.8rem 0.875rem;
+  padding: 0.8rem 0.875rem;
   border: 1.5px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-size: 0.875rem;
@@ -3083,6 +3086,11 @@
   background: white;
   transition: all 0.2s;
   cursor: pointer;
+}
+
+/* Keep dropdown arrow for select elements only */
+.checkoutInputGroup select {
+  padding: 0.8rem 2.5rem 0.8rem 0.875rem;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;

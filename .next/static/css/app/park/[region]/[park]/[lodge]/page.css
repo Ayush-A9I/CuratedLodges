@@ -109,9 +109,9 @@
 
 .Header_navLink__LzXns {
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.71rem;
+  font-size: 0.81rem;
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 0.3em;
   text-decoration: none;
   position: relative;
@@ -149,6 +149,34 @@
 
 .Header_navLink__LzXns:hover .Header_underline__g4dNv {
   width: 100%;
+}
+
+/* Dark mode - force dark text even when transparent (for white background pages) */
+.Header_darkMode__GpYdD .Header_logo__e5KhT {
+  color: #1E2D27;
+}
+
+.Header_darkMode__GpYdD .Header_poweredBy__6fYeE {
+  color: #1E2D27;
+}
+
+.Header_darkMode__GpYdD .Header_navLink__LzXns {
+  color: #1E2D27;
+}
+
+/* Dark mode button styles - override both transparent and scrolled states */
+.Header_darkMode__GpYdD.Header_transparent__7W1v_ .Header_conciergeButton__NM3hY,
+.Header_darkMode__GpYdD.Header_scrolled__sfZwa .Header_conciergeButton__NM3hY {
+  background: transparent;
+  color: #1E2D27;
+  border: 1.5px solid #1E2D27;
+  box-shadow: none;
+}
+
+.Header_darkMode__GpYdD.Header_transparent__7W1v_ .Header_conciergeButton__NM3hY:hover,
+.Header_darkMode__GpYdD.Header_scrolled__sfZwa .Header_conciergeButton__NM3hY:hover {
+  background: #1E2D27;
+  color: #FFFFFF;
 }
 
 /* Concierge Button */
@@ -1145,6 +1173,7 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: visible;
 }
@@ -1552,6 +1581,7 @@
   margin: 0 0 1.25rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -3571,6 +3601,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  cursor: pointer;
 }
 
 .lodge_checkoutInputGroup__nSh5F label {
@@ -3583,7 +3614,7 @@
 
 .lodge_checkoutInputGroup__nSh5F input[type="date"],
 .lodge_checkoutInputGroup__nSh5F select {
-  padding: 0.8rem 2.5rem 0.8rem 0.875rem;
+  padding: 0.8rem 0.875rem;
   border: 1.5px solid rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   font-size: 0.875rem;
@@ -3592,6 +3623,11 @@
   background: white;
   transition: all 0.2s;
   cursor: pointer;
+}
+
+/* Keep dropdown arrow for select elements only */
+.lodge_checkoutInputGroup__nSh5F select {
+  padding: 0.8rem 2.5rem 0.8rem 0.875rem;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;

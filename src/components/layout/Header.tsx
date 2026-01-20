@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import styles from './Header.module.css';
 
 interface HeaderProps {
   forceVisible?: boolean;
   forceScrolled?: boolean;
+  darkMode?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = false }) => {
+const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = false, darkMode = false }) => {
   const [isScrolled, setIsScrolled] = useState(forceScrolled);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -48,24 +50,24 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
   }, [lastScrollY, forceVisible, forceScrolled]);
 
   return (
-    <header className={`${styles.header} ${isScrolled ? styles.scrolled : styles.transparent} ${!isVisible ? styles.hidden : ''}`}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : styles.transparent} ${!isVisible ? styles.hidden : ''} ${darkMode ? styles.darkMode : ''}`}>
       <div className={styles.container}>
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
-          <div className={styles.logo}>
+          <Link href="/" className={styles.logo}>
             Curated Lodges<span className={styles.dot}>.</span>
-          </div>
+          </Link>
           <div className={styles.poweredBy}>Powered by Junglore</div>
         </div>
         
         {/* Center Navigation Links */}
         <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/basecamps" className={styles.navLink}>
-            Basecamps
-            <span className={styles.underline}></span>
-          </a>
           <a href="/expeditions" className={styles.navLink}>
             Expeditions
+            <span className={styles.underline}></span>
+          </a>
+          <a href="/basecamps" className={styles.navLink}>
+            Basecamps
             <span className={styles.underline}></span>
           </a>
           <a href="/field-notes" className={styles.navLink}>

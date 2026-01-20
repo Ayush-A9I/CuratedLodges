@@ -28,6 +28,24 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/park/[region]/[park]/[lodge]/layout.js"
+    ],
+    "/field-notes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/field-notes/page.css",
+      "static/chunks/app/field-notes/page.js"
+    ],
+    "/basecamps/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/basecamps/page.css",
+      "static/chunks/app/basecamps/page.js"
+    ],
+    "/field-notes/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/field-notes/[slug]/page.css",
+      "static/chunks/app/field-notes/[slug]/page.js"
     ]
   }
 }
