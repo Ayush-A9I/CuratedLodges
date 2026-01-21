@@ -1,0 +1,482 @@
+.pageContainer {
+  background-color: #1E2D27;
+  color: white;
+  min-height: 100vh;
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Hero Section */
+.heroSection {
+  position: relative;
+  height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  animation: zoomIn 30s ease-out infinite alternate;
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(30, 45, 39, 0.3), transparent, #1E2D27);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 1200px;
+  padding: 0 24px;
+  animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroLabel {
+  display: block;
+  color: #F1663F;
+  font-weight: 900;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  margin-bottom: 28px;
+  animation: slideUp 1s ease-out 0.2s both;
+}
+
+.heroTitle {
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin-bottom: 32px;
+  animation: slideUp 1s ease-out 0.4s both;
+}
+
+.heroTitleGradient {
+  background: linear-gradient(to right, white, rgba(255, 255, 255, 0.5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSubtitle {
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  animation: slideUp 1s ease-out 0.6s both;
+}
+
+/* Timeline Section */
+.timelineSection {
+  padding: 96px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sectionBackground {
+  font-size: clamp(56px, 10vw, 112px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  color: rgba(255, 255, 255, 0.05);
+  line-height: 0.8;
+  margin-bottom: 72px;
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.timelineContainer {
+  position: relative;
+}
+
+.timelineLine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(241, 102, 63, 0.5), transparent);
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .timelineLine {
+    display: block;
+  }
+}
+
+.timelineItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 96px;
+}
+
+@media (min-width: 768px) {
+  .timelineItem {
+    flex-direction: row;
+    gap: 96px;
+  }
+
+  .timelineItemReverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .timelineItem .timelineContent {
+    text-align: right;
+  }
+
+  .timelineItemReverse .timelineContent {
+    text-align: left;
+  }
+}
+
+.timelineTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #F1663F;
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.timelineHeading {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  margin-bottom: 18px;
+  line-height: 1;
+}
+
+.timelineText {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 300;
+  max-width: 480px;
+}
+
+@media (min-width: 768px) {
+  .timelineItem .timelineText {
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .timelineItemReverse .timelineText {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.timelineImageWrapper {
+  flex: 1;
+}
+
+.timelineImageCard {
+  height: 340px;
+  border-radius: 32px;
+  overflow: hidden;
+  transition: transform 0.7s ease;
+  box-shadow: 0 20px 60px rgba(241, 102, 63, 0.1);
+}
+
+.timelineImageCard:hover {
+  transform: rotate(0deg) !important;
+}
+
+.timelineImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Moments Section */
+.momentsSection {
+  background: white;
+  color: #1E2D27;
+  padding: 96px 24px;
+  border-top-left-radius: 48px;
+  border-top-right-radius: 48px;
+  overflow: hidden;
+}
+
+.momentsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.momentsHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 72px;
+  gap: 28px;
+}
+
+@media (min-width: 768px) {
+  .momentsHeader {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.momentsTitle {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+}
+
+.momentsSubtitle {
+  font-size: 17px;
+  color: rgba(30, 45, 39, 0.6);
+  font-weight: 300;
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+.momentsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .momentsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.momentCard {
+  position: relative;
+  height: 500px;
+  border-radius: 32px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.5s ease;
+}
+
+.momentCard:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.momentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+}
+
+.momentCard:hover .momentImage {
+  transform: scale(1.1);
+}
+
+.momentOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.5s ease;
+}
+
+.momentCard:hover .momentOverlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.momentContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 32px;
+  color: white;
+}
+
+.momentIcon {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 14px;
+  border-radius: 18px;
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.momentCard:hover .momentIcon {
+  background: #F1663F;
+  color: white;
+}
+
+.momentTitle {
+  font-size: 30px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 14px;
+  transform: translateY(14px);
+  transition: transform 0.5s ease;
+}
+
+.momentCard:hover .momentTitle {
+  transform: translateY(0);
+}
+
+.momentDiscover {
+  opacity: 0;
+  transition: opacity 0.5s ease 0.1s;
+}
+
+.momentCard:hover .momentDiscover {
+  opacity: 1;
+}
+
+.momentDiscover span {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  border-bottom: 1px solid white;
+  padding-bottom: 4px;
+}
+
+/* CTA Section */
+.ctaSection {
+  background: white;
+  color: #1E2D27;
+  padding: 0 24px 0;
+}
+
+.ctaContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 56px;
+  text-align: center;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .ctaContainer {
+    padding: 48px 96px;
+  }
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 10;
+}
+
+.ctaTitle {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  color: #1E2D27;
+  margin-bottom: 16px;
+}
+
+.ctaSubtitle {
+  color: rgba(30, 45, 39, 0.6);
+  font-size: 18px;
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: #1E2D27;
+  color: white;
+  padding: 22px 56px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover {
+  background: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.ctaIcon {
+  position: absolute;
+  bottom: -256px;
+  right: -256px;
+  color: rgba(30, 45, 39, 0.05);
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .timelineImageCard {
+    height: 280px;
+  }
+
+  .momentCard {
+    height: 420px;
+  }
+
+  .ctaIcon {
+    display: none;
+  }
+}

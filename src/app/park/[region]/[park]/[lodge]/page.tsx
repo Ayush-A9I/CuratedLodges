@@ -28,8 +28,14 @@ export default function LodgeDetailPage() {
     if (!region || !park) return null;
     const regionData = lodgesData[region as keyof typeof lodgesData];
     if (!regionData) return null;
-    const parkData = regionData[park];
-    if (!parkData) return null;
+    
+    // Find park by matching slug to handle both slugified and original park names
+    const parkEntry = Object.entries(regionData).find(([parkName]) => 
+      createSlug(parkName) === createSlug(park) || parkName === park
+    );
+    
+    if (!parkEntry) return null;
+    const parkData = parkEntry[1];
     
     // Find lodge by matching slug
     return parkData.lodges.find(lodge => createSlug(lodge.name) === lodgeSlug);

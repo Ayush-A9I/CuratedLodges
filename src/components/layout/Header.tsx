@@ -62,8 +62,8 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
         
         {/* Center Navigation Links */}
         <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/expeditions" className={styles.navLink}>
-            Expeditions
+          <a href="/experience" className={styles.navLink}>
+            Experience
             <span className={styles.underline}></span>
           </a>
           <a href="/basecamps" className={styles.navLink}>
@@ -78,9 +78,9 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
 
         {/* Right Action Button */}
         <div className={styles.actions}>
-          <a href="/signin" className={styles.conciergeButton}>
+          <Link href="/signin" className={styles.conciergeButton}>
             Sign In 
-          </a>
+          </Link>
         </div>
       </div>
     </header>

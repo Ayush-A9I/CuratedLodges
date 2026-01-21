@@ -43,10 +43,18 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
     setSelectedPark(e.target.value);
   };
 
+  // Helper function to create URL-friendly slugs
+  const createSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
   const handleFind = () => {
     if (selectedRegion && selectedPark) {
       // Navigate to the park page with region and park as URL parameters
-      window.location.href = `/park/${selectedRegion}/${encodeURIComponent(selectedPark)}`;
+      window.location.href = `/park/${selectedRegion}/${createSlug(selectedPark)}`;
     }
   };
 

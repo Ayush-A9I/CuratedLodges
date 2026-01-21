@@ -1,7 +1,4 @@
 {
-  "/page": "app/page.js",
-  "/field-notes/page": "app/field-notes/page.js",
-  "/basecamps/page": "app/basecamps/page.js",
-  "/field-notes/[slug]/page": "app/field-notes/[slug]/page.js",
-  "/park/[region]/[park]/[lodge]/page": "app/park/[region]/[park]/[lodge]/page.js"
+  "/experience/page": "app/experience/page.js",
+  "/page": "app/page.js"
 }

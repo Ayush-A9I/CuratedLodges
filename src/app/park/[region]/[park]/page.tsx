@@ -33,7 +33,13 @@ export default function ParkPage() {
     if (!region || !park) return null;
     const regionData = lodgesData[region as keyof typeof lodgesData];
     if (!regionData) return null;
-    return regionData[park];
+    
+    // Find park by matching slug to handle both slugified and original park names
+    const parkEntry = Object.entries(regionData).find(([parkName]) => 
+      createSlug(parkName) === createSlug(park) || parkName === park
+    );
+    
+    return parkEntry ? parkEntry[1] : null;
   }, [region, park]);
 
   if (!parkData) {
@@ -99,7 +105,7 @@ export default function ParkPage() {
                         link={lodge.link}
                         amenities={lodge.amenities}
                         ecoCertified={lodge.ecoCertified}
-                        onClick={() => window.open(`/park/${region}/${params.park}/${createSlug(lodge.name)}`, '_blank')}
+                        onClick={() => window.open(`/park/${region}/${createSlug(park)}/${createSlug(lodge.name)}`, '_blank')}
                       />
                     </div>
                   );

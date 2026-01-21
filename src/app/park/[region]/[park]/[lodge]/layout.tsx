@@ -20,7 +20,13 @@ export async function generateMetadata({
 
   // Get lodge data
   const regionData = lodgesData[region as keyof typeof lodgesData];
-  const parkData = regionData?.[decodedPark];
+  
+  // Find park by matching slug to handle both slugified and original park names
+  const parkEntry = regionData ? Object.entries(regionData).find(([parkName]) => 
+    createSlug(parkName) === createSlug(decodedPark) || parkName === decodedPark
+  ) : null;
+  
+  const parkData = parkEntry ? parkEntry[1] : null;
   const lodgeData = parkData?.lodges.find(
     (l) => createSlug(l.name) === decodedLodge
   );
