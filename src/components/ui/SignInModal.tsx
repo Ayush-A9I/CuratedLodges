@@ -150,7 +150,7 @@ const SignInModal: React.FC<SignInModalProps> = ({ isOpen, onClose }) => {
             </form>
 
             <div className={styles.signupPrompt}>
-              <p>Don't have an account? <a href="/signup" className={styles.signupLink}>Sign Up</a></p>
+              <p>Don&apos;t have an account? <a href="/signup" className={styles.signupLink}>Sign Up</a></p>
             </div>
           </div>
         </div>

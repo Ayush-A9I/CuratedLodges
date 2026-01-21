@@ -133,7 +133,7 @@ export default function SignInPage() {
               </form>
 
               <div className={styles.signupPrompt}>
-                  <p>Don't have an account? <button onClick={() => setIsSignUp(true)} className={styles.signupLink}>Sign Up</button></p>
+                  <p>Don&apos;t have an account? <button onClick={() => setIsSignUp(true)} className={styles.signupLink}>Sign Up</button></p>
               </div>    
 
             </>

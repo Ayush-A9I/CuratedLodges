@@ -40,7 +40,7 @@ export default function BasecampsPage() {
             <p className={styles.heroLabel}>CURATED WILDERNESS STAYS</p>
             <h1 className={styles.heroTitle}>BASECAMPS</h1>
             <p className={styles.heroDescription}>
-              Handpicked lodges and camps in the heart of India's most pristine wildlife reserves. 
+              Handpicked lodges and camps in the heart of India&apos;s most pristine wildlife reserves. 
               Each property selected for its commitment to conservation, exceptional naturalist guides, 
               and authentic safari experiences.
             </p>
