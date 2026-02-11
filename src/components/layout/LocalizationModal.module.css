@@ -1,0 +1,219 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 85vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+  z-index: 10;
+  color: #333;
+}
+
+.closeButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 40px;
+}
+
+.tab {
+  flex: 1;
+  padding: 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.tab:hover {
+  color: #000;
+}
+
+.activeTab {
+  color: #000 !important;
+  border-bottom-color: #000 !important;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 40px;
+  overflow-y: auto;
+  max-height: calc(85vh - 80px);
+}
+
+.optionCard {
+  padding: 20px;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  position: relative;
+  font-family: inherit;
+}
+
+.optionCard:hover {
+  border-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.selected {
+  border-color: #000 !important;
+  background: #f9f9f9 !important;
+}
+
+.flag {
+  font-size: 24px;
+  min-width: 30px;
+}
+
+.currencySymbol {
+  font-size: 24px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+}
+
+.optionName {
+  font-size: 14px;
+  color: #333;
+  flex: 1;
+  font-weight: 400;
+}
+
+.checkIcon {
+  color: #000;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+/* Scrollbar Styling */
+.optionsGrid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.optionsGrid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.optionsGrid::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.optionsGrid::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media (max-width: 768px) {
+  .optionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .tabs {
+    padding: 0 20px;
+  }
+
+  .tab {
+    font-size: 14px;
+    padding: 16px 12px;
+  }
+
+  .optionCard {
+    padding: 16px;
+  }
+
+  .optionName {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalContent {
+    max-width: 100%;
+    margin: 10px;
+    max-height: 90vh;
+  }
+
+  .closeButton {
+    top: 15px;
+    right: 15px;
+  }
+}

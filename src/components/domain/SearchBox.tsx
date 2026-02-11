@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { lodgesData } from '../../data/mock/LodgeData';
 import styles from './SearchBox.module.css';
 
@@ -13,6 +14,7 @@ interface SearchBoxProps {
 const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark = '', compact = false }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>(initialRegion);
   const [selectedPark, setSelectedPark] = useState<string>(initialPark);
+  const { t } = useTranslation();
 
   // Update state when props change
   useEffect(() => {
@@ -64,13 +66,13 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
     <div className={`${styles.searchBox} ${compact ? styles.compact : ''}`}>
       <div className={styles.selectWrapper}>
         <div className={styles.selectGroup}>
-          <label className={styles.label}>SELECT REGION</label>
+          <label className={styles.label}>{t('search.selectRegion')}</label>
           <select
             value={selectedRegion}
             onChange={handleRegionChange}
             className={styles.select}
           >
-            <option value="">Where to explore?</option>
+            <option value="">{t('search.whereToExplore')}</option>
             {regions.map((region) => (
               <option key={region.value} value={region.value}>
                 {region.label}
@@ -80,7 +82,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
         </div>
 
         <div className={styles.selectGroup}>
-          <label className={styles.label}>SELECT NATIONAL PARK</label>
+          <label className={styles.label}>{t('search.selectNationalPark')}</label>
           <select
             value={selectedPark}
             onChange={handleParkChange}
@@ -88,7 +90,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
             disabled={!selectedRegion}
           >
             <option value="">
-              {selectedRegion ? 'Which destination?' : 'Select region first'}
+              {selectedRegion ? t('search.whichDestination') : t('search.selectRegionFirst')}
             </option>
             {getNationalParks().map((park) => (
               <option key={park.value} value={park.value}>
@@ -110,7 +112,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
             <path d="m21 21-4.35-4.35"></path>
           </svg>
         ) : (
-          'Find Lodges'
+          t('search.search')
         )}
       </button>
     </div>

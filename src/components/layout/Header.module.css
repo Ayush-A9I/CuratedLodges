@@ -39,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 /* Logo Wrapper */
@@ -148,6 +149,11 @@
   width: 100%;
 }
 
+/* Active state - always show underline */
+.navLink.active .underline {
+  width: 100%;
+}
+
 /* Dark mode - force dark text even when transparent (for white background pages) */
 .darkMode .logo {
   color: #1E2D27;
@@ -180,6 +186,57 @@
 .actions {
   display: flex;
   align-items: center;
+  gap: 1rem;
+}
+
+.localizationButton {
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  border: none;
+  background: transparent;
+}
+
+/* Transparent state (over hero) */
+.transparent .localizationButton {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.transparent .localizationButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Scrolled state */
+.scrolled .localizationButton {
+  color: #1E2D27;
+  border: 1px solid rgba(30, 45, 39, 0.2);
+}
+
+.scrolled .localizationButton:hover {
+  background: rgba(30, 45, 39, 0.05);
+}
+
+.darkMode.transparent .localizationButton,
+.darkMode.scrolled .localizationButton {
+  color: #1E2D27;
+  border: 1px solid rgba(30, 45, 39, 0.2);
+}
+
+.darkMode.transparent .localizationButton:hover,
+.darkMode.scrolled .localizationButton:hover {
+  background: rgba(30, 45, 39, 0.05);
 }
 
 .conciergeButton {
@@ -226,18 +283,204 @@
   transform: scale(0.95);
 }
 
+/* Hamburger Menu Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburgerLine {
+  width: 24px;
+  height: 2px;
+  transition: all 0.3s ease;
+}
+
+/* White lines when transparent */
+.transparent .hamburgerLine {
+  background-color: #ffffff;
+}
+
+/* Dark lines when scrolled */
+.scrolled .hamburgerLine {
+  background-color: #1E2D27;
+}
+
+/* Dark mode - force dark lines */
+.darkMode .hamburgerLine {
+  background-color: #1E2D27;
+}
+
+/* Mobile Menu Overlay */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Menu Drawer */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: none;
+  z-index: 1000;
+  animation: slideInRight 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Menu Header with Close Button */
+.mobileMenuHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.closeIcon {
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #1E2D27;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s ease;
+}
+
+.closeIcon:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.closeIcon:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.closeButton:hover .closeIcon {
+  background-color: #F1663F;
+}
+
+/* Mobile Navigation */
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+.mobileNavLink {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1E2D27;
+  text-decoration: none;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1.5px solid rgba(30, 45, 39, 0.12);
+  transition: all 0.3s ease;
+  position: relative;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobileNavLink:last-child {
+  border-bottom: none;
+}
+
+.mobileNavLink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background-color: #F1663F;
+  transition: height 0.3s ease;
+}
+
+.mobileNavLink:hover {
+  color: #F1663F;
+  background: rgba(241, 102, 63, 0.05);
+}
+
+.mobileNavLink:hover::before {
+  height: 60%;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .nav {
     display: none;
   }
   
-  .header {
-    padding: 1rem 1.5rem;
+  .actions {
+    display: none;
   }
   
+  .container {
+    justify-content: space-between;
+  }
+  
+  .hamburger {
+    display: flex;
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+  }
+  
+  .header,
+  .header.transparent,
   .header.scrolled {
-    padding: 0.75rem 1.5rem;
+    padding: 1.25rem 1.5rem 0.75rem 1.5rem;
   }
 }
 
@@ -246,16 +489,13 @@
     font-size: 1.5rem;
   }
   
-  .header {
-    padding: 1rem 1rem;
+  .poweredBy {
+    font-size: 0.6rem;
   }
   
+  .header,
+  .header.transparent,
   .header.scrolled {
-    padding: 0.75rem 1rem;
-  }
-  
-  .conciergeButton {
-    padding: 0.5rem 1rem;
-    font-size: 0.5rem;
+    padding: 1.25rem 1rem 0.75rem 1rem;
   }
 }

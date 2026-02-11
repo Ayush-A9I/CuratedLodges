@@ -1,23 +1,28 @@
+"use client";
+
 import React from 'react';
 import { Shield, Compass, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import styles from './FeaturesSection.module.css';
 
 const FeaturesSection: React.FC = () => {
+  const { t } = useTranslation();
+  
   const features = [
     {
       icon: Shield,
-      title: 'EXPERTLY VETTED',
-      description: 'We inhabit every sanctuary in our collection. Each is personally audited for ethics and narrative depth.'
+      titleKey: 'sections.expertlyVetted',
+      descKey: 'sections.expertlyVettedDesc'
     },
     {
       icon: Compass,
-      title: 'NARRATIVE DRIVEN',
-      description: 'We curate stays that offer more than a room—they offer a deeper connection to the terrain\'s story.'
+      titleKey: 'sections.narrativeDriven',
+      descKey: 'sections.narrativeDrivenDesc'
     },
     {
       icon: CheckCircle,
-      title: 'SEAMLESS BOOKING',
-      description: 'Complex logistics in wild places handled with precision. We guide your confidence from departure to return.'
+      titleKey: 'sections.seamlessBooking',
+      descKey: 'sections.seamlessBookingDesc'
     }
   ];
 
@@ -27,8 +32,8 @@ const FeaturesSection: React.FC = () => {
         {features.map((feature, index) => (
           <div key={index} className={styles.featureCard}>
             <feature.icon className={styles.icon} size={40} strokeWidth={1.5} />
-            <h3 className={styles.title}>{feature.title}</h3>
-            <p className={styles.description}>{feature.description}</p>
+            <h3 className={styles.title}>{t(feature.titleKey)}</h3>
+            <p className={styles.description}>{t(feature.descKey)}</p>
           </div>
         ))}
       </div>

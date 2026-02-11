@@ -42,10 +42,24 @@ export default function ParkPage() {
     return parkEntry ? parkEntry[1] : null;
   }, [region, park]);
 
+  // Get the actual park name from parkData
+  const actualParkName = useMemo(() => {
+    if (!region || !park) return park;
+    const regionData = lodgesData[region as keyof typeof lodgesData];
+    if (!regionData) return park;
+    
+    // Find the actual park name by matching the slug
+    const parkEntry = Object.entries(regionData).find(([parkName]) => 
+      createSlug(parkName) === createSlug(park) || parkName === park
+    );
+    
+    return parkEntry ? parkEntry[0] : park;
+  }, [region, park]);
+
   if (!parkData) {
     return (
       <>
-        <ParkPageHeader region={region} park={park} />
+        <ParkPageHeader region={region} park={actualParkName} />
         <div className={styles.errorContainer}>
           <h1>Park Not Found</h1>
           <Link href="/" className={styles.backLink}>Return Home</Link>
@@ -56,17 +70,20 @@ export default function ParkPage() {
 
   return (
     <>
-      <ParkPageHeader region={region} park={park} />
+      <ParkPageHeader region={region} park={actualParkName} />
       
       <main className={styles.main}>
         {/* Hero Section */}
         <section className={styles.heroSection}>
           <div className={styles.heroContainer}>
-            <div className={styles.breadcrumb}>
-              <Link href="/" className={styles.breadcrumbLink}>Home</Link>
-              <span className={styles.breadcrumbSeparator}> &gt; </span>
-              <span className={styles.breadcrumbCurrent}>Curated stays at {park} </span>
-            </div>
+            {/* Breadcrumb */}
+            <nav className={styles.breadcrumb}>
+              <Link href="/" className={styles.breadcrumbLink}>
+                Home
+              </Link>
+              <span className={styles.breadcrumbSeparator}>/</span>
+              <span className={styles.breadcrumbCurrent}>Curated stays at {actualParkName.toLowerCase()}</span>
+            </nav>
           </div>
         </section>
 

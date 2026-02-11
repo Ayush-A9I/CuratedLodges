@@ -3397,36 +3397,272 @@
   .checkoutModalContent {
     max-width: 100%;
     max-height: 100vh;
+    height: 100vh;
     border-radius: 0;
+    overflow-y: auto;
+  }
+
+  .checkoutLeft {
+    width: 100%;
+    max-height: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .checkoutImage {
-    height: 180px;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  .checkoutSummary {
+    padding: 1.25rem 1rem;
+  }
+
+  .checkoutLodgeName {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .checkoutLocation {
+    font-size: 0.75rem;
+  }
+
+  .checkoutDates {
+    margin: 1rem 0;
+    gap: 0.5rem;
+  }
+
+  .checkoutDateItem {
+    font-size: 0.75rem;
+  }
+
+  .checkoutPricing {
+    gap: 0.5rem;
+  }
+
+  .checkoutPriceRow {
+    font-size: 0.8rem;
+  }
+
+  .checkoutTotal {
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .checkoutTotalLabel {
+    font-size: 0.85rem;
+  }
+
+  .checkoutTotalAmount {
+    font-size: 1.5rem;
+  }
+
+  .checkoutClose {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   }
 
   .checkoutRight {
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
+    width: 100%;
   }
 
   .checkoutTitle {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .checkoutSection {
     margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .checkoutSectionHeader {
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+  }
+
+  .checkoutSectionNumber {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+  }
+
+  .checkoutSectionHeader h3 {
+    font-size: 0.75rem;
+  }
+
+  .checkoutOptional {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.6rem;
   }
 
   .checkoutDateInputs {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .checkoutInputGroup input[type="date"],
+  .checkoutInputGroup select {
+    padding: 0.875rem 0.75rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+
+  .checkoutInputGroup select {
+    padding-right: 2.25rem;
   }
 
   .checkoutGuestCounters {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .checkoutCounter {
+    padding: 0.75rem;
+  }
+
+  .checkoutCounterLabel {
+    font-size: 0.8rem;
+  }
+
+  .checkoutCounterAge {
+    font-size: 0.725rem;
+  }
+
+  .checkoutCounterControls button {
+    width: 36px;
+    height: 36px;
+    font-size: 1.15rem;
+  }
+
+  .checkoutCounterControls span {
+    min-width: 40px;
+    font-size: 1rem;
+  }
+
+  .checkoutRoomOption {
+    padding: 0.875rem;
+  }
+
+  .checkoutRoomName {
+    font-size: 0.8rem;
+  }
+
+  .checkoutRoomPrice {
+    font-size: 0.8rem;
+  }
+
+  .checkoutSessionCounter {
+    padding: 0.75rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .checkoutSchedule {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .checkoutDateSlot {
+    padding: 0.75rem;
+  }
+
+  .checkoutDateLabel {
+    font-size: 0.8rem;
+  }
+
+  .checkoutCompleteBtn {
+    padding: 0.95rem;
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    position: sticky;
+    bottom: 0;
+    background: #2c3e38;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+  }
+
+  /* Personal Info Form */
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .formGroup input,
+  .formGroup textarea {
+    padding: 0.875rem 0.875rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+
+  .whatsappOption {
+    padding: 1rem;
+  }
+
+  .whatsappLabel {
+    font-size: 0.9rem;
+  }
+
+  .whatsappDesc {
+    font-size: 0.8rem;
+    padding-left: 1.75rem;
+  }
+
+  .proceedToPayBtn {
+    padding: 1rem;
+    font-size: 0.9rem;
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .checkoutImage {
+    height: 140px;
+  }
+
+  .checkoutSummary {
+    padding: 1rem 0.875rem;
   }
 
   .checkoutLodgeName {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
   }
 
-  .checkoutTotalAmount {
-    font-size: 1.75rem;
+  .checkoutRight {
+    padding: 1rem 0.875rem;
+  }
+
+  .checkoutTitle {
+    font-size: 1.125rem;
+  }
+
+  .checkoutClose {
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 30px;
+    height: 30px;
+    font-size: 1.35rem;
+  }
+
+  .checkoutInputGroup input[type="date"],
+  .checkoutInputGroup select {
+    font-size: 0.8rem;
+  }
+
+  .checkoutCounterControls button {
+    width: 34px;
+    height: 34px;
   }
 }
 

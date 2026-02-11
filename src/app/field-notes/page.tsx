@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './fieldnotes.module.css';
 import { fieldNotesData } from '@/data/mock/FieldNotesData';
 import Link from 'next/link';
@@ -8,13 +9,21 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
 const FieldNotesPage = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('ALL');
+  const { t } = useTranslation();
+  const [activeFilter, setActiveFilter] = useState<string>('__ALL__');
 
-  // Get unique parks for filters
-  const allParks = ['ALL', ...Array.from(new Set(fieldNotesData.map(note => note.park))), 'OTHERS'];
+  // Get unique parks for filters - use internal keys
+  const parkFilters = ['__ALL__', ...Array.from(new Set(fieldNotesData.map(note => note.park))), '__OTHERS__'];
+  
+  // Map internal keys to display labels
+  const getFilterLabel = (filter: string) => {
+    if (filter === '__ALL__') return t('fieldNotesPage.all');
+    if (filter === '__OTHERS__') return t('fieldNotesPage.others');
+    return filter;
+  };
 
   // Filter notes based on active filter
-  const filteredNotes = activeFilter === 'ALL' 
+  const filteredNotes = activeFilter === '__ALL__' 
     ? fieldNotesData 
     : fieldNotesData.filter(note => note.park === activeFilter);
 
@@ -26,25 +35,25 @@ const FieldNotesPage = () => {
         <div className={styles.container}>
           {/* Header Section */}
           <div className={styles.headerSection}>
-            <p className={styles.eyebrow}>EXPEDITION JAUNTERS</p>
-            <h1 className={styles.title}>FIELD NOTES</h1>
+            <p className={styles.eyebrow}>{t('sections.expeditionJournal')}</p>
+            <h1 className={styles.title}>{t('sections.fieldNotes')}</h1>
             <p className={styles.subtitle}>
-              Dispatches from the wild. Technical reports, sighting logs, and conservation stories from our network of naturalists.
+              {t('sections.fieldNotesDesc')}
             </p>
           </div>
 
           {/* Filter Buttons */}
           <div className={styles.filterSection}>
             <button className={styles.filterByButton}>
-              FILTER BY PARKS
+              {t('fieldNotesPage.filterByParks')}
             </button>
-            {allParks.map((park) => (
+            {parkFilters.map((filter) => (
               <button
-                key={park}
-                className={`${styles.filterButton} ${activeFilter === park ? styles.filterButtonActive : ''}`}
-                onClick={() => setActiveFilter(park)}
+                key={filter}
+                className={`${styles.filterButton} ${activeFilter === filter ? styles.filterButtonActive : ''}`}
+                onClick={() => setActiveFilter(filter)}
               >
-                {park}
+                {getFilterLabel(filter)}
               </button>
             ))}
           </div>
@@ -74,7 +83,7 @@ const FieldNotesPage = () => {
                   <h3 className={styles.articleTitle}>{note.title.toLowerCase()}</h3>
                   <p className={styles.articleExcerpt}>{note.excerpt}</p>
                   <div className={styles.readMore}>
-                    Read More
+                    {t('fieldNotesPage.readMore')}
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './signin.module.css';
 
 export default function SignInPage() {
@@ -27,6 +28,14 @@ export default function SignInPage() {
     <div className={styles.pageContainer}>
       {/* Left Side - Images */}
       <div className={styles.leftPanel}>
+        {/* Logo on Left Panel */}
+        <div className={styles.leftLogoContainer}>
+          <Link href="/" className={styles.leftLogo}>
+            CURATED LODGES<span className={styles.leftDot}>.</span>
+          </Link>
+          <div className={styles.leftPoweredBy}>POWERED BY JUNGLORE</div>
+        </div>
+        
         <div className={styles.imageCarousel}>
           {images.map((image, index) => (
             <div

@@ -304,11 +304,6 @@
   min-width: 30px;
 }
 
-.gateFilter:hover {
-  border-color: #F1663F;
-  box-shadow: 0 2px 8px rgba(241, 102, 63, 0.1);
-}
-
 .gateFilter option {
   background: #FFFFFF;
   color: #1E2D27;
@@ -451,6 +446,10 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
+  
+  .breadcrumb {
+    font-size: 0.875rem;
+  }
 
   .heroTitle {
     font-size: 2.5rem;
@@ -473,9 +472,9 @@
   }
 
   .filterWrapper {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
+    position: static;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .filterSelect {
@@ -1108,33 +1107,97 @@
 }
 
 @media (max-width: 768px) {
+  .exploreJunglesCTA {
+    margin-top: 3rem;
+    padding: 0 1rem;
+  }
+
   .exploreJunglesContent {
     min-height: auto;
+    border-radius: 16px;
+    overflow: hidden;
   }
 
   .exploreJunglesLeft {
-    min-height: 250px;
+    min-height: 220px;
   }
 
   .exploreJunglesImageWrapper {
-    min-height: 250px;
+    min-height: 220px;
   }
 
   .exploreJunglesRight {
     padding: 2rem 1.5rem;
   }
 
+  .exploreJunglesLabel {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.875rem;
+  }
+
   .exploreJunglesTitle {
     font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .exploreJunglesDescription {
     font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
   }
 
   .exploreJunglesButton {
     padding: 1rem 2rem;
     font-size: 0.95rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .exploreJunglesCTA {
+    margin-top: 2.5rem;
+    padding: 0 0.875rem;
+  }
+
+  .exploreJunglesContent {
+    border-radius: 12px;
+  }
+
+  .exploreJunglesLeft {
+    min-height: 180px;
+  }
+
+  .exploreJunglesImageWrapper {
+    min-height: 180px;
+  }
+
+  .exploreJunglesRight {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .exploreJunglesLabel {
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+  }
+
+  .exploreJunglesTitle {
+    font-size: 1.25rem;
+    margin-bottom: 0.875rem;
+    line-height: 1.3;
+  }
+
+  .exploreJunglesDescription {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .exploreJunglesButton {
+    padding: 0.95rem 1.75rem;
+    font-size: 0.9rem;
     width: 100%;
   }
 }
@@ -1146,7 +1209,7 @@
 }
 
 .faqContainer {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -1306,6 +1369,11 @@
     grid-template-columns: 1fr;
   }
 
+  .planningSection {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
   .planningTitle {
     font-size: 1.5rem;
   }
@@ -1314,30 +1382,8 @@
     font-size: 0.9rem;
   }
 
-  .exploreJunglesCTA {
-    padding: 2rem;
-  }
-
-  .exploreJunglesContent {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .exploreJunglesIcon {
-    width: 60px;
-    height: 60px;
-  }
-
-  .exploreJunglesIcon svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  .exploreJunglesTitle {
-    font-size: 1.35rem;
-  }
-
-  .exploreJunglesDescription {
-    font-size: 0.9rem;
+  .faqSection {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }

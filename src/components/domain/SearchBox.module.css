@@ -11,6 +11,11 @@
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.1);
   /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
+  
+  /* Ensure dropdown appears below */
+  overflow: visible;
+  position: relative;
+  z-index: 100;
 }
 
 /* Compact variant for park page header */
@@ -48,6 +53,8 @@
   flex: 1;
   gap: 0;
   align-items: stretch;
+  overflow: visible;
+  position: relative;
 }
 
 .selectGroup {
@@ -100,6 +107,35 @@
   padding-right: 20px;
   text-align: left;
   direction: ltr;
+  
+  /* Force dropdown to appear below the select element */
+  position: relative;
+}
+
+.selectGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  position: relative;
+  
+  /* Ensure dropdown appears below */
+  overflow: visible;
+}
+
+.selectGroup:first-child {
+  flex: 0.6;
+}
+
+.selectGroup:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 50%;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .select:disabled {
@@ -180,6 +216,8 @@
     border-radius: 24px;
     padding: 16px;
     gap: 12px;
+    /* Prevent viewport scroll on mobile when select opens */
+    position: relative;
   }
 
   .selectWrapper {
@@ -189,10 +227,19 @@
 
   .selectGroup {
     padding: 12px 16px;
+    /* Prevent scrolling when select is tapped */
+    touch-action: manipulation;
   }
 
   .selectGroup:first-child::after {
     display: none;
+  }
+
+  .select {
+    /* Use 16px minimum to prevent iOS zoom */
+    font-size: max(16px, 0.95rem);
+    /* Prevent scrolling behavior */
+    scroll-margin-bottom: 0;
   }
 
   .findButton {
@@ -202,10 +249,6 @@
 
   .label {
     font-size: 0.65rem;
-  }
-
-  .select {
-    font-size: 0.95rem;
   }
 }
 

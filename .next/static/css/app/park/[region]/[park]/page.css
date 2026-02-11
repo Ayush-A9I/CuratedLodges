@@ -1,0 +1,2856 @@
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/SearchBox.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
+.SearchBox_searchBox__MuXkT {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #1E2D27;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 50px;
+  padding: 6px;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
+  
+  /* Ensure dropdown appears below */
+  overflow: visible;
+  position: relative;
+  z-index: 100;
+}
+
+/* Compact variant for park page header */
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ {
+  max-width: 480px;
+  padding: 4px;
+  border-radius: 30px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_selectGroup__DqSdC {
+  padding: 8px 16px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_label__TDkb5 {
+  font-size: 0.45rem;
+  margin-bottom: 0;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_select__Uixz1 {
+  font-size: 0.75rem;
+  padding-right: 14px;
+}
+
+.SearchBox_searchBox__MuXkT.SearchBox_compact__TDZjJ .SearchBox_findButton__eZ_DE {
+  padding: 0 18px;
+  font-size: 0.75rem;
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SearchBox_selectWrapper__2pAOJ {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  align-items: stretch;
+  overflow: visible;
+  position: relative;
+}
+
+.SearchBox_selectGroup__DqSdC {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  position: relative;
+}
+
+.SearchBox_selectGroup__DqSdC:first-child {
+  flex: 0.6;
+}
+
+.SearchBox_selectGroup__DqSdC:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.SearchBox_label__TDkb5 {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.SearchBox_select__Uixz1 {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  padding: 0;
+  font-family: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  padding-right: 20px;
+  text-align: left;
+  direction: ltr;
+  
+  /* Force dropdown to appear below the select element */
+  position: relative;
+}
+
+.SearchBox_selectGroup__DqSdC {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px;
+  position: relative;
+  
+  /* Ensure dropdown appears below */
+  overflow: visible;
+}
+
+.SearchBox_selectGroup__DqSdC:first-child {
+  flex: 0.6;
+}
+
+.SearchBox_selectGroup__DqSdC:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.SearchBox_select__Uixz1:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.SearchBox_select__Uixz1 option {
+  background: rgba(30, 45, 39, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2px 8px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.SearchBox_select__Uixz1 option:hover {
+  background: rgba(42, 64, 57, 0.9);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.SearchBox_select__Uixz1 option:checked {
+  background: rgba(241, 102, 63, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: #F1663F;
+  box-shadow: 0 4px 16px rgba(241, 102, 63, 0.3);
+}
+
+.SearchBox_select__Uixz1 option:first-child {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  background: rgba(30, 45, 39, 0.7);
+}
+
+.SearchBox_findButton__eZ_DE {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #F1663F;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.SearchBox_findButton__eZ_DE:hover:not(.SearchBox_disabled__y5irF) {
+  background: #D94F2A;
+  transform: scale(1.02);
+}
+
+.SearchBox_findButton__eZ_DE.SearchBox_disabled__y5irF {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .SearchBox_searchBox__MuXkT {
+    flex-direction: column;
+    border-radius: 24px;
+    padding: 16px;
+    gap: 12px;
+    /* Prevent viewport scroll on mobile when select opens */
+    position: relative;
+  }
+
+  .SearchBox_selectWrapper__2pAOJ {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .SearchBox_selectGroup__DqSdC {
+    padding: 12px 16px;
+    /* Prevent scrolling when select is tapped */
+    touch-action: manipulation;
+  }
+
+  .SearchBox_selectGroup__DqSdC:first-child::after {
+    display: none;
+  }
+
+  .SearchBox_select__Uixz1 {
+    /* Use 16px minimum to prevent iOS zoom */
+    font-size: max(16px, 0.95rem);
+    /* Prevent scrolling behavior */
+    scroll-margin-bottom: 0;
+  }
+
+  .SearchBox_findButton__eZ_DE {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .SearchBox_label__TDkb5 {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .SearchBox_searchBox__MuXkT {
+    padding: 12px;
+  }
+
+  .SearchBox_selectGroup__DqSdC {
+    padding: 10px 12px;
+  }
+
+  .SearchBox_label__TDkb5 {
+    font-size: 0.6rem;
+  }
+
+  .SearchBox_select__Uixz1 {
+    font-size: 0.9rem;
+  }
+
+  .SearchBox_findButton__eZ_DE {
+    padding: 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/layout/ParkPageHeader.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+.ParkPageHeader_header__4wGVF {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(205, 217, 217, 0.3);
+  padding: 1rem 8rem;
+}
+
+.ParkPageHeader_container__NygjZ {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Logo Section */
+.ParkPageHeader_logoWrapper__TkCCv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_logo__nALgV {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  color: #1E2D27;
+  text-decoration: none;
+}
+
+.ParkPageHeader_logo__nALgV:hover {
+  color: #F1663F;
+}
+
+.ParkPageHeader_dot__dB0cn {
+  color: #F1663F;
+}
+
+.ParkPageHeader_poweredBy__XQWvh {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.555rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1E2D27;
+  opacity: 0.6;
+}
+
+/* Search Wrapper - Centered and Flexible */
+.ParkPageHeader_searchWrapper__Waqr4 {
+  flex: 1;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make search box much more compact in park page header */
+.ParkPageHeader_searchWrapper__Waqr4 .searchBox {
+  max-width: 550px;
+  padding: 2px;
+  border-radius: 30px;
+  transform: scale(0.75);
+  transform-origin: center;
+}
+
+.ParkPageHeader_searchWrapper__Waqr4 .selectGroup {
+  padding: 4px 10px;
+}
+
+.ParkPageHeader_searchWrapper__Waqr4 .label {
+  font-size: 0.4rem;
+  margin-bottom: 0px;
+  letter-spacing: 0.5px;
+}
+
+.ParkPageHeader_searchWrapper__Waqr4 .select {
+  font-size: 0.7rem;
+  padding-right: 14px;
+}
+
+.ParkPageHeader_searchWrapper__Waqr4 .findButton {
+  padding: 0 16px;
+  font-size: 0.7rem;
+  min-width: 100px;
+  letter-spacing: 0.5px;
+}
+
+/* Actions */
+.ParkPageHeader_actions__zEZaY {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_signInButton__40xNg {
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.875rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  background: #1E2D27;
+  color: #ffffff;
+}
+
+.ParkPageHeader_signInButton__40xNg:hover {
+  background: #000000;
+  transform: translateY(-2px);
+}
+
+.ParkPageHeader_signInButton__40xNg:active {
+  transform: scale(0.95);
+}
+
+/* Back Button - Hidden on desktop, visible on mobile */
+.ParkPageHeader_backButton__IB3qF {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #1E2D27;
+  transition: color 0.3s ease;
+}
+
+.ParkPageHeader_backButton__IB3qF:hover {
+  color: #F1663F;
+}
+
+/* Mobile Compact Search Display - Hidden on desktop */
+.ParkPageHeader_mobileSearchDisplay__c92Cs {
+  display: none;
+  flex: 1;
+  max-width: none;
+  cursor: pointer;
+}
+
+.ParkPageHeader_mobileSearchContent__lCpxd {
+  background: #1E2D27;
+  border-radius: 30px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: background 0.3s ease;
+}
+
+.ParkPageHeader_mobileSearchDisplay__c92Cs:active .ParkPageHeader_mobileSearchContent__lCpxd {
+  background: #2a3f38;
+}
+
+.ParkPageHeader_mobileRegion__60v53 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-transform: capitalize;
+}
+
+.ParkPageHeader_mobilePark___uvJ_ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hamburger Menu Button */
+.ParkPageHeader_hamburger__naQGL {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+  position: relative;
+}
+
+.ParkPageHeader_hamburgerLine__5JKEy {
+  width: 24px;
+  height: 2px;
+  background-color: #1E2D27;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu Overlay */
+.ParkPageHeader_mobileOverlay__kUk17 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: ParkPageHeader_fadeIn__VNHML 0.3s ease-out;
+}
+
+@keyframes ParkPageHeader_fadeIn__VNHML {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Menu Drawer */
+.ParkPageHeader_mobileMenu__PZViW {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: none;
+  z-index: 1000;
+  animation: ParkPageHeader_slideInRight__S59Sd 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes ParkPageHeader_slideInRight__S59Sd {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Menu Header with Close Button */
+.ParkPageHeader_mobileMenuHeader__flf85 {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.ParkPageHeader_closeButton__lJkqd {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.ParkPageHeader_closeIcon__EkMmZ {
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #1E2D27;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s ease;
+}
+
+.ParkPageHeader_closeIcon__EkMmZ:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ParkPageHeader_closeIcon__EkMmZ:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.ParkPageHeader_closeButton__lJkqd:hover .ParkPageHeader_closeIcon__EkMmZ {
+  background-color: #F1663F;
+}
+
+/* Mobile Navigation */
+.ParkPageHeader_mobileNav__mR0jv {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+.ParkPageHeader_mobileNavLink__lpjRK {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1E2D27;
+  text-decoration: none;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1.5px solid rgba(30, 45, 39, 0.12);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.ParkPageHeader_mobileNavLink__lpjRK:last-child {
+  border-bottom: none;
+}
+
+.ParkPageHeader_mobileNavLink__lpjRK::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background-color: #F1663F;
+  transition: height 0.3s ease;
+}
+
+.ParkPageHeader_mobileNavLink__lpjRK:hover {
+  color: #F1663F;
+  background: rgba(241, 102, 63, 0.05);
+}
+
+.ParkPageHeader_mobileNavLink__lpjRK:hover::before {
+  height: 60%;
+}
+
+/* Edit Details Modal */
+.ParkPageHeader_modalOverlay__JLt7E {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1100;
+  animation: ParkPageHeader_fadeIn__VNHML 0.5s ease-out;
+}
+
+.ParkPageHeader_editModal__qC_AS {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 32px 32px 0 0;
+  z-index: 1101;
+  animation: ParkPageHeader_slideUpModal___8h1P 0.5s ease-out;
+  height: auto;
+  max-height: 60vh;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes ParkPageHeader_slideUpModal___8h1P {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.ParkPageHeader_modalHandle__RMYbU {
+  width: 48px;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: 3px;
+  margin: 16px auto;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_modalContent__kfHUe {
+  padding: 0 1.5rem 1rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.ParkPageHeader_modalTitle___mBsU {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1.25rem 0;
+  text-align: center;
+}
+
+.ParkPageHeader_fieldGroup__GeEjc {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ParkPageHeader_fieldGroup__GeEjc:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.ParkPageHeader_fieldGroup__GeEjc:last-of-type {
+  border-bottom: none;
+}
+
+.ParkPageHeader_fieldIcon__e24hb {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_fieldContent__odeAo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ParkPageHeader_fieldLabel__8S5m0 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  text-transform: capitalize;
+}
+
+.ParkPageHeader_fieldInput___5zuy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #1E2D27;
+  border: none;
+  outline: none;
+  padding: 0.25rem 0;
+  background: transparent;
+}
+
+.ParkPageHeader_fieldInput___5zuy::-moz-placeholder {
+  color: rgba(30, 45, 39, 0.5);
+}
+
+.ParkPageHeader_fieldInput___5zuy::placeholder {
+  color: rgba(30, 45, 39, 0.5);
+}
+
+.ParkPageHeader_fieldValue__aPIz1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(30, 45, 39, 0.7);
+}
+
+.ParkPageHeader_fieldCollapsed__va3Hs {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(30, 45, 39, 0.5);
+}
+
+.ParkPageHeader_fieldArrow__sVw7r {
+  background: none;
+  border: none;
+  color: rgba(30, 45, 39, 0.5);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_modalActions__H4eOU {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  border-radius: 0 0 32px 32px;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_clearButton__MzLH3 {
+  font-family: 'DM Sans', sans-serif;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: transparent;
+  color: #1E2D27;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: underline;
+}
+
+.ParkPageHeader_clearButton__MzLH3:active {
+  color: #F1663F;
+}
+
+.ParkPageHeader_searchButton__MCTw6 {
+  font-family: 'DM Sans', sans-serif;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #1E2D27;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ParkPageHeader_searchButton__MCTw6:active {
+  background: #000000;
+}
+
+/* Hide edit modal on desktop and tablet */
+@media (min-width: 769px) {
+  .ParkPageHeader_editModal__qC_AS,
+  .ParkPageHeader_modalOverlay__JLt7E {
+    display: none !important;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .ParkPageHeader_header__4wGVF {
+    padding: 1rem 2rem;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ParkPageHeader_header__4wGVF {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .ParkPageHeader_container__NygjZ {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .ParkPageHeader_logoWrapper__TkCCv {
+    flex: 0 0 auto;
+    order: 1;
+  }
+
+  .ParkPageHeader_actions__zEZaY {
+    flex: 0 0 auto;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    flex: 1 1 100%;
+    order: 3;
+    max-width: 100%;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4 .searchBox {
+    transform: scale(0.85);
+  }
+}
+
+@media (max-width: 768px) {
+  .ParkPageHeader_header__4wGVF {
+    padding: 1.25rem 1rem 0.75rem 1rem;
+  }
+
+  .ParkPageHeader_container__NygjZ {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .ParkPageHeader_logoWrapper__TkCCv {
+    display: none;
+  }
+  
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    display: none;
+  }
+  
+  .ParkPageHeader_backButton__IB3qF {
+    display: flex;
+    grid-column: 1;
+  }
+  
+  .ParkPageHeader_mobileSearchDisplay__c92Cs {
+    display: flex;
+    grid-column: 2;
+    justify-content: center;
+  }
+
+  .ParkPageHeader_actions__zEZaY {
+    display: none;
+  }
+
+  .ParkPageHeader_hamburger__naQGL {
+    display: flex;
+    grid-column: 3;
+  }
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/layout/Footer.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.Footer_footer__eNA9m {
+  background-color: #1E2D27;
+  color: white;
+  padding: 4rem 2rem 2rem;
+}
+
+.Footer_container__IkLXC {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Top Section */
+.Footer_topSection__U7Elu {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.Footer_brandSection__qWhNT {
+  max-width: 320px;
+}
+
+.Footer_logo__8uCHD {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.Footer_dot__aBFpk {
+  color: #F1663F;
+}
+
+.Footer_poweredBy__1rcGd {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.Footer_tagline__WuViG {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.Footer_socialLinks__sPnd2 {
+  display: flex;
+  gap: 1rem;
+}
+
+.Footer_socialIcon__2DO5i {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.Footer_socialIcon__2DO5i svg {
+  width: 20px;
+  height: 20px;
+}
+
+.Footer_socialIcon__2DO5i:hover {
+  background-color: #F1663F;
+  transform: translateY(-3px);
+}
+
+/* Links Section */
+.Footer_linksSection__lJxU1 {
+  display: flex;
+  gap: 4rem;
+}
+
+.Footer_linkColumn__niVCr h3 {
+  margin: 0 0 1rem 0;
+}
+
+.Footer_linkTitle__llRF3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: white;
+}
+
+.Footer_linkList__K_ONQ {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Footer_linkList__K_ONQ li {
+  margin-bottom: 0.75rem;
+}
+
+.Footer_linkList__K_ONQ a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.Footer_linkList__K_ONQ a:hover {
+  color: #F1663F;
+}
+
+/* Newsletter Section */
+.Footer_newsletter__7kfqS {
+  max-width: 600px;
+}
+
+.Footer_newsletterTitle__wDdpU {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.Footer_newsletterText__U4yI_ {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.Footer_newsletterForm__3fond {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 500px
+}
+
+.Footer_newsletterInput__Il368 {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  color: white;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.Footer_newsletterInput__Il368::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.Footer_newsletterInput__Il368::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.Footer_newsletterInput__Il368:focus {
+  border-color: #F1663F;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.Footer_newsletterButton__6GkEP {
+  width: 100%;
+  padding: 1rem 2.5rem;
+  background-color: #F1663F;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Footer_newsletterButton__6GkEP:hover {
+  background-color: #d55535;
+  transform: translateY(-2px);
+}
+
+/* Bottom Section */
+.Footer_bottom__ch0uR {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.Footer_copyright__vFlrA {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.Footer_policyLinks__82Lcs {
+  display: flex;
+  gap: 2rem;
+}
+
+.Footer_policyLinks__82Lcs a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.Footer_policyLinks__82Lcs a:hover {
+  color: #F1663F;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .Footer_topSection__U7Elu {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .Footer_linksSection__lJxU1 {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .Footer_footer__eNA9m {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+
+  .Footer_linksSection__lJxU1 {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .Footer_bottom__ch0uR {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .Footer_policyLinks__82Lcs {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/components/domain/LodgeCard.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
+.LodgeCard_card____gwl {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.LodgeCard_card____gwl:hover {
+  transform: translateY(-4px);
+}
+
+.LodgeCard_imageContainer__LeN1V {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.LodgeCard_image__u0jZp {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.LodgeCard_card____gwl:hover .LodgeCard_image__u0jZp {
+  transform: scale(1.08);
+}
+
+.LodgeCard_navButtonLeft__rrd4B,
+.LodgeCard_navButtonRight__1dfhT {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+  color: #1E2D27;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.LodgeCard_navButtonLeft__rrd4B {
+  left: 12px;
+}
+
+.LodgeCard_navButtonRight__1dfhT {
+  right: 12px;
+}
+
+.LodgeCard_imageContainer__LeN1V:hover .LodgeCard_navButtonLeft__rrd4B,
+.LodgeCard_imageContainer__LeN1V:hover .LodgeCard_navButtonRight__1dfhT {
+  opacity: 1;
+}
+
+.LodgeCard_navButtonLeft__rrd4B:hover,
+.LodgeCard_navButtonRight__1dfhT:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.LodgeCard_navButtonLeft__rrd4B:active,
+.LodgeCard_navButtonRight__1dfhT:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.LodgeCard_imageIndicators__QGtIo {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.LodgeCard_indicator__HQxqH {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.LodgeCard_indicator__HQxqH:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.2);
+}
+
+.LodgeCard_indicatorActive__AMIno {
+  background: white;
+  width: 24px;
+  border-radius: 4px;
+}
+
+.LodgeCard_content__Jf8ZB {
+  padding: 20px 20px 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.LodgeCard_titleRow__WJM4z {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.LodgeCard_title__0hHto {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.LodgeCard_badges__5cTVI {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.LodgeCard_ecoBadge__jpycn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: #F1F5F3;
+  border-radius: 20px;
+  color: #1E2D27;
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+  height: calc(1.125rem * 1.4);
+}
+
+.LodgeCard_location__MF1_s {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #6B7B75;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+}
+
+.LodgeCard_location__MF1_s svg {
+  flex-shrink: 0;
+}
+
+.LodgeCard_amenities__p5UoW {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.LodgeCard_amenityItem__x__aG {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #F1F5F3;
+  border-radius: 20px;
+  color: #1E2D27;
+  border: 1px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.LodgeCard_amenityText__56qxQ {
+  white-space: nowrap;
+}
+
+.LodgeCard_amenityMore__Rfb1l {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background: #F1663F;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.LodgeCard_footer__m04T1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px 20px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.LodgeCard_priceContainer__exXXZ {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.LodgeCard_fromText__YaP6f {
+  font-size: 0.8rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.LodgeCard_price__CD6xC {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F1663F;
+}
+
+.LodgeCard_nightText__6mXgt {
+  font-size: 0.875rem;
+  color: #1E2D27;
+  font-weight: 400;
+}
+
+.LodgeCard_arrowButton__C_E4j {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #1E2D27;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.LodgeCard_card____gwl:hover .LodgeCard_arrowButton__C_E4j {
+  background: #F1663F;
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .LodgeCard_imageContainer__LeN1V {
+    height: 220px;
+  }
+
+  .LodgeCard_title__0hHto {
+    font-size: 1.25rem;
+  }
+
+  .LodgeCard_content__Jf8ZB {
+    padding: 20px 20px 12px;
+  }
+
+  .LodgeCard_footer__m04T1 {
+    padding: 16px 20px 20px;
+  }
+
+  .LodgeCard_price__CD6xC {
+    font-size: 1.25rem;
+  }
+
+  .LodgeCard_arrowButton__C_E4j {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/park/[region]/[park]/park.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.park_main__NJDAw {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+/* Hero Section */
+.park_heroSection__6m2EY {
+  background: #FFFFFF;
+  padding: 2rem 3rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.park_heroContainer__kgj9u {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.park_breadcrumb__Em7B_ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #1E2D27; 
+  opacity: 1;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.park_breadcrumbLink__uJa2c {
+  color: #1E2D27;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.park_breadcrumbLink__uJa2c:hover {
+  color: #F1663F;
+}
+
+.park_breadcrumbSeparator__CF8Ri {
+  margin: 0 0.5rem;
+  color: #1E2D27;
+  font-weight: 500;
+}
+
+.park_breadcrumbCurrent__zabwd {
+  color: #1E2D27;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.park_heroContent__Mjh6f {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.park_parkTitle__FNobO {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #1E2D27;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  opacity: 1;
+  flex: 0 1 auto;
+  text-align: left;
+  max-width: 100%;
+}
+
+.park_filterContainer__I2moT {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #FFFFFF;
+  padding: 1rem 1.5rem;
+  border-radius: 50px;
+  border: 1px solid #E5E5E5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.park_filterLabel__8SXaP {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.park_gateSelect__mIM0v {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #F1663F;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.park_gateSelect__mIM0v:hover {
+  opacity: 0.8;
+}
+
+.park_gateSelect__mIM0v option {
+  background: #FFFFFF;
+  color: #1E2D27;
+  padding: 0.5rem;
+}
+
+/* About Section */
+.park_aboutSection__dN1Ml {
+  padding: 5rem 3rem 3rem;
+  background: #FFFFFF;
+}
+
+.park_aboutContainer___XIed {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.park_aboutTitle__9zaU6 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1E2D27;
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+}
+
+.park_aboutSubtitle__uApqd {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  margin: 0 0 3rem 0;
+}
+
+.park_aboutCard__HPT8g {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFE8A1 100%);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.park_aboutCardTitle__ad_fq {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1rem 0;
+}
+
+.park_aboutCardText__OYrV2 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.7;
+  color: #4A5A4F;
+  margin: 0 0 2.5rem 0;
+}
+
+.park_featuresGrid__N6e3q {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.park_featureItem__RihNw {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.park_featureItem__RihNw:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.park_featureIcon__KDsgU {
+  font-size: 2.5rem;
+}
+
+.park_featureName__lzOJN {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1E2D27;
+}
+
+/* Filter Section */
+.park_filterSection__6Wi_r {
+  padding: 0 3rem 2rem;
+  background: #FFFFFF;
+}
+
+.park_filterContainer__I2moT {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* .filterWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #F8F8F8;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #E0E0E0;
+} */
+
+.park_filterLabel__8SXaP {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  white-space: nowrap;
+}
+
+.park_filterSelect__34aaT {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1E2D27;
+  background: #FFFFFF;
+  border: 1px solid #D0D0D0;
+  border-radius: 8px;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  min-width: 200px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231E2D27' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+
+.park_filterSelect__34aaT:hover,
+.park_filterSelect__34aaT:focus {
+  border-color: #F1663F;
+  outline: none;
+}
+
+/* Lodges Section */
+.park_lodgesSection__3IBxF {
+  padding: 0 3rem 5rem;
+  background: #FFFFFF;
+}
+
+.park_lodgesContainer__ENJg7 {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.park_filterWrapper__G9vrM {
+  position: absolute;
+  top: -4rem;
+  right: 0;
+  z-index: 10;
+}
+
+.park_filterDropdown__sVV9I {
+  position: relative;
+}
+
+.park_gateFilter__Wk8V6 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1E2D27;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  border-radius: 50px;
+  padding: 0.75rem 2.5rem 0.75rem 1.25rem;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%231E2D27' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  transition: all 0.3s ease;
+  min-width: 30px;
+}
+
+.park_gateFilter__Wk8V6 option {
+  background: #FFFFFF;
+  color: #1E2D27;
+  padding: 0.75rem;
+}
+
+.park_lodgeGrid___J67b {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2.5rem;
+}
+
+.park_lodgeCardWrapper__T_iM1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.park_lodgeGates__VJppn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+.park_gateIcon__MXd1g {
+  width: 18px;
+  height: 18px;
+  color: #F1663F;
+  flex-shrink: 0;
+}
+
+.park_gatesText__bD_NB {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.park_noResults__AD6T1 {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.park_noResults__AD6T1 p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 1.5rem 0;
+}
+
+.park_clearAllButton__UWo5F {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #F1663F;
+  border: none;
+  border-radius: 8px;
+  padding: 0.875rem 2rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.park_clearAllButton__UWo5F:hover {
+  background: #E05530;
+  transform: translateY(-2px);
+}
+
+.park_clearAllButton__UWo5F:active {
+  transform: translateY(0);
+}
+
+/* Error State */
+.park_errorContainer__LYEg1 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.park_errorContainer__LYEg1 h1 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1rem 0;
+}
+
+.park_backLink__1UOzf {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #F1663F;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #F1663F;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.park_backLink__1UOzf:hover {
+  background: #F1663F;
+  color: #FFFFFF;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .park_heroContainer__kgj9u {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .park_heroLeft__88Au6 {
+    padding-right: 0;
+  }
+
+  .park_heroRight__5UKjd {
+    height: 400px;
+  }
+
+  .park_heroTitle___KDhX {
+    font-size: 3rem;
+  }
+
+  .park_lodgeGrid___J67b {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .park_heroSection__6m2EY,
+  .park_titleSection__E_9l7,
+  .park_filterSection__6Wi_r,
+  .park_lodgesSection__3IBxF {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .park_breadcrumb__Em7B_ {
+    font-size: 0.875rem;
+  }
+
+  .park_heroTitle___KDhX {
+    font-size: 2.5rem;
+  }
+
+  .park_heroDescription__Kwbif {
+    font-size: 0.95rem;
+  }
+
+  .park_heroRight__5UKjd {
+    height: 300px;
+  }
+
+  .park_titleHeading__6Fnti {
+    font-size: 1.75rem;
+  }
+
+  .park_filterContainer__I2moT {
+    justify-content: stretch;
+  }
+
+  .park_filterWrapper__G9vrM {
+    position: static;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .park_filterSelect__34aaT {
+    min-width: 100%;
+  }
+
+  .park_lodgeGrid___J67b {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .park_heroTitle___KDhX {
+    font-size: 2rem;
+  }
+
+  .park_heroDescription__Kwbif {
+    font-size: 0.875rem;
+  }
+
+  .park_titleHeading__6Fnti {
+    font-size: 1.5rem;
+  }
+}
+
+.park_hero___a5uS {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.park_heroImage__b_w5E {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.park_heroImage__b_w5E img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.park_heroOverlay__AMNmO {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+}
+
+.park_heroContent__Mjh6f {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  width: 100%;
+}
+
+.park_regionName__S5zM0 {
+  text-transform: capitalize;
+}
+
+.park_parkDescription__FdiZd {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.park_resultsSection__CuUZ_ {
+  padding: 3rem 2rem;
+  background: #FAFAFA;
+}
+
+.park_container__d3TCn {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.park_filterBar__CH6hR {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.park_filterLeft__i7QgW {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.park_resultsTitle__GTXRb {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.park_filterTag__t2AZs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #F1663F;
+  color: #ffffff;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.park_clearFilter__Artiq {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.park_clearFilter__Artiq:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.park_filterRight__x8yTT {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.park_filterLabel__8SXaP {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1E2D27;
+  white-space: nowrap;
+}
+
+.park_filterSelect__34aaT {
+  padding: 0.75rem 1.25rem;
+  border: 2px solid rgba(30, 45, 39, 0.15);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: #1E2D27;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.park_filterSelect__34aaT:focus {
+  outline: none;
+  border-color: #F1663F;
+  box-shadow: 0 0 0 4px rgba(241, 102, 63, 0.1);
+}
+
+.park_lodgeGrid___J67b {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.park_lodgeCardWrapper__T_iM1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.park_lodgeGates__VJppn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  color: #6B7B75;
+  font-size: 0.85rem;
+}
+
+.park_gateIcon__MXd1g {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #F1663F;
+}
+
+.park_gatesText__bD_NB {
+  line-height: 1.4;
+}
+
+.park_noResults__AD6T1 {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.park_noResults__AD6T1 p {
+  font-size: 1.125rem;
+  color: #6B7B75;
+  margin-bottom: 1.5rem;
+}
+
+.park_clearAllButton__UWo5F {
+  padding: 0.875rem 2rem;
+  background: #F1663F;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.park_clearAllButton__UWo5F:hover {
+  background: #d55535;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(241, 102, 63, 0.3);
+}
+
+.park_infoSection__cr9sc {
+  padding: 3rem 2rem;
+  background: #ffffff;
+}
+
+.park_infoTitle__IQY1W {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin-bottom: 2rem;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.park_infoGrid__BdVtj {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.park_infoCard__RXfIm {
+  padding: 2rem;
+  background: #F1F5F3;
+  border-radius: 16px;
+}
+
+.park_infoCard__RXfIm h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1rem 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.park_infoCard__RXfIm p {
+  font-size: 1rem;
+  color: #4A5A54;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.park_gateList__FyFJW {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.park_gateList__FyFJW li {
+  font-size: 1rem;
+  color: #4A5A54;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.park_gateList__FyFJW li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #F1663F;
+  font-weight: bold;
+}
+
+.park_errorContainer__LYEg1 {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.park_errorContainer__LYEg1 h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin-bottom: 1.5rem;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.park_backLink__1UOzf {
+  padding: 1rem 2rem;
+  background: #F1663F;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.park_backLink__1UOzf:hover {
+  background: #d55535;
+  transform: translateY(-2px);
+}
+
+/* Planning Section */
+.park_planningSection__4sYph {
+  padding: 4rem 3rem;
+  background: #1E2D27;
+}
+
+.park_planningContainer__AQ07T {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.park_planningTitle__VTEE3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+.park_planningSubtitle__WB3Cp {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 3rem 0;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+.park_planningGrid__yyJbU {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.park_planningCard__4flMz {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.park_planningCard__4flMz:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.park_planningImageWrapper__1jLog {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.park_planningImage___Ju97 {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.park_planningCard__4flMz:hover .park_planningImage___Ju97 {
+  transform: scale(1.05);
+}
+
+.park_planningContent__ASPna {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.park_planningBadge__L0Y8S {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #F1663F;
+  display: inline-block;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.park_planningCardTitle__HkDDj {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.3;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.park_planningCardText__ThqUv {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.park_planningLink__zOpvp {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #FFFFFF;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  transition: color 0.3s ease, gap 0.3s ease;
+}
+
+.park_planningLink__zOpvp:hover {
+  color: #F1663F;
+  gap: 0.75rem;
+}
+
+.park_planningLink__zOpvp svg {
+  flex-shrink: 0;
+}
+
+/* Explore Jungles CTA */
+.park_exploreJunglesCTA__lICPF {
+  margin-top: 4rem;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.park_exploreJunglesContent___U01P {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+  max-width: 1400px;
+  width: 100%;
+}
+
+.park_exploreJunglesLeft__J0UiF {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.park_exploreJunglesImageWrapper__kaz_K {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.park_exploreJunglesImage__X53rl {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0;
+  display: block;
+}
+
+.park_exploreJunglesRight__WZuIb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 3rem 3rem 2rem;
+}
+
+.park_exploreJunglesTextWrapper__wzELS {
+  max-width: 600px;
+}
+
+.park_exploreJunglesLabel__RuQ5q {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #F1663F;
+  letter-spacing: 2.5px;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.park_exploreJunglesTitle__RllFJ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.park_exploreJunglesDescription__Zd3ax {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 2rem 0;
+  line-height: 1.7;
+}
+
+.park_exploreJunglesButton__6XaQa {
+  font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.125rem 2.5rem;
+  background: #FFFFFF;
+  color: #1E2D27;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.park_exploreJunglesButton__6XaQa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(241, 102, 63, 0.15), transparent);
+  transition: left 0.6s ease;
+}
+
+.park_exploreJunglesButton__6XaQa:hover::before {
+  left: 100%;
+}
+
+.park_exploreJunglesButton__6XaQa:hover {
+  background: #F1F5F3;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.park_exploreJunglesButton__6XaQa span {
+  position: relative;
+  z-index: 1;
+}
+
+.park_exploreJunglesButton__6XaQa svg {
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.park_exploreJunglesButton__6XaQa:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive Design for Explore Jungles CTA */
+@media (max-width: 1024px) {
+  .park_exploreJunglesContent___U01P {
+    grid-template-columns: 1fr;
+  }
+
+  .park_exploreJunglesLeft__J0UiF {
+    padding: 0;
+    min-height: 300px;
+  }
+
+  .park_exploreJunglesImageWrapper__kaz_K {
+    min-height: 300px;
+  }
+
+  .park_exploreJunglesRight__WZuIb {
+    padding: 2.5rem 2rem;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .park_exploreJunglesCTA__lICPF {
+    margin-top: 3rem;
+    padding: 0 1rem;
+  }
+
+  .park_exploreJunglesContent___U01P {
+    min-height: auto;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .park_exploreJunglesLeft__J0UiF {
+    min-height: 220px;
+  }
+
+  .park_exploreJunglesImageWrapper__kaz_K {
+    min-height: 220px;
+  }
+
+  .park_exploreJunglesRight__WZuIb {
+    padding: 2rem 1.5rem;
+  }
+
+  .park_exploreJunglesLabel__RuQ5q {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.875rem;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .park_exploreJunglesDescription__Zd3ax {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .park_exploreJunglesButton__6XaQa {
+    padding: 1rem 2rem;
+    font-size: 0.95rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .park_exploreJunglesCTA__lICPF {
+    margin-top: 2.5rem;
+    padding: 0 0.875rem;
+  }
+
+  .park_exploreJunglesContent___U01P {
+    border-radius: 12px;
+  }
+
+  .park_exploreJunglesLeft__J0UiF {
+    min-height: 180px;
+  }
+
+  .park_exploreJunglesImageWrapper__kaz_K {
+    min-height: 180px;
+  }
+
+  .park_exploreJunglesRight__WZuIb {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .park_exploreJunglesLabel__RuQ5q {
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+  }
+
+  .park_exploreJunglesTitle__RllFJ {
+    font-size: 1.25rem;
+    margin-bottom: 0.875rem;
+    line-height: 1.3;
+  }
+
+  .park_exploreJunglesDescription__Zd3ax {
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .park_exploreJunglesButton__6XaQa {
+    padding: 0.95rem 1.75rem;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+}
+
+/* FAQ Section */
+.park_faqSection__vOM36 {
+  padding: 4rem 3rem;
+  background: #FFFFFF;
+}
+
+.park_faqContainer__LORrJ {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.park_faqTitle__blelC {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.park_faqSubtitle__G7CTw {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #1E2D27;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+  text-align: center; 
+  max-width: 800px;
+}
+
+.park_faqList__51WVG {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.park_faqItem__PU7ON {
+  border-bottom: 1px solid rgba(107, 123, 117, 0.2);
+  transition: all 0.3s ease;
+}
+
+.park_faqItem__PU7ON:last-child {
+  border-bottom: none;
+}
+
+.park_faqQuestion__R1hj6 {
+  padding: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.park_faqQuestion__R1hj6 h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1E2D27;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+  padding-right: 1rem;
+}
+
+.park_faqIcon__nU3sJ {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #F1663F;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.park_faqIcon__nU3sJ.park_open__ELaW1 {
+  transform: rotate(45deg);
+}
+
+.park_faqAnswer__W0tnL {
+  padding: 0 0 1.5rem 0;
+  animation: park_slideDown__5bmwn 0.3s ease;
+}
+
+@keyframes park_slideDown__5bmwn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.park_faqAnswer__W0tnL p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #1E2D27;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .park_parkTitle__FNobO {
+    font-size: 2.5rem;
+  }
+
+  .park_lodgeGrid___J67b {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .park_planningGrid__yyJbU {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .park_hero___a5uS {
+    height: 50vh;
+    min-height: 350px;
+  }
+
+  .park_parkTitle__FNobO {
+    font-size: 2rem;
+  }
+
+  .park_parkDescription__FdiZd {
+    font-size: 1rem;
+  }
+
+  .park_filterBar__CH6hR {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .park_filterRight__x8yTT {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .park_filterSelect__34aaT {
+    width: 100%;
+  }
+
+  .park_lodgeGrid___J67b {
+    grid-template-columns: 1fr;
+  }
+
+  .park_infoTitle__IQY1W {
+    font-size: 2rem;
+  }
+
+  .park_planningGrid__yyJbU {
+    grid-template-columns: 1fr;
+  }
+
+  .park_planningSection__4sYph {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .park_planningTitle__VTEE3 {
+    font-size: 1.5rem;
+  }
+
+  .park_planningSubtitle__WB3Cp {
+    font-size: 0.9rem;
+  }
+
+  .park_faqSection__vOM36 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+

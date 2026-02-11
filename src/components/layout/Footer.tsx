@@ -1,6 +1,11 @@
+'use client'
+
+import { useTranslation } from 'react-i18next'
 import styles from './Footer.module.css'
 
 export default function Footer() {
+  const { t } = useTranslation()
+  
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -8,11 +13,11 @@ export default function Footer() {
         <div className={styles.topSection}>
           <div className={styles.brandSection}>
             <h2 className={styles.logo}>
-              CURATED LODGES<span className={styles.dot}>.</span>
+              {t('footer.logo')}<span className={styles.dot}>.</span>
             </h2>
-            <p className={styles.poweredBy}>Powered by Junglore</p>
+            <p className={styles.poweredBy}>{t('footer.poweredBy')}</p>
             <p className={styles.tagline}>
-              Curated wild stays and expeditions for the conscious traveler.
+              {t('footer.tagline')}
             </p>
             <div className={styles.socialLinks}>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.socialIcon}>
@@ -40,16 +45,16 @@ export default function Footer() {
 
           <div className={styles.linksSection}>
             <div className={styles.linkColumn}>
-              <h3 className={styles.linkTitle}>Navigation</h3>
+              <h3 className={styles.linkTitle}>{t('footer.navigation')}</h3>
               <ul className={styles.linkList}>
-                <li><a href="/basecamps">Basecamps</a></li>
-                <li><a href="/expeditions">Expeditions</a></li>
-                <li><a href="/field-notes">Field Notes</a></li>
+                <li><a href="/basecamps">{t('footer.basecamps')}</a></li>
+                <li><a href="/expeditions">{t('footer.expeditions')}</a></li>
+                <li><a href="/field-notes">{t('footer.fieldNotes')}</a></li>
               </ul>
             </div>
 
             <div className={styles.linkColumn}>
-              <h3 className={styles.linkTitle}>Contact Us</h3>
+              <h3 className={styles.linkTitle}>{t('footer.contactUs')}</h3>
               <ul className={styles.linkList}>
                 <li><a href="tel:+1234567890">+91 12345 67890</a></li>
                 <li><a href="mailto:info@junglore.com">info@junglore.com</a></li>
@@ -59,19 +64,19 @@ export default function Footer() {
 
           {/* Newsletter Section */}
           <div className={styles.newsletter}>
-            <h3 className={styles.newsletterTitle}>Stay Wild</h3>
+            <h3 className={styles.newsletterTitle}>{t('footer.stayWild')}</h3>
             <p className={styles.newsletterText}>
-              Get curated stories, travel tips, and exclusive offers delivered to your inbox.
+              {t('footer.newsletterDesc')}
             </p>
             <form className={styles.newsletterForm}>
               <input 
                 type="email" 
-                placeholder="Enter your email" 
+                placeholder={t('footer.enterEmail')} 
                 className={styles.newsletterInput}
                 required
               />
               <button type="submit" className={styles.newsletterButton}>
-                Subscribe
+                {t('footer.subscribe')}
               </button>
             </form>
           </div>
@@ -80,13 +85,13 @@ export default function Footer() {
         {/* Bottom Section */}
         <div className={styles.bottom}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} Junglore. All rights reserved.
+            © {new Date().getFullYear()} Junglore. {t('footer.copyright')}
           </p>
           <div className={styles.policyLinks}>
-            <a href="/disclaimer">Disclaimer</a>
-            <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/refund-policy">Refund Policy</a>
-            <a href="/terms-conditions">Terms & Conditions</a>
+            <a href="/disclaimer">{t('footer.disclaimer')}</a>
+            <a href="/privacy-policy">{t('footer.privacyPolicy')}</a>
+            <a href="/refund-policy">{t('footer.refundPolicy')}</a>
+            <a href="/terms-conditions">{t('footer.termsConditions')}</a>
           </div>
         </div>
       </div>

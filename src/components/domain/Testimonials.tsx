@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import styles from './Testimonials.module.css'
 
 interface Testimonial {
@@ -59,6 +60,7 @@ const decorativeImages = [
 ]
 
 export default function Testimonials() {
+  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -82,10 +84,10 @@ export default function Testimonials() {
         {/* Header */}
         <div className="text-center mb-16 relative z-10">
           <p className="text-[#F1663F] text-sm md:text-base font-semibold uppercase tracking-wider mb-3">
-            Testimonials
+            {t('testimonials.label')}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold text-[#1E2D27]">
-            What people say<br />about Us.
+            {t('testimonials.heading')}
           </h2>
         </div>
 

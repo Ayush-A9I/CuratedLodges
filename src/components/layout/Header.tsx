@@ -2,6 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Globe, DollarSign } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useLocalization } from '@/contexts/LocalizationContext';
 import styles from './Header.module.css';
 
 interface HeaderProps {
@@ -14,6 +18,22 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
   const [isScrolled, setIsScrolled] = useState(forceScrolled);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const { setIsModalOpen, currency, language } = useLocalization();
+  const { t } = useTranslation();
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     // If forced states are enabled, don't add scroll listener
@@ -62,27 +82,97 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
         
         {/* Center Navigation Links */}
         <nav className={styles.nav} aria-label="Primary navigation">
-          <a href="/experience" className={styles.navLink}>
-            Experience
+          <a href="/experience" className={`${styles.navLink} ${pathname === '/experience' ? styles.active : ''}`}>
+            {t('header.experience')}
             <span className={styles.underline}></span>
           </a>
-          <a href="/basecamps" className={styles.navLink}>
-            Basecamps
+          <a href="/basecamps" className={`${styles.navLink} ${pathname === '/basecamps' ? styles.active : ''}`}>
+            {t('header.basecamps')}
             <span className={styles.underline}></span>
           </a>
-          <a href="/field-notes" className={styles.navLink}>
-            Field Notes
+          <a href="/field-notes" className={`${styles.navLink} ${pathname?.startsWith('/field-notes') ? styles.active : ''}`}>
+            {t('header.fieldNotes')}
             <span className={styles.underline}></span>
           </a>
         </nav>
 
+        {/* Mobile Menu Button */}
+        {!isMobileMenuOpen && (
+          <button 
+            className={styles.hamburger}
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open mobile menu"
+          >
+            <span className={styles.hamburgerLine}></span>
+            <span className={styles.hamburgerLine}></span>
+            <span className={styles.hamburgerLine}></span>
+          </button>
+        )}
+
         {/* Right Action Button */}
         <div className={styles.actions}>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className={styles.localizationButton}
+            aria-label="Change language and currency"
+          >
+            <Globe size={18} />
+            <span>{language.toUpperCase()}</span>
+            <span style={{ margin: '0 4px', opacity: 0.5 }}>•</span>
+            <DollarSign size={18} />
+            <span>{currency}</span>
+          </button>
           <Link href="/signin" className={styles.conciergeButton}>
-            Sign In 
+            {t('header.signIn')}
           </Link>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay and Drawer */}
+      {isMobileMenuOpen && (
+        <>
+          <div className={styles.mobileOverlay} onClick={() => setIsMobileMenuOpen(false)}></div>
+          <div className={styles.mobileMenu}>
+            <div className={styles.mobileMenuHeader}>
+              <button 
+                className={styles.closeButton}
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <span className={styles.closeIcon}></span>
+                <span className={styles.closeIcon}></span>
+              </button>
+            </div>
+            <nav className={styles.mobileNav}>
+              <Link href="/experience" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
+                {t('header.experience')}
+              </Link>
+              <Link href="/basecamps" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
+                {t('header.basecamps')}
+              </Link>
+              <Link href="/field-notes" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
+                {t('header.fieldNotes')}
+              </Link>
+              <button 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsModalOpen(true);
+                }}
+                className={styles.mobileNavLink}
+              >
+                <Globe size={18} />
+                <span>{language.toUpperCase()}</span>
+                <span style={{ margin: '0 8px', opacity: 0.5 }}>•</span>
+                <DollarSign size={18} />
+                <span>{currency}</span>
+              </button>
+              <Link href="/signin" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
+                {t('header.signIn')}
+              </Link>
+            </nav>
+          </div>
+        </>
+      )}
     </header>
   );
 };

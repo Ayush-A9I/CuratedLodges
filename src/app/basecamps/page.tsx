@@ -1,14 +1,25 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MapPin, ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import { lodgesData } from '../../data/mock/LodgeData';
+import { useLocalization } from '@/contexts/LocalizationContext';
 import styles from './basecamps.module.css';
 
 export default function BasecampsPage() {
+  const { t } = useTranslation();
+  const { convertPrice, currency, exchangeRate } = useLocalization();
+  const [, forceUpdate] = useState({});
+  
+  // Force re-render when currency changes
+  useEffect(() => {
+    forceUpdate({});
+  }, [currency, exchangeRate]);
+  
   // Collect all lodges from all regions and parks
   const allLodges = Object.entries(lodgesData).flatMap(([region, parks]) =>
     Object.entries(parks).flatMap(([parkName, parkData]) =>
@@ -37,12 +48,10 @@ export default function BasecampsPage() {
         {/* Hero Section */}
         <section className={styles.heroSection}>
           <div className={styles.heroContainer}>
-            <p className={styles.heroLabel}>CURATED WILDERNESS STAYS</p>
-            <h1 className={styles.heroTitle}>BASECAMPS</h1>
+            <p className={styles.heroLabel}>{t('sections.curatedStays')}</p>
+            <h1 className={styles.heroTitle}>{t('sections.basecamps')}</h1>
             <p className={styles.heroDescription}>
-              Handpicked lodges and camps in the heart of India&apos;s most pristine wildlife reserves. 
-              Each property selected for its commitment to conservation, exceptional naturalist guides, 
-              and authentic safari experiences.
+              {t('sections.basecampsDesc')}
             </p>
           </div>
         </section>
@@ -96,7 +105,7 @@ export default function BasecampsPage() {
                         <div className={styles.priceSection}>
                           <div className={styles.priceSectionLeft}>
                             <span className={styles.startingFrom}>STARTING FROM</span>
-                            <span className={styles.price}>₹{minPrice.toLocaleString('en-IN')}</span>
+                            <span className={styles.price}>{convertPrice(minPrice)}</span>
                           </div>
                           <div className={styles.viewLodgeButton}>
                             VIEW LODGE

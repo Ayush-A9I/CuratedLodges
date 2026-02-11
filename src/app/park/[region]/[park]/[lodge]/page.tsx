@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Header from '../../../../../components/layout/Header';
 import Footer from '../../../../../components/layout/Footer';
 import { lodgesData } from '../../../../../data/mock/LodgeData';
+import { useLocalization } from '@/contexts/LocalizationContext';
 import { Wifi, Waves, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, MapPin, Leaf, Send, Share, Bed, Coffee, Bath, Tv, Utensils, Shield, Sparkles, Calendar, User, Baby } from 'lucide-react';
 import styles from './lodge.module.css';
 
@@ -14,6 +15,7 @@ export default function LodgeDetailPage() {
   const region = params.region as string;
   const park = decodeURIComponent(params.park as string);
   const lodgeSlug = decodeURIComponent(params.lodge as string);
+  const { convertPrice, currency, exchangeRate } = useLocalization();
 
   // Helper function to create URL-friendly slugs
   const createSlug = (text: string) => {
@@ -146,6 +148,12 @@ export default function LodgeDetailPage() {
   const [linkCopied, setLinkCopied] = useState(false);
   const checkInInputRef = useRef<HTMLInputElement>(null);
   const checkOutInputRef = useRef<HTMLInputElement>(null);
+  const [, forceUpdate] = useState({});
+
+  // Force re-render when currency or exchange rate changes
+  useEffect(() => {
+    forceUpdate({});
+  }, [currency, exchangeRate]);
 
   const handleMobileHeroPrev = () => {
     setMobileHeroIndex(prev => 
@@ -497,7 +505,7 @@ export default function LodgeDetailPage() {
                       <div className={styles.roomPriceRow}>
                         <div className={styles.roomPrice}>
                           <span className={styles.priceLabel}>From</span>
-                          <span className={styles.priceAmount}>₹{room.price.toLocaleString()}</span>
+                          <span className={styles.priceAmount}>{convertPrice(room.price)}</span>
                           <span className={styles.priceNight}>/ night</span>
                         </div>
                         <button 
@@ -538,7 +546,7 @@ export default function LodgeDetailPage() {
                     <p className={styles.naturalistRole}>{naturalist.role}</p>
                     <p className={styles.naturalistSpecialty}>{naturalist.specialty}</p>
                     <div className={styles.naturalistPrice}>
-                      <span className={styles.priceAmount}>₹{naturalist.price}</span>
+                      <span className={styles.priceAmount}>{convertPrice(naturalist.price)}</span>
                       <span className={styles.priceSession}>/Session</span>
                     </div>
                   </div>
@@ -720,7 +728,7 @@ export default function LodgeDetailPage() {
                 <p className={styles.roomModalDescription}>{selectedRoomDetails.description}</p>
                 <div className={styles.modalPrice}>
                   <span className={styles.priceLabel}>From</span>
-                  <span className={styles.priceAmount}>₹{selectedRoomDetails.price.toLocaleString()}</span>
+                  <span className={styles.priceAmount}>{convertPrice(selectedRoomDetails.price)}</span>
                   <span className={styles.priceNight}>/ night</span>
                 </div>
               </div>
@@ -804,7 +812,7 @@ export default function LodgeDetailPage() {
         <div className={styles.floatingButton} onClick={() => setIsCheckoutModalOpen(true)}>
           <div className={styles.floatingButtonContent}>
             <div className={styles.floatingButtonLeft}>
-              <div className={styles.floatingPrice}>From ₹{lodgeData?.roomTypes?.[0]?.price?.toLocaleString() || '9,000'}/night</div>
+              <div className={styles.floatingPrice}>From {convertPrice(lodgeData?.roomTypes?.[0]?.price || 9000)}/night</div>
               <div className={styles.floatingButtonText}>Check Availability</div>
             </div>
             <button className={styles.floatingButtonIcon}>
@@ -844,19 +852,19 @@ export default function LodgeDetailPage() {
                     {checkoutRoomType && (
                       <div className={styles.checkoutPriceRow}>
                         <span>Room Total</span>
-                        <span>₹{calculateRoomTotal().toLocaleString()}</span>
+                        <span>{convertPrice(calculateRoomTotal())}</span>
                       </div>
                     )}
                     {selectedNaturalist && naturalistSessions > 0 && (
                       <div className={styles.checkoutPriceRow}>
                         <span>Experiences</span>
-                        <span>₹{calculateExperienceTotal().toLocaleString()}</span>
+                        <span>{convertPrice(calculateExperienceTotal())}</span>
                       </div>
                     )}
                     {(checkoutRoomType || (selectedNaturalist && naturalistSessions > 0)) && (
                       <div className={styles.checkoutPriceRow}>
                         <span>Taxes (18%)</span>
-                        <span>₹{calculateTaxes().toLocaleString()}</span>
+                        <span>{convertPrice(calculateTaxes())}</span>
                       </div>
                     )}
                   </div>
@@ -864,7 +872,7 @@ export default function LodgeDetailPage() {
                   {(checkoutRoomType || (selectedNaturalist && naturalistSessions > 0)) && (
                     <div className={styles.checkoutTotal}>
                       <div className={styles.checkoutTotalLabel}>Total Payble</div>
-                      <div className={styles.checkoutTotalAmount}>₹{calculateTotal().toLocaleString()}</div>
+                      <div className={styles.checkoutTotalAmount}>{convertPrice(calculateTotal())}</div>
                       <div className={styles.checkoutTotalNote}>*Includes all taxes & fees</div>
                     </div>
                   )}
@@ -965,7 +973,7 @@ export default function LodgeDetailPage() {
                         <div className={styles.checkoutRoomIcon}><Bed size={20} /></div>
                         <div className={styles.checkoutRoomInfo}>
                           <div className={styles.checkoutRoomName}>{room.name}</div>
-                          <div className={styles.checkoutRoomPrice}>₹{room.price?.toLocaleString()}/night</div>
+                          <div className={styles.checkoutRoomPrice}>{convertPrice(room.price)}/night</div>
                         </div>
                         <div className={styles.checkoutRoomRadio}>
                           {checkoutRoomType === room.name && <div className={styles.checkoutRoomRadioChecked}></div>}
@@ -996,7 +1004,7 @@ export default function LodgeDetailPage() {
                       <option value="">Choose a naturalist</option>
                       {lodgeData?.naturalists?.map((naturalist: any, index: number) => (
                         <option key={index} value={naturalist.name}>
-                          {naturalist.name} ({naturalist.specialty}) - ₹{naturalist.price?.toLocaleString()}/session
+                          {naturalist.name} ({naturalist.specialty}) - {convertPrice(naturalist.price)}/session
                         </option>
                       ))}
                     </select>

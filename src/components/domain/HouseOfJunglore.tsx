@@ -1,4 +1,7 @@
-    import styles from './HouseOfJunglore.module.css'
+    'use client'
+
+import { useTranslation } from 'react-i18next'
+import styles from './HouseOfJunglore.module.css'
 
 interface ProductCard {
   id: number
@@ -7,34 +10,35 @@ interface ProductCard {
   image: string
 }
 
-const products: ProductCard[] = [
+const products = [
   {
     id: 1,
-    category: 'Sustainable Safari Wear',
-    title: 'APPAREL',
+    categoryKey: 'houseOfJunglore.sustainableSafariWear',
+    titleKey: 'houseOfJunglore.apparel',
     image: 'https://houseofjunglore.com/cdn/shop/files/Comp_Image_hrkebvhrkebvhrke.webp?v=1765252418&width=1200'
   },
   {
     id: 2,
-    category: 'Essential Transport',
-    title: 'SAFARI GEAR',
+    categoryKey: 'houseOfJunglore.essentialTransport',
+    titleKey: 'houseOfJunglore.safariGear',
     image: 'https://houseofjunglore.com/cdn/shop/files/Comp_Image_ejrsf8ejrsf8ejrs.webp?v=1765252417&width=800'
   },
   {
     id: 3,
-    category: 'Exclusive park collections',
-    title: 'NATIONAL PARKS',
+    categoryKey: 'houseOfJunglore.exclusiveParkCollections',
+    titleKey: 'houseOfJunglore.nationalParks',
     image: 'https://houseofjunglore.com/cdn/shop/files/Comp_Image_f8000af8000af800.webp?v=1765252417&width=800'
   },
   {
     id: 4,
-    category: 'Essential wildlife reads',
-    title: 'BOOKS',
+    categoryKey: 'houseOfJunglore.essentialWildlifeReads',
+    titleKey: 'houseOfJunglore.books',
     image: 'https://houseofjunglore.com/cdn/shop/files/Comp_Image_strqi1strqi1strq.webp?v=1765252418&width=800'
   }
 ]
 
 export default function HouseOfJunglore() {
+  const { t } = useTranslation()
   return (
     <section className="py-20 px-8 bg-[#1E2D27]">
       <div className="max-w-[1400px] mx-auto">
@@ -45,7 +49,7 @@ export default function HouseOfJunglore() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <p className="text-[#F1663F] text-xs md:text-sm font-semibold uppercase tracking-wider">
-                  Lifestyle Artifacts
+                  {t('houseOfJunglore.label')}
                 </p>
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
@@ -53,7 +57,7 @@ export default function HouseOfJunglore() {
               </h2>
             </div>
             <p className="text-sm md:text-base text-white/70 font-light leading-relaxed max-w-lg">
-              Gear for the wild, artifacts for the soul. Explore our collection of sustainable safari essentials and field gear designed for life on the move.
+              {t('houseOfJunglore.description')}
             </p>
           </div>
 
@@ -64,7 +68,7 @@ export default function HouseOfJunglore() {
             rel="noopener noreferrer" 
             className="inline-flex items-center gap-3 bg-[#F1663F] hover:bg-[#d55535] text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 uppercase text-sm tracking-wide"
           >
-            Visit Official Shop
+            {t('houseOfJunglore.visitShop')}
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
@@ -81,13 +85,13 @@ export default function HouseOfJunglore() {
               <div className={styles.productImage}>
                 <img 
                   src={product.image} 
-                  alt={product.title}
+                  alt={t(product.titleKey)}
                 />
                 <div className={styles.overlay} />
               </div>
               <div className={styles.productContent}>
-                <p className={styles.category}>{product.category}</p>
-                <h3 className={styles.title}>{product.title}</h3>
+                <p className={styles.category}>{t(product.categoryKey)}</p>
+                <h3 className={styles.title}>{t(product.titleKey)}</h3>
                 <div className={styles.underline}></div>
               </div>
             </div>

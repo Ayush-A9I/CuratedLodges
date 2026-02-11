@@ -15,6 +15,50 @@
   overflow: hidden;
 }
 
+/* Logo on Left Panel */
+.leftLogoContainer {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 10;
+}
+
+.leftLogo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.leftLogo:hover {
+  color: #F1663F;
+}
+
+.leftDot {
+  color: #F1663F;
+}
+
+.leftPoweredBy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  opacity: 0.7;
+}
+
 .imageCarousel {
   position: absolute;
   inset: 0;
@@ -94,17 +138,62 @@
 .rightPanel {
   flex: 0 0 40%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   padding: 40px;
   background: white;
   min-height: 100vh;
   overflow-y: auto;
+  position: relative;
+}
+
+/* Logo Section */
+.logoContainer {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  color: #1E2D27;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #F1663F;
+}
+
+.dot {
+  color: #F1663F;
+}
+
+.poweredBy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1E2D27;
+  opacity: 0.6;
 }
 
 .formContainer {
   width: 100%;
   max-width: 400px;
+  margin: auto;
 }
 
 .formHeader {

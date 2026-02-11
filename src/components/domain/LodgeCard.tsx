@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf } from 'lucide-react';
+import { useLocalization } from '@/contexts/LocalizationContext';
+import { useTranslation } from 'react-i18next';
 import styles from './LodgeCard.module.css';
 
 interface LodgeCardProps {
@@ -10,7 +12,7 @@ interface LodgeCardProps {
   title: string;
   location: string;
   rating: number;
-  price: string;
+  price: string | number;
   link?: string;
   amenities?: string[];
   ecoCertified?: boolean;
@@ -42,6 +44,18 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   onClick,
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { convertPrice, currency, exchangeRate } = useLocalization();
+  const { t } = useTranslation();
+  const [, forceUpdate] = useState({});
+
+  // Force re-render when currency changes
+  useEffect(() => {
+    forceUpdate({});
+  }, [currency, exchangeRate]);
+
+  // Convert price to number if it's a string
+  const numericPrice = typeof price === 'string' ? parseFloat(price.replace(/[$₹,]/g, '')) : price;
+  const displayPrice = convertPrice(numericPrice);
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -66,14 +80,14 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
             <button 
               className={styles.navButtonLeft}
               onClick={goToPrevious}
-              aria-label="Previous image"
+              aria-label={t('accessibility.previousImage')}
             >
               <ChevronLeft size={24} />
             </button>
             <button 
               className={styles.navButtonRight}
               onClick={goToNext}
-              aria-label="Next image"
+              aria-label={t('accessibility.nextImage')}
             >
               <ChevronRight size={24} />
             </button>
@@ -86,7 +100,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
                     e.stopPropagation();
                     setCurrentImageIndex(index);
                   }}
-                  aria-label={`View image ${index + 1}`}
+                  aria-label={`${t('accessibility.viewImage')} ${index + 1}`}
                 />
               ))}
             </div>
@@ -100,7 +114,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           {ecoCertified && (
             <div className={styles.ecoBadge}>
               <Leaf size={12} />
-              <span>Eco-Certified</span>
+              <span>{t('lodge.ecoCertified')}</span>
             </div>
           )}
         </div>
@@ -132,9 +146,9 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
       
       <div className={styles.footer}>
         <div className={styles.priceContainer}>
-          <span className={styles.fromText}>From</span>
-          <span className={styles.price}>{price}</span>
-          <span className={styles.nightText}>/ night</span>
+          <span className={styles.fromText}>{t('lodge.from')}</span>
+          <span className={styles.price}>{displayPrice}</span>
+          <span className={styles.nightText}>{t('price.perNight')}</span>
         </div>
         <button className={styles.arrowButton}>
           <ArrowRight size={20} />

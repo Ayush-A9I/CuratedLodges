@@ -136,6 +136,405 @@
   transform: scale(0.95);
 }
 
+/* Back Button - Hidden on desktop, visible on mobile */
+.backButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #1E2D27;
+  transition: color 0.3s ease;
+}
+
+.backButton:hover {
+  color: #F1663F;
+}
+
+/* Mobile Compact Search Display - Hidden on desktop */
+.mobileSearchDisplay {
+  display: none;
+  flex: 1;
+  max-width: none;
+  cursor: pointer;
+}
+
+.mobileSearchContent {
+  background: #1E2D27;
+  border-radius: 30px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: background 0.3s ease;
+}
+
+.mobileSearchDisplay:active .mobileSearchContent {
+  background: #2a3f38;
+}
+
+.mobileRegion {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-transform: capitalize;
+}
+
+.mobilePark {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hamburger Menu Button */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburgerLine {
+  width: 24px;
+  height: 2px;
+  background-color: #1E2D27;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu Overlay */
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Menu Drawer */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: none;
+  z-index: 1000;
+  animation: slideInRight 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Menu Header with Close Button */
+.mobileMenuHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.closeIcon {
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #1E2D27;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s ease;
+}
+
+.closeIcon:nth-child(1) {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.closeIcon:nth-child(2) {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.closeButton:hover .closeIcon {
+  background-color: #F1663F;
+}
+
+/* Mobile Navigation */
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+.mobileNavLink {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1E2D27;
+  text-decoration: none;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1.5px solid rgba(30, 45, 39, 0.12);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.mobileNavLink:last-child {
+  border-bottom: none;
+}
+
+.mobileNavLink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background-color: #F1663F;
+  transition: height 0.3s ease;
+}
+
+.mobileNavLink:hover {
+  color: #F1663F;
+  background: rgba(241, 102, 63, 0.05);
+}
+
+.mobileNavLink:hover::before {
+  height: 60%;
+}
+
+/* Edit Details Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1100;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.editModal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 32px 32px 0 0;
+  z-index: 1101;
+  animation: slideUpModal 0.5s ease-out;
+  height: auto;
+  max-height: 60vh;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUpModal {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalHandle {
+  width: 48px;
+  height: 6px;
+  background: #E5E7EB;
+  border-radius: 3px;
+  margin: 16px auto;
+  flex-shrink: 0;
+}
+
+.modalContent {
+  padding: 0 1.5rem 1rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.modalTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1E2D27;
+  margin: 0 0 1.25rem 0;
+  text-align: center;
+}
+
+.fieldGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fieldGroup:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.fieldGroup:last-of-type {
+  border-bottom: none;
+}
+
+.fieldIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.fieldContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  text-transform: capitalize;
+}
+
+.fieldInput {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #1E2D27;
+  border: none;
+  outline: none;
+  padding: 0.25rem 0;
+  background: transparent;
+}
+
+.fieldInput::placeholder {
+  color: rgba(30, 45, 39, 0.5);
+}
+
+.fieldValue {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(30, 45, 39, 0.7);
+}
+
+.fieldCollapsed {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(30, 45, 39, 0.5);
+}
+
+.fieldArrow {
+  background: none;
+  border: none;
+  color: rgba(30, 45, 39, 0.5);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  border-radius: 0 0 32px 32px;
+  flex-shrink: 0;
+}
+
+.clearButton {
+  font-family: 'DM Sans', sans-serif;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: transparent;
+  color: #1E2D27;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: underline;
+}
+
+.clearButton:active {
+  color: #F1663F;
+}
+
+.searchButton {
+  font-family: 'DM Sans', sans-serif;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #1E2D27;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.searchButton:active {
+  background: #000000;
+}
+
+/* Hide edit modal on desktop and tablet */
+@media (min-width: 769px) {
+  .editModal,
+  .modalOverlay {
+    display: none !important;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .header {
@@ -183,12 +582,12 @@
 
 @media (max-width: 768px) {
   .header {
-    padding: 0.75rem 1rem;
+    padding: 1.25rem 1rem 0.75rem 1rem;
   }
 
   .container {
-    flex-direction: row;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     gap: 0.75rem;
     align-items: center;
   }
@@ -196,25 +595,28 @@
   .logoWrapper {
     display: none;
   }
-
+  
   .searchWrapper {
-    flex: 1;
-    order: 1;
-    max-width: none;
+    display: none;
+  }
+  
+  .backButton {
+    display: flex;
+    grid-column: 1;
+  }
+  
+  .mobileSearchDisplay {
+    display: flex;
+    grid-column: 2;
+    justify-content: center;
   }
 
   .actions {
-    order: 2;
-    margin-left: 0;
+    display: none;
   }
 
-  .signInButton {
-    padding: 0.625rem 1rem;
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-  }
-
-  .searchWrapper :global(.searchBox) {
-    transform: scale(0.9);
+  .hamburger {
+    display: flex;
+    grid-column: 3;
   }
 }

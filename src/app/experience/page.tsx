@@ -3,11 +3,14 @@
 import React from 'react';
 import { Sun, Binoculars, Coffee, Flame, Compass, Moon, Utensils, Trees } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import styles from './experience.module.css';
 
 export default function ExperiencePage() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Header darkMode={false} />
@@ -24,14 +27,14 @@ export default function ExperiencePage() {
           
           <div className={styles.heroContent}>
             <span className={styles.heroLabel}>
-              Beyond the Map
+              {t('experience.heroLabel')}
             </span>
             <h1 className={styles.heroTitle}>
-              Experience the Wild.<br/>
-              <span className={styles.heroTitleGradient}>Live the Untamed.</span>
+              {t('experience.heroTitle')}<br/>
+              <span className={styles.heroTitleGradient}>{t('experience.heroTitleGradient')}</span>
             </h1>
             <p className={styles.heroSubtitle}>
-              Curated wildlife experiences across India and Africa&apos;s finest wilderness reserves.
+              {t('experience.heroSubtitle')}
             </p>
           </div>
         </div>
@@ -39,7 +42,7 @@ export default function ExperiencePage() {
         {/* The Day in the Life - Vertical Scroll Timeline */}
         <section className={styles.timelineSection}>
           <h2 className={styles.sectionBackground}>
-            The Rhythm
+            {t('experience.timelineTitle')}
           </h2>
 
           <div className={styles.timelineContainer}>
@@ -50,11 +53,11 @@ export default function ExperiencePage() {
             <div className={styles.timelineItem}>
               <div className={styles.timelineContent}>
                 <div className={styles.timelineTime}>
-                  <Sun size={20} /> Dawn Safaris
+                  <Sun size={20} /> {t('experience.dawnSafaris')}
                 </div>
-                <h3 className={styles.timelineHeading}>Golden Hour Pursuits</h3>
+                <h3 className={styles.timelineHeading}>{t('experience.dawnTitle')}</h3>
                 <p className={styles.timelineText}>
-                  Witness the wilderness awaken as you track predators and herbivores during their most active hours. From Bengal tigers in Indian reserves to African lions on the savannah.
+                  {t('experience.dawnDesc')}
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -68,11 +71,11 @@ export default function ExperiencePage() {
             <div className={`${styles.timelineItem} ${styles.timelineItemReverse}`}>
               <div className={styles.timelineContent}>
                 <div className={styles.timelineTime}>
-                  <Binoculars size={20} /> Wildlife Tracking
+                  <Binoculars size={20} /> {t('experience.wildlifeTracking')}
                 </div>
-                <h3 className={styles.timelineHeading}>Expert-Led Expeditions</h3>
+                <h3 className={styles.timelineHeading}>{t('experience.trackingTitle')}</h3>
                 <p className={styles.timelineText}>
-                  Learn from experienced naturalists who read the forest like a book. Identify pugmarks, alarm calls, and behavioral patterns of leopards, elephants, rhinos, and more.
+                  {t('experience.trackingDesc')}
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -86,11 +89,11 @@ export default function ExperiencePage() {
             <div className={styles.timelineItem}>
               <div className={styles.timelineContent}>
                 <div className={styles.timelineTime}>
-                  <Coffee size={20} /> Bush Dining
+                  <Coffee size={20} /> {t('experience.bushDining')}
                 </div>
-                <h3 className={styles.timelineHeading}>Culinary Adventures</h3>
+                <h3 className={styles.timelineHeading}>{t('experience.bushDiningTitle')}</h3>
                 <p className={styles.timelineText}>
-                  Savor authentic local cuisines in stunning natural settings. From traditional Indian dishes to African-inspired menus, every meal celebrates regional heritage.
+                  {t('experience.bushDiningDesc')}
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -104,11 +107,11 @@ export default function ExperiencePage() {
             <div className={`${styles.timelineItem} ${styles.timelineItemReverse}`}>
               <div className={styles.timelineContent}>
                 <div className={styles.timelineTime}>
-                  <Flame size={20} /> Night Experiences
+                  <Flame size={20} /> {t('experience.nightExperiences')}
                 </div>
-                <h3 className={styles.timelineHeading}>After Dark Magic</h3>
+                <h3 className={styles.timelineHeading}>{t('experience.nightTitle')}</h3>
                 <p className={styles.timelineText}>
-                  Campfire stories under star-studded skies, night safaris to spot nocturnal wildlife, and the symphony of the wilderness after sunset.
+                  {t('experience.nightDesc')}
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -125,18 +128,18 @@ export default function ExperiencePage() {
           <div className={styles.momentsContainer}>
             <div className={styles.momentsHeader}>
               <h2 className={styles.momentsTitle}>
-                Curated<br/>Moments
+                {t('experience.momentsTitle')}
               </h2>
               <p className={styles.momentsSubtitle}>
-                We don&apos;t just book rooms. We architect experiences that engage every sense.
+                {t('experience.momentsSubtitle')}
               </p>
             </div>
 
             <div className={styles.momentsGrid}>
               {[
-                { title: "Private Tracking", icon: <Compass size={32} />, img: "https://images.unsplash.com/photo-1551009175-8a68da93d5f9?auto=format&fit=crop&q=80&w=600" },
-                { title: "Star Beds", icon: <Moon size={32} />, img: "https://images.unsplash.com/photo-1519055548599-6d4d129508c4?auto=format&fit=crop&q=80&w=600" },
-                { title: "Bush Dining", icon: <Utensils size={32} />, img: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=80&w=600" },
+                { title: t('experience.privateTracking'), icon: <Compass size={32} />, img: "https://images.unsplash.com/photo-1551009175-8a68da93d5f9?auto=format&fit=crop&q=80&w=600" },
+                { title: t('experience.starBeds'), icon: <Moon size={32} />, img: "https://images.unsplash.com/photo-1519055548599-6d4d129508c4?auto=format&fit=crop&q=80&w=600" },
+                { title: t('experience.bushDiningMoment'), icon: <Utensils size={32} />, img: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&q=80&w=600" },
               ].map((item, i) => (
                 <div key={i} className={styles.momentCard}>
                   <img src={item.img} className={styles.momentImage} alt={item.title} />
@@ -149,7 +152,7 @@ export default function ExperiencePage() {
                       {item.title}
                     </h3>
                     <div className={styles.momentDiscover}>
-                      <span>Discover</span>
+                      <span>{t('experience.discover')}</span>
                     </div>
                   </div>
                 </div>
@@ -162,12 +165,12 @@ export default function ExperiencePage() {
         <section className={styles.ctaSection}>
           <div className={styles.ctaContainer}>
             <div className={styles.ctaContent}>
-              <h2 className={styles.ctaTitle}>Ready to feel it?</h2>
+              <h2 className={styles.ctaTitle}>{t('experience.ctaTitle')}</h2>
               <p className={styles.ctaSubtitle}>
-                Let us curate a bespoke itinerary that matches your rhythm of the wild.
+                {t('experience.ctaSubtitle')}
               </p>
               <Link href="/basecamps" className={styles.ctaButton}>
-                Explore Basecamps
+                {t('experience.ctaButton')}
               </Link>
             </div>
           </div>
