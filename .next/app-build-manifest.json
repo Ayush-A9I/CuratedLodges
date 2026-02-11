@@ -23,6 +23,17 @@
       "static/chunks/main-app.js",
       "static/css/app/park/[region]/[park]/page.css",
       "static/chunks/app/park/[region]/[park]/page.js"
+    ],
+    "/park/[region]/[park]/[lodge]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/park/[region]/[park]/[lodge]/page.css",
+      "static/chunks/app/park/[region]/[park]/[lodge]/page.js"
+    ],
+    "/park/[region]/[park]/[lodge]/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/park/[region]/[park]/[lodge]/layout.js"
     ]
   }
 }

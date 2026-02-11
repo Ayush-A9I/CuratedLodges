@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import SearchBox from '../domain/SearchBox';
+import { lodgesData } from '@/data/mock/LodgeData';
 import styles from './ParkPageHeader.module.css';
 
 interface ParkPageHeaderProps {
@@ -13,6 +15,49 @@ interface ParkPageHeaderProps {
 const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState<string>(region);
+  const [selectedPark, setSelectedPark] = useState<string>(park);
+
+  const regions = [
+    { value: 'india', label: 'India' },
+    { value: 'africa', label: 'Africa' }
+  ];
+
+  const getNationalParks = () => {
+    if (!selectedRegion) return [];
+    const regionData = lodgesData[selectedRegion as keyof typeof lodgesData];
+    if (!regionData) return [];
+    return Object.keys(regionData).map(parkName => ({
+      value: parkName,
+      label: parkName
+    }));
+  };
+
+  const createSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  const handleSearch = () => {
+    if (selectedRegion && selectedPark) {
+      window.location.href = `/park/${selectedRegion}/${createSlug(selectedPark)}`;
+      setIsEditModalOpen(false);
+    }
+  };
+
+  const handleClearAll = () => {
+    setSelectedRegion('');
+    setSelectedPark('');
+  };
+
+  const handleSearchClick = () => {
+    // Only open modal on mobile screens (768px and below)
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      setIsEditModalOpen(true);
+    }
+  };
 
   // Prevent body scroll when mobile menu or edit modal is open
   useEffect(() => {
@@ -49,7 +94,7 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
         </button>
 
         {/* Mobile Compact Search Display */}
-        <div className={styles.mobileSearchDisplay} onClick={() => setIsEditModalOpen(true)}>
+        <div className={styles.mobileSearchDisplay} onClick={handleSearchClick}>
           <div className={styles.mobileSearchContent}>
             <div className={styles.mobileRegion}>{region || 'Select region'}</div>
             <div className={styles.mobilePark}>{formatParkName(park) || 'Select park'}</div>
@@ -64,8 +109,8 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
           <div className={styles.poweredBy}>Powered by Junglore</div>
         </div>
         
-        {/* Integrated Search Box - Desktop */}
-        <div className={styles.searchWrapper}>
+        {/* Integrated Search Box - Desktop - Clickable to open modal */}
+        <div className={styles.searchWrapper} onClick={handleSearchClick}>
           <SearchBox initialRegion={region} initialPark={park} compact={true} />
         </div>
 
@@ -123,57 +168,78 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
         </>
       )}
 
-      {/* Edit Details Modal - Mobile Only */}
-      {isEditModalOpen && (
+      {/* Edit Details Modal - Rendered via Portal to overlay entire page */}
+      {isEditModalOpen && typeof document !== 'undefined' && createPortal(
         <>
           <div className={styles.modalOverlay} onClick={() => setIsEditModalOpen(false)}></div>
           <div className={styles.editModal}>
             <div className={styles.modalHandle}></div>
+            <h2 className={styles.modalTitle}>Edit Details</h2>
+            
             <div className={styles.modalContent}>
-              <h2 className={styles.modalTitle}>Edit Details</h2>
-              
-              <div className={styles.fieldGroup}>
-                <div className={styles.fieldIcon}>📍</div>
-                <div className={styles.fieldContent}>
-                  <label className={styles.fieldLabel}>Destination</label>
-                  <input 
-                    type="text" 
-                    className={styles.fieldInput}
-                    defaultValue={park}
-                    placeholder="Search Location"
-                  />
+              {/* Select Region Section */}
+              <div className={styles.simpleSection}>
+                <label className={styles.sectionLabel}>Select Region</label>
+                <div className={styles.optionsGrid}>
+                  {regions.map((regionItem) => (
+                    <button
+                      key={regionItem.value}
+                      className={`${styles.optionButton} ${selectedRegion === regionItem.value ? styles.optionButtonActive : ''}`}
+                      onClick={() => {
+                        setSelectedRegion(regionItem.value);
+                        setSelectedPark('');
+                      }}
+                    >
+                      {regionItem.label}
+                      {selectedRegion === regionItem.value && (
+                        <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                          <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </button>
+                  ))}
                 </div>
-                <button className={styles.fieldArrow}>▲</button>
               </div>
 
-              <div className={styles.fieldGroup}>
-                <div className={styles.fieldIcon}>📅</div>
-                <div className={styles.fieldContent}>
-                  <label className={styles.fieldLabel}>Dates</label>
-                  <div className={styles.fieldCollapsed}>Checkin - Checkout, 1 Guests</div>
+              {/* Select National Park Section */}
+              {selectedRegion && (
+                <div className={styles.simpleSection}>
+                  <label className={styles.sectionLabel}>Select National Park</label>
+                  <div className={styles.optionsGrid}>
+                    {getNationalParks().map((parkItem) => (
+                      <button
+                        key={parkItem.value}
+                        className={`${styles.optionButton} ${selectedPark === parkItem.value ? styles.optionButtonActive : ''}`}
+                        onClick={() => setSelectedPark(parkItem.value)}
+                      >
+                        {parkItem.label}
+                        {selectedPark === parkItem.value && (
+                          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                            <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <button className={styles.fieldArrow}>▼</button>
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <div className={styles.fieldIcon}>👤</div>
-                <div className={styles.fieldContent}>
-                  <label className={styles.fieldLabel}>Guests</label>
-                </div>
-                <button className={styles.fieldArrow}>▼</button>
-              </div>
+              )}
             </div>
             
             <div className={styles.modalActions}>
-              <button className={styles.clearButton} onClick={() => setIsEditModalOpen(false)}>
+              <button className={styles.clearButton} onClick={handleClearAll}>
                 Clear All
               </button>
-              <button className={styles.searchButton}>
+              <button 
+                className={`${styles.searchButton} ${(!selectedRegion || !selectedPark) ? styles.disabled : ''}`}
+                onClick={handleSearch}
+                disabled={!selectedRegion || !selectedPark}
+              >
                 Search
               </button>
             </div>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </header>
   );

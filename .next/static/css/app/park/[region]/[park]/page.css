@@ -354,6 +354,22 @@
   justify-content: center;
 }
 
+/* Make search wrapper clickable only on mobile */
+@media (max-width: 768px) {
+  .ParkPageHeader_searchWrapper__Waqr4 {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4:hover {
+    opacity: 0.85;
+  }
+
+  .ParkPageHeader_searchWrapper__Waqr4:active {
+    opacity: 0.7;
+  }
+}
+
 /* Make search box much more compact in park page header */
 .ParkPageHeader_searchWrapper__Waqr4 .searchBox {
   max-width: 550px;
@@ -361,6 +377,13 @@
   border-radius: 30px;
   transform: scale(0.75);
   transform-origin: center;
+}
+
+/* Disable pointer events only on mobile since wrapper handles clicks */
+@media (max-width: 768px) {
+  .ParkPageHeader_searchWrapper__Waqr4 .searchBox {
+    pointer-events: none;
+  }
 }
 
 .ParkPageHeader_searchWrapper__Waqr4 .selectGroup {
@@ -439,8 +462,9 @@
 /* Mobile Compact Search Display - Hidden on desktop */
 .ParkPageHeader_mobileSearchDisplay__c92Cs {
   display: none;
-  flex: 1;
-  max-width: none;
+  flex: 0 0 auto;
+  width: 180px;
+  max-width: 180px;
   cursor: pointer;
 }
 
@@ -452,6 +476,7 @@
   flex-direction: column;
   gap: 0.25rem;
   transition: background 0.3s ease;
+  width: 100%;
 }
 
 .ParkPageHeader_mobileSearchDisplay__c92Cs:active .ParkPageHeader_mobileSearchContent__lCpxd {
@@ -632,7 +657,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1100;
+  z-index: 9998;
   animation: ParkPageHeader_fadeIn__VNHML 0.5s ease-out;
 }
 
@@ -642,14 +667,39 @@
   left: 0;
   right: 0;
   background: #FFFFFF;
-  border-radius: 32px 32px 0 0;
-  z-index: 1101;
-  animation: ParkPageHeader_slideUpModal___8h1P 0.5s ease-out;
+  border-radius: 16px 16px 0 0;
+  z-index: 9999;
+  animation: ParkPageHeader_slideUpModal___8h1P 0.3s ease-out;
   height: auto;
-  max-height: 60vh;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  max-height: 90vh;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
+}
+
+/* Desktop modal improvements */
+@media (min-width: 769px) {
+  .ParkPageHeader_editModal__qC_AS {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 500px;
+    border-radius: 16px;
+    bottom: auto;
+    top: 50%;
+    animation: ParkPageHeader_slideUpCenterModal__oAQun 0.3s ease-out;
+    max-height: 85vh;
+  }
+
+  @keyframes ParkPageHeader_slideUpCenterModal__oAQun {
+    from {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 20px));
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
 }
 
 @keyframes ParkPageHeader_slideUpModal___8h1P {
@@ -665,27 +715,30 @@
 
 .ParkPageHeader_modalHandle__RMYbU {
   width: 48px;
-  height: 6px;
-  background: #E5E7EB;
-  border-radius: 3px;
-  margin: 16px auto;
+  height: 4px;
+  background: #5A8A7A;
+  border-radius: 2px;
+  margin: 12px auto 16px;
   flex-shrink: 0;
-}
-
-.ParkPageHeader_modalContent__kfHUe {
-  padding: 0 1.5rem 1rem;
-  overflow-y: auto;
-  flex: 1 1 auto;
-  min-height: 0;
 }
 
 .ParkPageHeader_modalTitle___mBsU {
   font-family: 'DM Sans', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: 1.375rem;
+  font-weight: 600;
+  font-style: normal;
   color: #1E2D27;
-  margin: 0 0 1.25rem 0;
   text-align: center;
+  margin: 0 0 1.5rem 0;
+  padding: 0 1.5rem;
+}
+
+.ParkPageHeader_modalContent__kfHUe {
+  padding: 0 1.5rem 1.5rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: #FFFFFF;
 }
 
 .ParkPageHeader_fieldGroup__GeEjc {
@@ -774,55 +827,278 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #E8E8E8;
   background: #FFFFFF;
-  border-radius: 0 0 32px 32px;
   flex-shrink: 0;
+  margin-top: auto;
 }
 
 .ParkPageHeader_clearButton__MzLH3 {
   font-family: 'DM Sans', sans-serif;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background: transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
   color: #1E2D27;
+  background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 0.5rem;
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .ParkPageHeader_clearButton__MzLH3:active {
-  color: #F1663F;
+  opacity: 0.7;
 }
 
 .ParkPageHeader_searchButton__MCTw6 {
   font-family: 'DM Sans', sans-serif;
-  padding: 1rem 2.5rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  background: #1E2D27;
   color: #FFFFFF;
+  background: #1E2D27;
   border: none;
+  border-radius: 50px;
+  padding: 0.875rem 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .ParkPageHeader_searchButton__MCTw6:active {
-  background: #000000;
+  transform: scale(0.98);
 }
 
-/* Hide edit modal on desktop and tablet */
-@media (min-width: 769px) {
-  .ParkPageHeader_editModal__qC_AS,
-  .ParkPageHeader_modalOverlay__JLt7E {
-    display: none !important;
+.ParkPageHeader_searchButton__MCTw6.ParkPageHeader_disabled__giELt {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Accordion Styles */
+.ParkPageHeader_accordionSection__3cFUK {
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.ParkPageHeader_accordionHeader__HB8DT {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.25rem 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ParkPageHeader_accordionHeader__HB8DT:active {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.ParkPageHeader_accordionLabel__o5_Hl {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1E2D27;
+}
+
+.ParkPageHeader_accordionIcon__OCtGl {
+  font-size: 1.125rem;
+}
+
+.ParkPageHeader_accordionValue__WSd7_ {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6B7B75;
+  margin-left: 0.5rem;
+}
+
+.ParkPageHeader_accordionArrow__GXpY_ {
+  color: #9CA3A0;
+  transition: transform 0.2s ease;
+}
+
+.ParkPageHeader_accordionArrow__GXpY_.ParkPageHeader_expanded__XBs03 {
+  transform: rotate(180deg);
+}
+
+.ParkPageHeader_accordionContent__ggOxG {
+  padding: 0 0 1.25rem;
+  animation: ParkPageHeader_accordionOpen__o2xIE 0.2s ease;
+}
+
+@keyframes ParkPageHeader_accordionOpen__o2xIE {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.ParkPageHeader_accordionSubSection__kScpd {
+  margin-bottom: 1rem;
+}
+
+.ParkPageHeader_accordionSubSection__kScpd:last-child {
+  margin-bottom: 0;
+}
+
+.ParkPageHeader_accordionSubLabel__UROO1 {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9CA3A0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.ParkPageHeader_accordionOptions__6jiiG {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ParkPageHeader_accordionOption__swWVm {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1E2D27;
+  background: #F8F8F8;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  padding: 0.875rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ParkPageHeader_accordionOption__swWVm:active {
+  transform: scale(0.98);
+}
+
+.ParkPageHeader_accordionOptionActive__GAG91 {
+  background: #FFF5F0;
+  border-color: #F1663F;
+  color: #F1663F;
+  font-weight: 600;
+}
+
+.ParkPageHeader_accordionOption__swWVm svg {
+  color: #F1663F;
+  flex-shrink: 0;
+}
+
+.ParkPageHeader_comingSoon__xfB2A {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  color: #9CA3A0;
+  font-style: italic;
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+/* Simple Section Styles (non-accordion) */
+.ParkPageHeader_simpleSection__R0wtd {
+  margin-bottom: 2rem;
+}
+
+.ParkPageHeader_sectionLabel__j8_lF {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1E2D27;
+  display: block;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ParkPageHeader_optionsGrid__44QyO {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.ParkPageHeader_optionsGrid__44QyO::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ParkPageHeader_optionsGrid__44QyO::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.ParkPageHeader_optionsGrid__44QyO::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.ParkPageHeader_optionsGrid__44QyO::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.ParkPageHeader_optionButton__kOYPT {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1E2D27;
+  background: #F8F8F8;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ParkPageHeader_optionButton__kOYPT:hover {
+  background: #F0F0F0;
+  border-color: #E0E0E0;
+}
+
+.ParkPageHeader_optionButton__kOYPT:active {
+  transform: scale(0.98);
+}
+
+.ParkPageHeader_optionButtonActive__HaBTz {
+  background: #FFFFFF;
+  border-color: #F1663F;
+  color: #F1663F;
+  font-weight: 600;
+}
+
+.ParkPageHeader_optionButtonActive__HaBTz svg {
+  stroke: #F1663F;
+}
+
+.ParkPageHeader_optionButton__kOYPT svg {
+  flex-shrink: 0;
+}
+
+
+/* Allow edit modal on all screen sizes */
+/* @media (min-width: 769px) {
+  .editModal,
+  .modalOverlay {
+    display: none;
+  }
+} */
 
 /* Responsive Design */
 @media (max-width: 1200px) {
@@ -898,6 +1174,7 @@
     display: flex;
     grid-column: 2;
     justify-content: center;
+    margin: 0 auto;
   }
 
   .ParkPageHeader_actions__zEZaY {
