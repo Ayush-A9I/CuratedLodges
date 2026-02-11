@@ -16,7 +16,8 @@
     "next": "^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-i18next": "^16.5.4"
+    "react-i18next": "^16.5.4",
+    "axios": "^1.13.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
