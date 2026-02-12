@@ -7,13 +7,32 @@ import FeaturesSection from '../components/domain/FeaturesSection'
 import LodgeCard from '../components/domain/LodgeCard'
 import Testimonials from '../components/domain/Testimonials'
 import HouseOfJunglore from '../components/domain/HouseOfJunglore'
-import { lodgeCardsData } from '../data/lodgeCards'
+import { lodgesData } from '../data/mock/LodgeData'
 import { fieldNotesData } from '../data/mock/FieldNotesData'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
 export default function Home() {
   const { t } = useTranslation();
+  
+  // Collect all lodges from all regions and parks
+  const allLodges = Object.entries(lodgesData).flatMap(([region, parks]) =>
+    Object.entries(parks).flatMap(([parkName, parkData]) =>
+      parkData.lodges.map(lodge => ({
+        ...lodge,
+        parkName,
+        region,
+      }))
+    )
+  );
+
+  // Helper function to create URL-friendly slugs
+  const createSlug = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
   
   return (
     <>
@@ -84,21 +103,30 @@ export default function Home() {
             <div className="relative">
               <div className="overflow-x-auto pb-4 scrollbar-hide">
                 <div className="flex gap-6 min-w-min">
-                  {lodgeCardsData.map((lodge) => (
-                    <div key={lodge.id} className="flex-shrink-0 w-[400px]">
-                      <LodgeCard
-                        image={lodge.image}
-                        images={lodge.images}
-                        title={lodge.title}
-                        location={lodge.location}
-                        rating={lodge.rating}
-                        price={lodge.price}
-                        link={lodge.link}
-                        amenities={lodge.amenities}
-                        ecoCertified={lodge.ecoCertified}
-                      />
-                    </div>
-                  ))}
+                  {allLodges.map((lodge) => {
+                    // Get the minimum price from room types or fall back to pricePerNight
+                    const minPrice = lodge.roomTypes && lodge.roomTypes.length > 0
+                      ? Math.min(...lodge.roomTypes.map(room => room.price))
+                      : lodge.pricePerNight;
+
+                    const lodgeUrl = `/park/${lodge.region}/${createSlug(lodge.parkName)}/${createSlug(lodge.name)}`;
+
+                    return (
+                      <div key={lodge.id} className="flex-shrink-0 w-[400px]">
+                        <LodgeCard
+                          image={lodge.image}
+                          images={lodge.images || [lodge.image]}
+                          title={lodge.name}
+                          location={lodge.location}
+                          rating={lodge.rating}
+                          price={minPrice}
+                          link={lodgeUrl}
+                          amenities={lodge.amenities}
+                          ecoCertified={lodge.ecoCertified}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

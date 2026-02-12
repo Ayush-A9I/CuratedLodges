@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { Globe, DollarSign } from 'lucide-react';
+import { useLocalization } from '@/contexts/LocalizationContext';
 import SearchBox from '../domain/SearchBox';
 import { lodgesData } from '@/data/mock/LodgeData';
 import styles from './ParkPageHeader.module.css';
@@ -17,6 +19,7 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<string>(region);
   const [selectedPark, setSelectedPark] = useState<string>(park);
+  const { setIsModalOpen, currency, language } = useLocalization();
 
   const regions = [
     { value: 'india', label: 'India' },
@@ -129,6 +132,17 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
 
         {/* Right Action Button */}
         <div className={styles.actions}>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className={styles.localizationButton}
+            aria-label="Change language and currency"
+          >
+            <Globe size={18} />
+            <span>{language.toUpperCase()}</span>
+            <span style={{ margin: '0 4px', opacity: 0.5 }}>•</span>
+            <DollarSign size={18} />
+            <span>{currency}</span>
+          </button>
           <a href="/signin" className={styles.signInButton}>
             Sign In 
           </a>
@@ -160,6 +174,19 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
               <Link href="/field-notes" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
                 Field Notes
               </Link>
+              <button 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsModalOpen(true);
+                }}
+                className={styles.mobileNavLink}
+              >
+                <Globe size={18} />
+                <span>{language.toUpperCase()}</span>
+                <span style={{ margin: '0 8px', opacity: 0.5 }}>•</span>
+                <DollarSign size={18} />
+                <span>{currency}</span>
+              </button>
               <Link href="/signin" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
                 Sign In
               </Link>
