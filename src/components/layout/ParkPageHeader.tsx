@@ -20,6 +20,11 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
   const [selectedRegion, setSelectedRegion] = useState<string>(region);
   const [selectedPark, setSelectedPark] = useState<string>(park);
   const { setIsModalOpen, currency, language } = useLocalization();
+  
+  // Drag-to-close state
+  const [dragStartY, setDragStartY] = useState<number>(0);
+  const [dragOffset, setDragOffset] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const regions = [
     { value: 'india', label: 'India' },
@@ -74,6 +79,14 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
     };
   }, [isMobileMenuOpen, isEditModalOpen]);
 
+  // Reset drag state when modal closes
+  useEffect(() => {
+    if (!isEditModalOpen) {
+      setDragOffset(0);
+      setIsDragging(false);
+    }
+  }, [isEditModalOpen]);
+
   const handleBack = () => {
     window.history.back();
   };
@@ -84,6 +97,41 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
       return name.substring(0, 25) + '...';
     }
     return name;
+  };
+
+  // Drag-to-close handlers for mobile modal
+  const handleTouchStart = (e: React.TouchEvent) => {
+    // Only enable dragging on mobile screens
+    if (typeof window !== 'undefined' && window.innerWidth > 768) return;
+    
+    setDragStartY(e.touches[0].clientY);
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || typeof window === 'undefined' || window.innerWidth > 768) return;
+    
+    const currentY = e.touches[0].clientY;
+    const diff = currentY - dragStartY;
+    
+    // Only allow dragging downward
+    if (diff > 0) {
+      setDragOffset(diff);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    setIsDragging(false);
+    
+    // Close modal if dragged down more than 150px
+    if (dragOffset > 150) {
+      setIsEditModalOpen(false);
+    }
+    
+    // Reset drag offset (will animate back to position if not closed)
+    setDragOffset(0);
   };
 
   return (
@@ -198,8 +246,24 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
       {/* Edit Details Modal - Rendered via Portal to overlay entire page */}
       {isEditModalOpen && typeof document !== 'undefined' && createPortal(
         <>
-          <div className={styles.modalOverlay} onClick={() => setIsEditModalOpen(false)}></div>
-          <div className={styles.editModal}>
+          <div 
+            className={styles.modalOverlay} 
+            onClick={() => setIsEditModalOpen(false)}
+            style={{
+              opacity: dragOffset > 0 ? Math.max(0, 1 - dragOffset / 300) : 1,
+              transition: isDragging ? 'none' : 'opacity 0.3s ease-out'
+            }}
+          ></div>
+          <div 
+            className={styles.editModal}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            style={{
+              transform: `translateY(${dragOffset}px)`,
+              transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+            }}
+          >
             <div className={styles.modalHandle}></div>
             <h2 className={styles.modalTitle}>Edit Details</h2>
             

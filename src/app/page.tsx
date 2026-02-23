@@ -112,7 +112,7 @@ export default function Home() {
                     const lodgeUrl = `/park/${lodge.region}/${createSlug(lodge.parkName)}/${createSlug(lodge.name)}`;
 
                     return (
-                      <div key={lodge.id} className="flex-shrink-0 w-[400px]">
+                      <div key={lodge.id} className="flex-shrink-0 w-[380px] md:w-[400px]">
                         <LodgeCard
                           image={lodge.image}
                           images={lodge.images || [lodge.image]}
@@ -128,6 +128,16 @@ export default function Home() {
                     );
                   })}
                 </div>
+              </div>
+              
+              {/* Swipe indicator - Mobile only */}
+              <div className="md:hidden text-center mt-4">
+                <p className="text-sm text-[#6B7B75] font-light flex items-center justify-center gap-2">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                  Swipe left to view collection
+                </p>
               </div>
             </div>
           </div>
