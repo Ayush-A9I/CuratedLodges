@@ -1075,7 +1075,7 @@ export default function LodgeDetailPage() {
                   )}
                 </div>
 
-                {/* Complete Reservation Button */}
+                {/* Desktop Complete Button */}
                 <button 
                   className={styles.checkoutCompleteBtn}
                   disabled={!checkoutCheckIn || !checkoutCheckOut || !checkoutRoomType || (naturalistSessions > 0 && getTotalAllocated() < naturalistSessions)}
@@ -1083,6 +1083,32 @@ export default function LodgeDetailPage() {
                 >
                   Complete Reservation 
                 </button>
+
+                {/* Mobile Total Amount Bar with Button */}
+                <div className={styles.checkoutMobileTotal}>
+                  <div className={styles.checkoutMobileInfo}>
+                    <div className={styles.checkoutMobilePriceRow}>
+                      <span className={styles.checkoutMobilePrice}>
+                        {(checkoutRoomType || (selectedNaturalist && naturalistSessions > 0)) 
+                          ? convertPrice(calculateTotal()) 
+                          : convertPrice(0)}
+                      </span>
+                      <span className={styles.checkoutMobileTaxNote}>Incl. Taxes</span>
+                    </div>
+                    {checkoutCheckIn && checkoutCheckOut && (
+                      <div className={styles.checkoutMobileDates}>
+                        {formatDateRange(checkoutCheckIn, checkoutCheckOut)} • {calculateNights()} Night{calculateNights() !== 1 ? 's' : ''}
+                      </div>
+                    )}
+                  </div>
+                  <button 
+                    className={styles.checkoutMobileBtn}
+                    disabled={!checkoutCheckIn || !checkoutCheckOut || !checkoutRoomType || (naturalistSessions > 0 && getTotalAllocated() < naturalistSessions)}
+                    onClick={() => setCheckoutStep('personal')}
+                  >
+                    Book Now
+                  </button>
+                </div>
                   </>
                 )}
 
@@ -1161,6 +1187,7 @@ export default function LodgeDetailPage() {
                         />
                       </div>
 
+                      {/* Desktop Proceed to Pay Button */}
                       <button 
                         className={styles.proceedToPayBtn}
                         disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone}
@@ -1172,6 +1199,36 @@ export default function LodgeDetailPage() {
                       >
                         Proceed to Pay
                       </button>
+
+                      {/* Mobile Total Amount Bar with Button */}
+                      <div className={styles.checkoutMobileTotal}>
+                        <div className={styles.checkoutMobileInfo}>
+                          <div className={styles.checkoutMobilePriceRow}>
+                            <span className={styles.checkoutMobilePrice}>
+                              {(checkoutRoomType || (selectedNaturalist && naturalistSessions > 0)) 
+                                ? convertPrice(calculateTotal()) 
+                                : convertPrice(0)}
+                            </span>
+                            <span className={styles.checkoutMobileTaxNote}>Incl. Taxes</span>
+                          </div>
+                          {checkoutCheckIn && checkoutCheckOut && (
+                            <div className={styles.checkoutMobileDates}>
+                              {formatDateRange(checkoutCheckIn, checkoutCheckOut)} • {calculateNights()} Night{calculateNights() !== 1 ? 's' : ''}
+                            </div>
+                          )}
+                        </div>
+                        <button 
+                          className={styles.checkoutMobileBtn}
+                          disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone}
+                          onClick={() => {
+                            const newBookingId = 'JL' + Date.now().toString().slice(-8);
+                            setBookingId(newBookingId);
+                            setCheckoutStep('confirmed');
+                          }}
+                        >
+                          Proceed to Pay
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}

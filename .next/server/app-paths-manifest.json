@@ -1,7 +1,6 @@
 {
-  "/basecamps/page": "app/basecamps/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/park/[region]/[park]/page": "app/park/[region]/[park]/page.js",
-  "/field-notes/page": "app/field-notes/page.js",
   "/park/[region]/[park]/[lodge]/page": "app/park/[region]/[park]/[lodge]/page.js"
 }

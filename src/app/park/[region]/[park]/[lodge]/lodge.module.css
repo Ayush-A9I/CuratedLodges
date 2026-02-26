@@ -2757,15 +2757,18 @@
 @media (max-width: 768px) {
   .floatingButton {
     bottom: 1.5rem;
-    left: 1rem;
-    right: 1rem;
-    transform: translateX(0);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: calc(100% - 2rem);
   }
 
   .floatingButtonContent {
-    width: 100%;
+    width: auto;
     justify-content: space-between;
     padding: 0.875rem 1.25rem;
+    min-width: 280px;
   }
 
   .floatingPrice {
@@ -2785,12 +2788,14 @@
 @media (max-width: 480px) {
   .floatingButton {
     bottom: 1rem;
-    left: 0.75rem;
-    right: 0.75rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 
   .floatingButtonContent {
     padding: 0.75rem 1rem;
+    min-width: 260px;
   }
 
   .floatingPrice {
@@ -3333,6 +3338,11 @@
   font-size: 0.85rem;
 }
 
+/* Mobile Total Amount Bar - Hidden on Desktop */
+.checkoutMobileTotal {
+  display: none;
+}
+
 /* Complete Button */
 .checkoutCompleteBtn {
   width: 100%;
@@ -3391,37 +3401,74 @@
 @media (max-width: 768px) {
   .checkoutModal {
     padding: 0;
-    align-items: flex-start;
+    align-items: flex-end;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      background: rgba(0, 0, 0, 0);
+    }
+    to {
+      background: rgba(0, 0, 0, 0.5);
+    }
   }
 
   .checkoutModalContent {
     max-width: 100%;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-    overflow-y: auto;
+    max-height: 92vh;
+    height: auto;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes slideUpModal {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Add drag handle at top of modal */
+  .checkoutModalContent::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #D0D0D0;
+    border-radius: 2px;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
   }
 
   .checkoutLeft {
-    width: 100%;
-    max-height: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    display: none;
   }
 
   .checkoutImage {
-    height: 160px;
+    height: 140px;
     object-fit: cover;
   }
 
   .checkoutSummary {
-    padding: 1.25rem 1rem;
+    padding: 1rem 1.25rem 1.25rem;
   }
 
   .checkoutLodgeName {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
   }
 
   .checkoutLocation {
@@ -3429,8 +3476,9 @@
   }
 
   .checkoutDates {
-    margin: 1rem 0;
-    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    gap: 0.35rem;
+    padding: 0.75rem;
   }
 
   .checkoutDateItem {
@@ -3438,50 +3486,66 @@
   }
 
   .checkoutPricing {
-    gap: 0.5rem;
+    gap: 0.65rem;
+    padding-top: 0.875rem;
   }
 
   .checkoutPriceRow {
-    font-size: 0.8rem;
-  }
-
-  .checkoutTotal {
-    padding-top: 0.75rem;
-    margin-top: 0.75rem;
-  }
-
-  .checkoutTotalLabel {
     font-size: 0.85rem;
   }
 
+  .checkoutTotal {
+    padding-top: 0.875rem;
+    margin-top: 0.875rem;
+  }
+
+  .checkoutTotalLabel {
+    font-size: 0.825rem;
+  }
+
   .checkoutTotalAmount {
-    font-size: 1.5rem;
+    font-size: 1.65rem;
+    font-weight: 700;
   }
 
   .checkoutClose {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 32px;
-    height: 32px;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
     font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0.95);
+    background: white;
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+  }
+
+  .checkoutClose:hover {
+    background: #f5f5f5;
   }
 
   .checkoutRight {
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1.25rem 12rem;
     width: 100%;
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
   }
 
   .checkoutTitle {
-    font-size: 1.25rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.35rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .checkoutSection {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .checkoutSection:last-of-type {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
   }
 
   .checkoutSectionHeader {
@@ -3511,53 +3575,62 @@
 
   .checkoutInputGroup input[type="date"],
   .checkoutInputGroup select {
-    padding: 0.875rem 0.75rem;
-    font-size: 0.875rem;
-    min-height: 44px;
+    padding: 0.95rem 0.875rem;
+    font-size: 16px;
+    min-height: 48px;
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
   }
 
   .checkoutInputGroup select {
-    padding-right: 2.25rem;
+    padding-right: 2.5rem;
+    margin-bottom: 1rem;
   }
 
   .checkoutGuestCounters {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.875rem;
   }
 
   .checkoutCounter {
-    padding: 0.75rem;
+    padding: 0.875rem;
+    border-radius: 12px;
   }
 
   .checkoutCounterLabel {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .checkoutCounterAge {
-    font-size: 0.725rem;
+    font-size: 0.75rem;
   }
 
   .checkoutCounterControls button {
-    width: 36px;
-    height: 36px;
-    font-size: 1.15rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    border-radius: 8px;
   }
 
   .checkoutCounterControls span {
-    min-width: 40px;
-    font-size: 1rem;
+    min-width: 44px;
+    font-size: 1.05rem;
   }
 
   .checkoutRoomOption {
-    padding: 0.875rem;
+    padding: 1rem;
+    border-radius: 12px;
+    min-height: 56px;
   }
 
   .checkoutRoomName {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
   .checkoutRoomPrice {
-    font-size: 0.8rem;
+    font-size: 0.825rem;
+    margin-top: 0.15rem;
   }
 
   .checkoutSessionCounter {
@@ -3569,6 +3642,7 @@
   .checkoutSchedule {
     padding: 1rem;
     margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 
   .checkoutDateSlot {
@@ -3579,20 +3653,105 @@
     font-size: 0.8rem;
   }
 
+  /* Mobile Total Amount Bar */
+  .checkoutMobileTotal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.25rem;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+  }
+
+  .checkoutMobileInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .checkoutMobilePriceRow {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .checkoutMobilePrice {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  .checkoutMobileTaxNote {
+    font-size: 0.7rem;
+    color: #666;
+  }
+
+  .checkoutMobileDates {
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .checkoutMobileBtn {
+    padding: 0.75rem 1.5rem;
+    background: #2c3e38;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .checkoutMobileBtn:disabled {
+    background: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+  }
+
+  .checkoutMobileBtn:not(:disabled):active {
+    transform: scale(0.98);
+  }
+
   .checkoutCompleteBtn {
-    padding: 0.95rem;
-    font-size: 0.9rem;
+    padding: 1rem;
+    font-size: 0.95rem;
     margin-top: 1.5rem;
-    position: sticky;
+    position: relative;
     bottom: 0;
     background: #2c3e38;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    z-index: 10;
+    display: none; /* Hide desktop button on mobile */
+  }
+
+  .checkoutCompleteBtn:not(:disabled):active {
+    transform: scale(0.98);
   }
 
   /* Personal Info Form */
+  .personalInfoForm {
+    margin-bottom: 4rem;
+    gap: 1rem;
+  }
+
   .formRow {
     grid-template-columns: 1fr;
+    gap: 0.875rem;
   }
 
   .formGroup input,
@@ -3600,6 +3759,10 @@
     padding: 0.875rem 0.875rem;
     font-size: 0.875rem;
     min-height: 44px;
+  }
+
+  .formGroup:last-child {
+    margin-bottom: 3rem;
   }
 
   .whatsappOption {
@@ -3616,13 +3779,7 @@
   }
 
   .proceedToPayBtn {
-    padding: 1rem;
-    font-size: 0.9rem;
-    position: sticky;
-    bottom: 0;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
-    margin-top: 0.75rem;
+    display: none; /* Hide desktop button on mobile */
   }
 }
 
@@ -3640,11 +3797,29 @@
   }
 
   .checkoutRight {
-    padding: 1rem 0.875rem;
+    padding: 1rem 0.875rem 11rem;
   }
 
   .checkoutTitle {
     font-size: 1.125rem;
+  }
+
+  .checkoutMobileTotal {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .checkoutMobilePrice {
+    font-size: 1.2rem;
+  }
+
+  .checkoutMobileDates {
+    font-size: 0.7rem;
+  }
+
+  .checkoutMobileBtn {
+    padding: 0.7rem 1.25rem;
+    font-size: 0.8rem;
   }
 
   .checkoutClose {
@@ -3663,6 +3838,11 @@
   .checkoutCounterControls button {
     width: 34px;
     height: 34px;
+  }
+
+  .checkoutSection:last-of-type {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
   }
 }
 
@@ -4370,6 +4550,11 @@
   }
 
   /* Personal Info Responsive */
+  .personalInfoForm {
+    margin-bottom: 3.5rem;
+    gap: 0.875rem;
+  }
+
   .checkoutBack {
     font-size: 1rem;
     margin-bottom: 1rem;
@@ -4381,12 +4566,17 @@
 
   .formRow {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
   .formGroup input,
   .formGroup textarea {
     font-size: 0.875rem;
     padding: 0.75rem 0.875rem;
+  }
+
+  .formGroup:last-child {
+    margin-bottom: 2.5rem;
   }
 
   .whatsappOption {

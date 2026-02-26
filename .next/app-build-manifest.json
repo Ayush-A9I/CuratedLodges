@@ -18,36 +18,6 @@
       "static/css/app/park/[region]/[park]/page.css",
       "static/chunks/app/park/[region]/[park]/page.js"
     ],
-    "/basecamps/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/basecamps/page.css",
-      "static/chunks/app/basecamps/page.js"
-    ],
-    "/experience/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/experience/page.css",
-      "static/chunks/app/experience/page.js"
-    ],
-    "/field-notes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/field-notes/page.css",
-      "static/chunks/app/field-notes/page.js"
-    ],
-    "/signin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/signin/page.css",
-      "static/chunks/app/signin/page.js"
-    ],
-    "/forgot-password/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/forgot-password/page.css",
-      "static/chunks/app/forgot-password/page.js"
-    ],
     "/park/[region]/[park]/[lodge]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

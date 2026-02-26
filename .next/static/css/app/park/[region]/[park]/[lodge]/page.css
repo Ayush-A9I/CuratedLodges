@@ -3536,15 +3536,18 @@
 @media (max-width: 768px) {
   .lodge_floatingButton__hDV43 {
     bottom: 1.5rem;
-    left: 1rem;
-    right: 1rem;
-    transform: translateX(0);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: calc(100% - 2rem);
   }
 
   .lodge_floatingButtonContent__doU0l {
-    width: 100%;
+    width: auto;
     justify-content: space-between;
     padding: 0.875rem 1.25rem;
+    min-width: 280px;
   }
 
   .lodge_floatingPrice__ryGwv {
@@ -3564,12 +3567,14 @@
 @media (max-width: 480px) {
   .lodge_floatingButton__hDV43 {
     bottom: 1rem;
-    left: 0.75rem;
-    right: 0.75rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 
   .lodge_floatingButtonContent__doU0l {
     padding: 0.75rem 1rem;
+    min-width: 260px;
   }
 
   .lodge_floatingPrice__ryGwv {
@@ -4115,6 +4120,11 @@
   font-size: 0.85rem;
 }
 
+/* Mobile Total Amount Bar - Hidden on Desktop */
+.lodge_checkoutMobileTotal__MJTVR {
+  display: none;
+}
+
 /* Complete Button */
 .lodge_checkoutCompleteBtn__bxZnZ {
   width: 100%;
@@ -4173,38 +4183,75 @@
 @media (max-width: 768px) {
   .lodge_checkoutModal__dX5OY {
     padding: 0;
-    align-items: flex-start;
+    align-items: flex-end;
+    animation: lodge_modalFadeIn__fqCyR 0.3s ease-out;
+  }
+
+  @keyframes lodge_modalFadeIn__fqCyR {
+    from {
+      background: rgba(0, 0, 0, 0);
+    }
+    to {
+      background: rgba(0, 0, 0, 0.5);
+    }
   }
 
   .lodge_checkoutModalContent__kNskm {
     max-width: 100%;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-    overflow-y: auto;
+    max-height: 92vh;
+    height: auto;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: lodge_slideUpModal__ZajYs 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes lodge_slideUpModal__ZajYs {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Add drag handle at top of modal */
+  .lodge_checkoutModalContent__kNskm::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #D0D0D0;
+    border-radius: 2px;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
   }
 
   .lodge_checkoutLeft__dlwUy {
-    width: 100%;
-    max-height: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    display: none;
   }
 
   .lodge_checkoutImage__844OC {
-    height: 160px;
+    height: 140px;
     -o-object-fit: cover;
        object-fit: cover;
   }
 
   .lodge_checkoutSummary__w4Ncj {
-    padding: 1.25rem 1rem;
+    padding: 1rem 1.25rem 1.25rem;
   }
 
   .lodge_checkoutLodgeName__yp_Aq {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
   }
 
   .lodge_checkoutLocation__WJX0L {
@@ -4212,8 +4259,9 @@
   }
 
   .lodge_checkoutDates__zHXAe {
-    margin: 1rem 0;
-    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    gap: 0.35rem;
+    padding: 0.75rem;
   }
 
   .lodge_checkoutDateItem__pWvMc {
@@ -4221,50 +4269,66 @@
   }
 
   .lodge_checkoutPricing__cKgUW {
-    gap: 0.5rem;
+    gap: 0.65rem;
+    padding-top: 0.875rem;
   }
 
   .lodge_checkoutPriceRow__SD2jp {
-    font-size: 0.8rem;
-  }
-
-  .lodge_checkoutTotal__iEIz_ {
-    padding-top: 0.75rem;
-    margin-top: 0.75rem;
-  }
-
-  .lodge_checkoutTotalLabel__p3atX {
     font-size: 0.85rem;
   }
 
+  .lodge_checkoutTotal__iEIz_ {
+    padding-top: 0.875rem;
+    margin-top: 0.875rem;
+  }
+
+  .lodge_checkoutTotalLabel__p3atX {
+    font-size: 0.825rem;
+  }
+
   .lodge_checkoutTotalAmount__b14HC {
-    font-size: 1.5rem;
+    font-size: 1.65rem;
+    font-weight: 700;
   }
 
   .lodge_checkoutClose__3A1dj {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 32px;
-    height: 32px;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
     font-size: 1.5rem;
-    background: rgba(255, 255, 255, 0.95);
+    background: white;
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    z-index: 101;
+  }
+
+  .lodge_checkoutClose__3A1dj:hover {
+    background: #f5f5f5;
   }
 
   .lodge_checkoutRight__KlcWI {
-    padding: 1.25rem 1rem;
+    padding: 1.5rem 1.25rem 12rem;
     width: 100%;
+    overflow-y: auto;
+    flex: 1;
+    position: relative;
   }
 
   .lodge_checkoutTitle__kgnAl {
-    font-size: 1.25rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.35rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .lodge_checkoutSection__O7qb2 {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .lodge_checkoutSection__O7qb2:last-of-type {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
   }
 
   .lodge_checkoutSectionHeader__GKdxo {
@@ -4294,53 +4358,62 @@
 
   .lodge_checkoutInputGroup__nSh5F input[type="date"],
   .lodge_checkoutInputGroup__nSh5F select {
-    padding: 0.875rem 0.75rem;
-    font-size: 0.875rem;
-    min-height: 44px;
+    padding: 0.95rem 0.875rem;
+    font-size: 16px;
+    min-height: 48px;
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.08);
   }
 
   .lodge_checkoutInputGroup__nSh5F select {
-    padding-right: 2.25rem;
+    padding-right: 2.5rem;
+    margin-bottom: 1rem;
   }
 
   .lodge_checkoutGuestCounters__LDgog {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.875rem;
   }
 
   .lodge_checkoutCounter__5taql {
-    padding: 0.75rem;
+    padding: 0.875rem;
+    border-radius: 12px;
   }
 
   .lodge_checkoutCounterLabel__QZW8o {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   .lodge_checkoutCounterAge__uPpDN {
-    font-size: 0.725rem;
+    font-size: 0.75rem;
   }
 
   .lodge_checkoutCounterControls__IHWue button {
-    width: 36px;
-    height: 36px;
-    font-size: 1.15rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    border-radius: 8px;
   }
 
   .lodge_checkoutCounterControls__IHWue span {
-    min-width: 40px;
-    font-size: 1rem;
+    min-width: 44px;
+    font-size: 1.05rem;
   }
 
   .lodge_checkoutRoomOption__BFUW9 {
-    padding: 0.875rem;
+    padding: 1rem;
+    border-radius: 12px;
+    min-height: 56px;
   }
 
   .lodge_checkoutRoomName__56_D1 {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
   .lodge_checkoutRoomPrice__cAsOr {
-    font-size: 0.8rem;
+    font-size: 0.825rem;
+    margin-top: 0.15rem;
   }
 
   .lodge_checkoutSessionCounter__C9Rof {
@@ -4352,6 +4425,7 @@
   .lodge_checkoutSchedule__2fTkb {
     padding: 1rem;
     margin-top: 1rem;
+    margin-bottom: 2rem;
   }
 
   .lodge_checkoutDateSlot__iUCzz {
@@ -4362,20 +4436,105 @@
     font-size: 0.8rem;
   }
 
+  /* Mobile Total Amount Bar */
+  .lodge_checkoutMobileTotal__MJTVR {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.25rem;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+  }
+
+  .lodge_checkoutMobileInfo__HzQNK {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .lodge_checkoutMobilePriceRow__Ws1kO {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .lodge_checkoutMobilePrice__Wkilu {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  .lodge_checkoutMobileTaxNote__3m3ek {
+    font-size: 0.7rem;
+    color: #666;
+  }
+
+  .lodge_checkoutMobileDates__js2ZN {
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .lodge_checkoutMobileBtn__K_K4j {
+    padding: 0.75rem 1.5rem;
+    background: #2c3e38;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .lodge_checkoutMobileBtn__K_K4j:disabled {
+    background: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+  }
+
+  .lodge_checkoutMobileBtn__K_K4j:not(:disabled):active {
+    transform: scale(0.98);
+  }
+
   .lodge_checkoutCompleteBtn__bxZnZ {
-    padding: 0.95rem;
-    font-size: 0.9rem;
+    padding: 1rem;
+    font-size: 0.95rem;
     margin-top: 1.5rem;
-    position: sticky;
+    position: relative;
     bottom: 0;
     background: #2c3e38;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    z-index: 10;
+    display: none; /* Hide desktop button on mobile */
+  }
+
+  .lodge_checkoutCompleteBtn__bxZnZ:not(:disabled):active {
+    transform: scale(0.98);
   }
 
   /* Personal Info Form */
+  .lodge_personalInfoForm__ZmDVx {
+    margin-bottom: 4rem;
+    gap: 1rem;
+  }
+
   .lodge_formRow__OdUVi {
     grid-template-columns: 1fr;
+    gap: 0.875rem;
   }
 
   .lodge_formGroup__6Aj7E input,
@@ -4383,6 +4542,10 @@
     padding: 0.875rem 0.875rem;
     font-size: 0.875rem;
     min-height: 44px;
+  }
+
+  .lodge_formGroup__6Aj7E:last-child {
+    margin-bottom: 3rem;
   }
 
   .lodge_whatsappOption__EnB71 {
@@ -4399,13 +4562,7 @@
   }
 
   .lodge_proceedToPayBtn__KNLHL {
-    padding: 1rem;
-    font-size: 0.9rem;
-    position: sticky;
-    bottom: 0;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 0;
-    margin-top: 0.75rem;
+    display: none; /* Hide desktop button on mobile */
   }
 }
 
@@ -4423,11 +4580,29 @@
   }
 
   .lodge_checkoutRight__KlcWI {
-    padding: 1rem 0.875rem;
+    padding: 1rem 0.875rem 11rem;
   }
 
   .lodge_checkoutTitle__kgnAl {
     font-size: 1.125rem;
+  }
+
+  .lodge_checkoutMobileTotal__MJTVR {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .lodge_checkoutMobilePrice__Wkilu {
+    font-size: 1.2rem;
+  }
+
+  .lodge_checkoutMobileDates__js2ZN {
+    font-size: 0.7rem;
+  }
+
+  .lodge_checkoutMobileBtn__K_K4j {
+    padding: 0.7rem 1.25rem;
+    font-size: 0.8rem;
   }
 
   .lodge_checkoutClose__3A1dj {
@@ -4446,6 +4621,11 @@
   .lodge_checkoutCounterControls__IHWue button {
     width: 34px;
     height: 34px;
+  }
+
+  .lodge_checkoutSection__O7qb2:last-of-type {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
   }
 }
 
@@ -5156,6 +5336,11 @@
   }
 
   /* Personal Info Responsive */
+  .lodge_personalInfoForm__ZmDVx {
+    margin-bottom: 3.5rem;
+    gap: 0.875rem;
+  }
+
   .lodge_checkoutBack__g2Ah6 {
     font-size: 1rem;
     margin-bottom: 1rem;
@@ -5167,12 +5352,17 @@
 
   .lodge_formRow__OdUVi {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
   .lodge_formGroup__6Aj7E input,
   .lodge_formGroup__6Aj7E textarea {
     font-size: 0.875rem;
     padding: 0.75rem 0.875rem;
+  }
+
+  .lodge_formGroup__6Aj7E:last-child {
+    margin-bottom: 2.5rem;
   }
 
   .lodge_whatsappOption__EnB71 {
