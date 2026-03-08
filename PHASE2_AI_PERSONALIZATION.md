@@ -2,7 +2,7 @@
 
 > **Prerequisite:** Complete the Phase 1 backend (see `BACKEND_ARCHITECTURE.md`) before starting this phase. Phase 2 extends the existing backend — it does not replace or modify any Phase 1 tables or APIs.
 
----
+---  
 
 ## 1. The Concept
 
