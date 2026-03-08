@@ -122,6 +122,7 @@ export default function ParkPage() {
                         link={lodge.link}
                         amenities={lodge.amenities}
                         ecoCertified={lodge.ecoCertified}
+                        bestSeason={lodge.bestSeason}
                         onClick={() => window.open(`/park/${region}/${createSlug(park)}/${createSlug(lodge.name)}`, '_blank')}
                       />
                     </div>

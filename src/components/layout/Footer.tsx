@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 import styles from './Footer.module.css'
 
@@ -12,10 +13,15 @@ export default function Footer() {
         {/* Top Section */}
         <div className={styles.topSection}>
           <div className={styles.brandSection}>
-            <h2 className={styles.logo}>
-              {t('footer.logo')}<span className={styles.dot}>.</span>
-            </h2>
-            <p className={styles.poweredBy}>{t('footer.poweredBy')}</p>
+            <div className={styles.logoContainer}>
+              <Image 
+                src="/assests/images/CL_whitelogo.svg"
+                alt="Curated Lodges"
+                width={200}
+                height={50}
+                className={styles.logoImage}
+              />
+            </div>
             <p className={styles.tagline}>
               {t('footer.tagline')}
             </p>

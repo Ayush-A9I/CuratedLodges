@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Globe, DollarSign } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import SearchBox from '../domain/SearchBox';
@@ -155,9 +156,15 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
           <Link href="/" className={styles.logo}>
-            Curated Lodges<span className={styles.dot}>.</span>
+            <Image 
+              src="/assests/images/curatedlodges_logo.svg"
+              alt="Curated Lodges"
+              width={180}
+              height={45}
+              priority
+              className={styles.logoImage}
+            />
           </Link>
-          <div className={styles.poweredBy}>Powered by Junglore</div>
         </div>
         
         {/* Integrated Search Box - Desktop - Clickable to open modal */}

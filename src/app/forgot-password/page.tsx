@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './forgotpassword.module.css';
 
 export default function ForgotPasswordPage() {
@@ -37,9 +38,15 @@ export default function ForgotPasswordPage() {
         {/* Logo on Left Panel */}
         <div className={styles.leftLogoContainer}>
           <Link href="/" className={styles.leftLogo}>
-            CURATED LODGES<span className={styles.leftDot}>.</span>
+            <Image 
+              src="/assests/images/CL_whitelogo.svg"
+              alt="Curated Lodges"
+              width={220}
+              height={55}
+              priority
+              className={styles.leftLogoImage}
+            />
           </Link>
-          <div className={styles.leftPoweredBy}>POWERED BY JUNGLORE</div>
         </div>
         
         <div className={styles.imageCarousel}>

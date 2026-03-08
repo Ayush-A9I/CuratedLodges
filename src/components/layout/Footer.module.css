@@ -23,12 +23,19 @@
   max-width: 320px;
 }
 
+.logoContainer {
+  margin-bottom: 1.5rem;
+}
+
+.logoImage {
+  width: auto;
+  height: auto;
+  max-width: 280px;
+  object-fit: contain;
+}
+
 .logo {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 0.5rem;
-  color: white;
+  display: none;
 }
 
 .dot {
@@ -36,11 +43,7 @@
 }
 
 .poweredBy {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.75rem;
-  font-weight: 400;
-  margin-bottom: 1rem;
-  letter-spacing: 0.05em;
+  display: none;
 }
 
 .tagline {

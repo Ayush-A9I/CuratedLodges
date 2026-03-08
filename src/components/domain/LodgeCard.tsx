@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf } from 'lucide-react';
+import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf, Sun, CloudRain, Snowflake } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import { useTranslation } from 'react-i18next';
 import styles from './LodgeCard.module.css';
@@ -16,6 +16,7 @@ interface LodgeCardProps {
   link?: string;
   amenities?: string[];
   ecoCertified?: boolean;
+  bestSeason?: string;
   onClick?: () => void;
 }
 
@@ -41,6 +42,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   link = '#',
   amenities = [],
   ecoCertified = false,
+  bestSeason,
   onClick,
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -56,6 +58,15 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   // Convert price to number if it's a string
   const numericPrice = typeof price === 'string' ? parseFloat(price.replace(/[$₹,]/g, '')) : price;
   const displayPrice = convertPrice(numericPrice);
+
+  const getSeasonIcon = (season?: string) => {
+    if (!season) return null;
+    const seasonLower = season.toLowerCase();
+    if (seasonLower.includes('winter')) return <Snowflake size={12} />;
+    if (seasonLower.includes('summer')) return <Sun size={12} />;
+    if (seasonLower.includes('rainy') || seasonLower.includes('monsoon')) return <CloudRain size={12} />;
+    return null;
+  };
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -75,6 +86,12 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           alt={title} 
           className={styles.image} 
         />
+        {bestSeason && (
+          <div className={styles.seasonBadge}>
+            {getSeasonIcon(bestSeason)}
+            <span>Best in {bestSeason}</span>
+          </div>
+        )}
         {images.length > 1 && (
           <>
             <button 

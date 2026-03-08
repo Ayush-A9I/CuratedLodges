@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Globe, DollarSign } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -75,9 +76,15 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
           <Link href="/" className={styles.logo}>
-            Curated Lodges<span className={styles.dot}>.</span>
+            <Image 
+              src={isScrolled ? "/assests/images/curatedlodges_logo.svg" : "/assests/images/CL_whitelogo.svg"}
+              alt="Curated Lodges"
+              width={180}
+              height={45}
+              priority
+              className={styles.logoImage}
+            />
           </Link>
-          <div className={styles.poweredBy}>Powered by Junglore</div>
         </div>
         
         {/* Center Navigation Links */}

@@ -41,6 +41,7 @@ export interface Lodge {
   amenities: string[];
   ecoCertified: boolean;
   location: string;
+  bestSeason?: string;
   about?: {
     description: string[];
   };
@@ -113,6 +114,7 @@ export const lodgesData: LodgesData = {
           amenities: ["WiFi", "Pool", "Spa", "Safari", "AC"],
           ecoCertified: true,
           location: "Moharli, Chandrapur, Maharashtra",
+          bestSeason: "Winter",
           about: {
             description: [
               "Experience luxury in the heart of the wilderness at Tadoba Tiger Lodge. Our resort offers an unparalleled blend of comfort and adventure, situated just minutes from the park entrance. With stunning views of the surrounding forest and world-class amenities, your stay promises to be memorable.",
@@ -245,6 +247,7 @@ export const lodgesData: LodgesData = {
           amenities: ["WiFi", "Pool", "Safari", "Bar"],
           ecoCertified: true,
           location: "Kolara, Chandrapur, Maharashtra",
+          bestSeason: "Winter",
         },
         {
           id: 3,
@@ -262,6 +265,7 @@ export const lodgesData: LodgesData = {
           amenities: ["WiFi", "Safari", "Library"],
           ecoCertified: false,
           location: "Navegaon, Chandrapur, Maharashtra",
+          bestSeason: "Winter",
         },
       ],
     },
@@ -294,6 +298,7 @@ export const lodgesData: LodgesData = {
           amenities: ["WiFi", "Pool", "Spa", "Safari", "Gym", "AC"],
           ecoCertified: true,
           location: "Khatia, Mandla, Madhya Pradesh",
+          bestSeason: "Winter",
         },
         {
           id: 5,
@@ -311,6 +316,7 @@ export const lodgesData: LodgesData = {
           amenities: ["WiFi", "Safari", "Bonfire"],
           ecoCertified: true,
           location: "Mukki, Mandla, Madhya Pradesh",
+          bestSeason: "Winter",
         },
       ],
     },

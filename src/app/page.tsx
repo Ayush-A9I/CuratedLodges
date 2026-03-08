@@ -123,6 +123,7 @@ export default function Home() {
                           link={lodgeUrl}
                           amenities={lodge.amenities}
                           ecoCertified={lodge.ecoCertified}
+                          bestSeason={lodge.bestSeason}
                         />
                       </div>
                     );
