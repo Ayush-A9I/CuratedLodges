@@ -29,7 +29,7 @@ const FieldNotesPage = () => {
 
   return (
     <>
-      <Header forceVisible={true} darkMode={true} />
+      <Header forceVisible={true} forceScrolled={true} />
       
       <main className={styles.main}>
         <div className={styles.container}>

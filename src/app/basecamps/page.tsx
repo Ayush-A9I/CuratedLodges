@@ -42,7 +42,7 @@ export default function BasecampsPage() {
 
   return (
     <>
-      <Header forceVisible={true} darkMode={true} />
+      <Header forceVisible={true} forceScrolled={true} />
       
       <main className={styles.main}>
         {/* Hero Section */}
