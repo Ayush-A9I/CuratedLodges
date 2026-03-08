@@ -1,4 +1,4 @@
-// File: D:\Junglore_Curated_Lodges\frontend\src\app\park\[region]\[park]\[lodge]\page.tsx
+// File: /Users/a-wattamwar/JungloreProject/CuratedLodges/src/app/park/[region]/[park]/[lodge]/page.tsx
 import * as entry from '../../../../../../../src/app/park/[region]/[park]/[lodge]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
