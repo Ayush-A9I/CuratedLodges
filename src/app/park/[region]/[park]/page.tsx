@@ -1,88 +1,52 @@
 "use client";
 
-import React, { useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import ParkPageHeader from '../../../../components/layout/ParkPageHeader';
 import Footer from '../../../../components/layout/Footer';
 import LodgeCard from '../../../../components/domain/LodgeCard';
-import { lodgesData } from '../../../../data/mock/LodgeData';
+import api from '@/lib/api';
 import styles from './park.module.css';
 
 export default function ParkPage() {
   const params = useParams();
-  const router = useRouter();
   const region = params.region as string;
   const park = decodeURIComponent(params.park as string);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [lodges, setLodges] = useState<any[]>([]);
+  const [parkName, setParkName] = useState<string>(park);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Helper function to create URL-friendly slugs
-  const createSlug = (text: string) => {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
+  useEffect(() => {
+    if (!park) return;
+    api.getLodgesByPark(park)
+      .then((data) => {
+        setLodges(data.lodges || []);
+        if (data.parkName) setParkName(data.parkName);
+      })
+      .catch((err) => console.error('Failed to load park lodges:', err))
+      .finally(() => setIsLoading(false));
+  }, [park]);
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
-  // Get park data
-  const parkData = useMemo(() => {
-    if (!region || !park) return null;
-    const regionData = lodgesData[region as keyof typeof lodgesData];
-    if (!regionData) return null;
-    
-    // Find park by matching slug to handle both slugified and original park names
-    const parkEntry = Object.entries(regionData).find(([parkName]) => 
-      createSlug(parkName) === createSlug(park) || parkName === park
-    );
-    
-    return parkEntry ? parkEntry[1] : null;
-  }, [region, park]);
-
-  // Get the actual park name from parkData
-  const actualParkName = useMemo(() => {
-    if (!region || !park) return park;
-    const regionData = lodgesData[region as keyof typeof lodgesData];
-    if (!regionData) return park;
-    
-    // Find the actual park name by matching the slug
-    const parkEntry = Object.entries(regionData).find(([parkName]) => 
-      createSlug(parkName) === createSlug(park) || parkName === park
-    );
-    
-    return parkEntry ? parkEntry[0] : park;
-  }, [region, park]);
-
-  if (!parkData) {
-    return (
-      <>
-        <ParkPageHeader region={region} park={actualParkName} />
-        <div className={styles.errorContainer}>
-          <h1>Park Not Found</h1>
-          <Link href="/" className={styles.backLink}>Return Home</Link>
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
-      <ParkPageHeader region={region} park={actualParkName} />
+      <ParkPageHeader region={region} park={parkName} />
       
       <main className={styles.main}>
         {/* Hero Section */}
         <section className={styles.heroSection}>
           <div className={styles.heroContainer}>
-            {/* Breadcrumb */}
             <nav className={styles.breadcrumb}>
               <Link href="/" className={styles.breadcrumbLink}>
                 Home
               </Link>
               <span className={styles.breadcrumbSeparator}>/</span>
-              <span className={styles.breadcrumbCurrent}>Curated stays at {actualParkName.toLowerCase()}</span>
+              <span className={styles.breadcrumbCurrent}>Curated stays at {parkName.toLowerCase()}</span>
             </nav>
           </div>
         </section>
@@ -102,28 +66,29 @@ export default function ParkPage() {
               </div>
             </div>
             
-            {parkData.lodges.length > 0 ? (
+            {isLoading ? (
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem 0' }}>
+                <div style={{ width: '2rem', height: '2rem', border: '2px solid #1E2D27', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+              </div>
+            ) : lodges.length > 0 ? (
               <div className={styles.lodgeGrid}>
-                {parkData.lodges.map((lodge) => {
-                  // Get the minimum price from room types or fall back to pricePerNight
-                  const minPrice = lodge.roomTypes && lodge.roomTypes.length > 0
-                    ? Math.min(...lodge.roomTypes.map(room => room.price))
-                    : lodge.pricePerNight;
+                {lodges.map((lodge: any) => {
+                  const minPrice = lodge.minRoomPrice || lodge.pricePerNight || 0;
+                  const lodgeUrl = `/park/${region}/${park}/${lodge.slug}`;
 
                   return (
                     <div key={lodge.id} className={styles.lodgeCardWrapper}>
                       <LodgeCard
-                        image={lodge.image}
-                        images={lodge.images}
+                        image={lodge.thumbnail}
+                        images={lodge.images || [lodge.thumbnail]}
                         title={lodge.name}
                         location={lodge.location}
                         rating={lodge.rating}
                         price={minPrice.toString()}
-                        link={lodge.link}
+                        link={lodgeUrl}
                         amenities={lodge.amenities}
                         ecoCertified={lodge.ecoCertified}
-                        bestSeason={lodge.bestSeason}
-                        onClick={() => window.open(`/park/${region}/${createSlug(park)}/${createSlug(lodge.name)}`, '_blank')}
+                        onClick={() => window.open(lodgeUrl, '_blank')}
                       />
                     </div>
                   );
@@ -140,9 +105,9 @@ export default function ParkPage() {
         {/* Planning Section */}
         <section className={styles.planningSection}>
           <div className={styles.planningContainer}>
-            <h2 className={styles.planningTitle}>Planning to stay at {park}?</h2>
+            <h2 className={styles.planningTitle}>Planning to stay at {parkName}?</h2>
             <p className={styles.planningSubtitle}>
-              Read our field intelligence before you land. Expert tracking tips, gear recommendations, and the secret history of {park}.
+              Read our field intelligence before you land. Expert tracking tips, gear recommendations, and the secret history of {parkName}.
             </p>
             
             <div className={styles.planningGrid}>
@@ -156,7 +121,7 @@ export default function ParkPage() {
                 </div>
                 <div className={styles.planningContent}>
                   <span className={styles.planningBadge}>Field Intel</span>
-                  <h3 className={styles.planningCardTitle}>Mastering the morning track in {park}</h3>
+                  <h3 className={styles.planningCardTitle}>Mastering the morning track in {parkName}</h3>
                   <p className={styles.planningCardText}>
                     Why the Mukki grasslands hold the key to the tiger&apos;s morning patrol...
                   </p>
@@ -258,7 +223,7 @@ export default function ParkPage() {
           <div className={styles.faqContainer}>
             <h2 className={styles.faqTitle}>FAQs</h2>
             <p className={styles.faqSubtitle}>
-              Everything you need to know about lodges in {park}
+              Everything you need to know about lodges in {parkName}
             </p>
             
             <div className={styles.faqList}>
@@ -269,7 +234,7 @@ export default function ParkPage() {
                 </div>
                 {openFaqIndex === 0 && (
                   <div className={styles.faqAnswer}>
-                    <p>Most lodges in {park} offer modern amenities including WiFi, air conditioning, swimming pools, spa services, and in-house dining. Many also provide safari vehicles with naturalist guides and gate pick-up services.</p>
+                    <p>Most lodges in {parkName} offer modern amenities including WiFi, air conditioning, swimming pools, spa services, and in-house dining. Many also provide safari vehicles with naturalist guides and gate pick-up services.</p>
                   </div>
                 )}
               </div>

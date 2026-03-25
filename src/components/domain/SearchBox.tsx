@@ -2,8 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { lodgesData } from '../../data/mock/LodgeData';
+import api from '@/lib/api';
 import styles from './SearchBox.module.css';
+
+interface Park {
+  slug: string;
+  name: string;
+}
 
 interface SearchBoxProps {
   initialRegion?: string;
@@ -14,6 +19,7 @@ interface SearchBoxProps {
 const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark = '', compact = false }) => {
   const [selectedRegion, setSelectedRegion] = useState<string>(initialRegion);
   const [selectedPark, setSelectedPark] = useState<string>(initialPark);
+  const [parks, setParks] = useState<Park[]>([]);
   const { t } = useTranslation();
 
   // Update state when props change
@@ -27,14 +33,22 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
     { value: 'africa', label: 'Africa' }
   ];
 
-  const getNationalParks = () => {
-    if (!selectedRegion) return [];
-    const regionData = lodgesData[selectedRegion as keyof typeof lodgesData];
-    return Object.keys(regionData).map(park => ({
-      value: park,
-      label: park
-    }));
-  };
+  // Fetch parks when region changes
+  useEffect(() => {
+    if (!selectedRegion) {
+      setParks([]);
+      return;
+    }
+    api.getParksByRegion(selectedRegion)
+      .then((data) => {
+        const parkList = (data.parks || []).map((p: any) => ({
+          slug: p.slug,
+          name: p.name,
+        }));
+        setParks(parkList);
+      })
+      .catch(() => setParks([]));
+  }, [selectedRegion]);
 
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedRegion(e.target.value);
@@ -45,18 +59,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
     setSelectedPark(e.target.value);
   };
 
-  // Helper function to create URL-friendly slugs
-  const createSlug = (text: string) => {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
-
   const handleFind = () => {
     if (selectedRegion && selectedPark) {
-      // Navigate to the park page with region and park as URL parameters
-      window.location.href = `/park/${selectedRegion}/${createSlug(selectedPark)}`;
+      window.location.href = `/park/${selectedRegion}/${selectedPark}`;
     }
   };
 
@@ -92,9 +97,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialRegion = '', initialPark =
             <option value="">
               {selectedRegion ? t('search.whichDestination') : t('search.selectRegionFirst')}
             </option>
-            {getNationalParks().map((park) => (
-              <option key={park.value} value={park.value}>
-                {park.label}
+            {parks.map((park) => (
+              <option key={park.slug} value={park.slug}>
+                {park.name}
               </option>
             ))}
           </select>

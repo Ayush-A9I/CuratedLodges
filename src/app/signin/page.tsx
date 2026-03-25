@@ -3,11 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './signin.module.css';
 
 export default function SignInPage() {
+  const router = useRouter();
+  const { login, register, isAuthenticated, error: authError, clearError } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  // Sign In form state
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Sign Up form state
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [localError, setLocalError] = useState('');
   
   const images = [
     'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=1920&q=80',
@@ -17,19 +35,71 @@ export default function SignInPage() {
   ];
 
   useEffect(() => {
-    // Rotate images every 5 seconds
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [images.length]);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated, router]);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLocalError('');
+    clearError();
+    setIsLoading(true);
+    try {
+      await login(email, password);
+      router.push('/');
+    } catch {
+      // Error is set in AuthContext
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLocalError('');
+    clearError();
+
+    if (signupPassword !== confirmPassword) {
+      setLocalError('Passwords do not match');
+      return;
+    }
+    if (signupPassword.length < 8) {
+      setLocalError('Password must be at least 8 characters');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await register({
+        firstName,
+        lastName,
+        email: signupEmail,
+        password: signupPassword,
+      });
+      setSuccessMessage('Account created successfully! Redirecting...');
+      setTimeout(() => router.push('/'), 1500);
+    } catch {
+      // Error is set in AuthContext
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const displayError = localError || authError;
 
   return (
     <div className={styles.pageContainer}>
       {/* Left Side - Images */}
       <div className={styles.leftPanel}>
-        {/* Logo on Left Panel */}
         <div className={styles.leftLogoContainer}>
           <Link href="/" className={styles.leftLogo}>
             <Image 
@@ -65,7 +135,6 @@ export default function SignInPage() {
             }
           </p>
         </div>
-        {/* Image Indicators */}
         <div className={styles.indicators}>
           {images.map((_, index) => (
             <button
@@ -83,15 +152,39 @@ export default function SignInPage() {
       {/* Right Side - Form */}
       <div className={styles.rightPanel}>
         <div className={styles.formContainer}>
+          {displayError && (
+            <div style={{ 
+              color: '#e74c3c', 
+              fontSize: '0.85rem', 
+              padding: '0.75rem 1rem', 
+              background: '#ffeaea', 
+              borderRadius: '8px', 
+              marginBottom: '1rem' 
+            }}>
+              {displayError}
+            </div>
+          )}
+          {successMessage && (
+            <div style={{ 
+              color: '#27ae60', 
+              fontSize: '0.85rem', 
+              padding: '0.75rem 1rem', 
+              background: '#eafff0', 
+              borderRadius: '8px', 
+              marginBottom: '1rem' 
+            }}>
+              {successMessage}
+            </div>
+          )}
+
           {!isSignUp ? (
-            // Sign In Form
             <>
               <div className={styles.formHeader}>
                 <h2 className={styles.formTitle}>Sign In</h2>
                 <p className={styles.formSubtitle}>Have a Junglore.com account? Use the same credentials to sign in.</p>
               </div>
 
-              <form className={styles.form}>
+              <form className={styles.form} onSubmit={handleSignIn}>
                 <div className={styles.inputGroup}>
                   <label htmlFor="email" className={styles.label}>Email</label>
                   <input
@@ -99,6 +192,8 @@ export default function SignInPage() {
                     id="email"
                     placeholder="your@email.com"
                     className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -110,6 +205,8 @@ export default function SignInPage() {
                     id="password"
                     placeholder="Enter your password"
                     className={styles.input}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -120,8 +217,8 @@ export default function SignInPage() {
                   </a>
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
-                  Sign In
+                <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                  {isLoading ? 'Signing In...' : 'Sign In'}
                 </button>
 
                 <div className={styles.divider}>
@@ -149,19 +246,18 @@ export default function SignInPage() {
               </form>
 
               <div className={styles.signupPrompt}>
-                  <p>Don&apos;t have an account? <button onClick={() => setIsSignUp(true)} className={styles.signupLink}>Sign Up</button></p>
+                  <p>Don&apos;t have an account? <button onClick={() => { setIsSignUp(true); clearError(); setLocalError(''); }} className={styles.signupLink}>Sign Up</button></p>
               </div>    
 
             </>
           ) : (
-            // Sign Up Form
             <>
               <div className={styles.formHeader}>
                 <h2 className={styles.formTitle}>Create Account</h2>
                 <p className={styles.formSubtitle}>Join us to discover your perfect basecamp</p>
               </div>
 
-              <form className={styles.form}>
+              <form className={styles.form} onSubmit={handleSignUp}>
                 <div className={styles.nameRow}>
                   <div className={styles.inputGroup}>
                     <label htmlFor="firstName" className={styles.label}>First Name</label>
@@ -170,6 +266,8 @@ export default function SignInPage() {
                       id="firstName"
                       placeholder="John"
                       className={styles.input}
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                       required
                     />
                   </div>
@@ -181,6 +279,8 @@ export default function SignInPage() {
                       id="lastName"
                       placeholder="Doe"
                       className={styles.input}
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
                       required
                     />
                   </div>
@@ -193,6 +293,8 @@ export default function SignInPage() {
                     id="signupEmail"
                     placeholder="your@email.com"
                     className={styles.input}
+                    value={signupEmail}
+                    onChange={(e) => setSignupEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -204,6 +306,8 @@ export default function SignInPage() {
                     id="signupPassword"
                     placeholder="Create a password"
                     className={styles.input}
+                    value={signupPassword}
+                    onChange={(e) => setSignupPassword(e.target.value)}
                     required
                   />
                 </div>
@@ -215,12 +319,14 @@ export default function SignInPage() {
                     id="confirmPassword"
                     placeholder="Confirm your password"
                     className={styles.input}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
-                  Create Account
+                <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
                 </button>
 
                 <div className={styles.divider}>
@@ -248,7 +354,7 @@ export default function SignInPage() {
               </form>
 
               <div className={styles.signupPrompt}>
-                <p>Already have an account? <button onClick={() => setIsSignUp(false)} className={styles.signupLink}>Sign In</button></p>
+                <p>Already have an account? <button onClick={() => { setIsSignUp(false); clearError(); setLocalError(''); }} className={styles.signupLink}>Sign In</button></p>
               </div>
             </>
           )}

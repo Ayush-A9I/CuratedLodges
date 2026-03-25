@@ -5,14 +5,18 @@ import { useTranslation } from 'react-i18next'
 import styles from './Testimonials.module.css'
 
 interface Testimonial {
-  id: number
+  id: number | string
   name: string
-  company: string
-  text: string
-  image: string
+  company?: string
+  designation?: string
+  text?: string
+  content?: string
+  image?: string
+  avatar?: string
 }
 
-const testimonials: Testimonial[] = [
+// Fallback testimonials for when no API data is available
+const fallbackTestimonials: Testimonial[] = [
   {
     id: 1,
     name: 'Leslie Alexander',
@@ -50,19 +54,19 @@ const testimonials: Testimonial[] = [
   }
 ]
 
-const decorativeImages = [
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop',
-  'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop',
-  'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&h=200&fit=crop',
-  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&h=200&fit=crop',
-  'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=200&h=200&fit=crop',
-  'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=200&h=200&fit=crop'
-]
+interface TestimonialsProps {
+  testimonials?: Testimonial[]
+}
 
-export default function Testimonials() {
+export default function Testimonials({ testimonials: propTestimonials }: TestimonialsProps) {
   const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+
+  // Use prop testimonials if provided and non-empty, otherwise use fallback
+  const testimonials = propTestimonials && propTestimonials.length > 0 
+    ? propTestimonials 
+    : fallbackTestimonials
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -74,9 +78,12 @@ export default function Testimonials() {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [testimonials.length])
 
   const currentTestimonial = testimonials[currentIndex]
+  const testimonialText = currentTestimonial.text || currentTestimonial.content || ''
+  const testimonialImage = currentTestimonial.image || currentTestimonial.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'
+  const testimonialCompany = currentTestimonial.company || currentTestimonial.designation || ''
 
   return (
     <section className="py-20 px-8 bg-white relative overflow-hidden">
@@ -97,7 +104,7 @@ export default function Testimonials() {
           <div className={`${styles.mainProfile} ${isAnimating ? styles.animating : ''}`}>
             <div className={styles.mainProfileInner}>
               <img 
-                src={currentTestimonial.image} 
+                src={testimonialImage} 
                 alt={currentTestimonial.name}
               />
             </div>
@@ -105,25 +112,23 @@ export default function Testimonials() {
 
           {/* Testimonial Content */}
           <div className={`${styles.testimonialContent} ${isAnimating ? styles.fadeOut : styles.fadeIn}`}>
-            {/* Testimonial Text */}
             <p className="text-lg md:text-xl text-[#6B7B75] leading-relaxed mb-8 max-w-3xl mx-auto">
-              {currentTestimonial.text}
+              {testimonialText}
             </p>
 
-            {/* Author Info */}
             <div>
               <h4 className="text-xl font-bold text-[#1E2D27] mb-1">
                 {currentTestimonial.name}
               </h4>
               <p className="text-[#6B7B75] text-sm">
-                {currentTestimonial.company}
+                {testimonialCompany}
               </p>
             </div>
           </div>
 
           {/* Pagination Dots */}
           <div className="flex justify-center gap-3 mt-12">
-            {testimonials.map((_, index) => (
+            {testimonials.map((_: any, index: number) => (
               <button
                 key={index}
                 onClick={() => {

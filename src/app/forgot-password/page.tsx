@@ -3,11 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import api from '@/lib/api';
 import styles from './forgotpassword.module.css';
 
 export default function ForgotPasswordPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [emailSent, setEmailSent] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   
   const images = [
     'https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=1920&q=80',
@@ -17,18 +21,25 @@ export default function ForgotPasswordPage() {
   ];
 
   useEffect(() => {
-    // Rotate images every 5 seconds
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate sending email
-    setEmailSent(true);
+    setError('');
+    setIsLoading(true);
+    try {
+      await api.forgotPassword(email);
+      setEmailSent(true);
+    } catch (err: any) {
+      // Show success anyway (don't reveal whether email exists)
+      setEmailSent(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -104,12 +115,14 @@ export default function ForgotPasswordPage() {
                     id="email"
                     placeholder="your@email.com"
                     className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
-                  Send Reset Link
+                <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                  {isLoading ? 'Sending...' : 'Send Reset Link'}
                 </button>
               </form>
 

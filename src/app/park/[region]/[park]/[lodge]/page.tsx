@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../../../../../components/layout/Header';
 import Footer from '../../../../../components/layout/Footer';
-import { lodgesData } from '../../../../../data/mock/LodgeData';
 import { useLocalization } from '@/contexts/LocalizationContext';
+import api from '@/lib/api';
 import { Wifi, Waves, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, MapPin, Leaf, Send, Share, Bed, Coffee, Bath, Tv, Utensils, Shield, Sparkles, Calendar, User, Baby } from 'lucide-react';
 import styles from './lodge.module.css';
 
@@ -17,31 +17,40 @@ export default function LodgeDetailPage() {
   const lodgeSlug = decodeURIComponent(params.lodge as string);
   const { convertPrice, currency, exchangeRate } = useLocalization();
 
-  // Helper function to create URL-friendly slugs
-  const createSlug = (text: string) => {
-    return text
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
+  const [lodgeData, setLodgeData] = useState<any>(null);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
 
-  // Get actual lodge data
-  const lodgeData = useMemo(() => {
-    if (!region || !park) return null;
-    const regionData = lodgesData[region as keyof typeof lodgesData];
-    if (!regionData) return null;
-    
-    // Find park by matching slug to handle both slugified and original park names
-    const parkEntry = Object.entries(regionData).find(([parkName]) => 
-      createSlug(parkName) === createSlug(park) || parkName === park
-    );
-    
-    if (!parkEntry) return null;
-    const parkData = parkEntry[1];
-    
-    // Find lodge by matching slug
-    return parkData.lodges.find(lodge => createSlug(lodge.name) === lodgeSlug);
-  }, [region, park, lodgeSlug]);
+  useEffect(() => {
+    if (!lodgeSlug) return;
+    api.getLodgeBySlug(lodgeSlug)
+      .then((data) => {
+        // Map API response to expected shape
+        const lodge = data.lodge || data;
+        // Normalize images: API may return [{url, altText}] objects — flatten to string[]
+        if (lodge.images && lodge.images.length > 0 && typeof lodge.images[0] === 'object') {
+          lodge.images = lodge.images.map((img: any) => img.url || img.src || img);
+        }
+        // Normalize field names: API uses 'pricePerSession' for naturalists, frontend expects 'price'
+        if (lodge.naturalists) {
+          lodge.naturalists = lodge.naturalists.map((n: any) => ({
+            ...n,
+            price: n.pricePerSession || n.price,
+          }));
+        }
+        if (lodge.roomTypes) {
+          lodge.roomTypes = lodge.roomTypes.map((rt: any) => ({
+            ...rt,
+            price: rt.price || rt.basePrice,
+            image: typeof rt.image === 'object' ? rt.image?.url : rt.image,
+          }));
+        }
+        setLodgeData(lodge);
+      })
+      .catch((err) => console.error('Failed to load lodge:', err))
+      .finally(() => setIsPageLoading(false));
+  }, [lodgeSlug]);
 
   // Amenity icon mapping
   const amenityIcons: { [key: string]: { icon: React.ReactNode; label: string } } = {
@@ -240,7 +249,7 @@ export default function LodgeDetailPage() {
 
   const calculateRoomTotal = () => {
     if (!checkoutRoomType) return 0;
-    const room = lodgeData?.roomTypes?.find(r => r.name === checkoutRoomType);
+    const room = lodgeData?.roomTypes?.find((r: any) => r.name === checkoutRoomType);
     if (!room) return 0;
     const nights = calculateNights();
     return room.price * nights;
@@ -432,7 +441,7 @@ export default function LodgeDetailPage() {
 
               {lodgeData?.amenities && lodgeData.amenities.length > 0 && (
                 <div className={styles.amenitiesRow}>
-                  {lodgeData.amenities.slice(0, 5).map((amenity, index) => (
+                  {lodgeData.amenities.slice(0, 5).map((amenity: string, index: number) => (
                     <div key={index} className={styles.amenityBadge}>
                       {amenityIcons[amenity] ? (
                         <>
@@ -453,7 +462,7 @@ export default function LodgeDetailPage() {
               <div className={styles.description}>
                 <h2>About this Lodge</h2>
                 {lodgeData?.about?.description ? (
-                  lodgeData.about.description.map((paragraph, index) => (
+                  lodgeData.about.description.map((paragraph: string, index: number) => (
                     <p key={index}>{paragraph}</p>
                   ))
                 ) : (
@@ -493,7 +502,7 @@ export default function LodgeDetailPage() {
             <section className={styles.roomsSection}>
               <h2>Accomodation</h2>
               <div className={styles.roomsGrid}>
-                {(lodgeData?.roomTypes || []).map((room) => (
+                {(lodgeData?.roomTypes || []).map((room: any) => (
                   <div 
                     key={room.id} 
                     className={styles.roomCard}
@@ -534,7 +543,7 @@ export default function LodgeDetailPage() {
                 </div>
               </div>
               <div className={styles.naturalistsGrid}>
-                {(lodgeData?.naturalists || []).map((naturalist) => (
+                {(lodgeData?.naturalists || []).map((naturalist: any) => (
                   <div 
                     key={naturalist.id}
                     className={styles.naturalistCard}
@@ -666,7 +675,7 @@ export default function LodgeDetailPage() {
             <section className={styles.faqSection}>
               <h2>FAQs</h2>
               <div className={styles.faqList}>
-                {(lodgeData?.faqs || []).map((faq, index) => (
+                {(lodgeData?.faqs || []).map((faq: any, index: number) => (
                   <div key={index} className={styles.faqItem}>
                     <div className={styles.faqQuestion} onClick={() => toggleFaq(index)}>
                       <h3>{faq.question}</h3>
@@ -1188,16 +1197,42 @@ export default function LodgeDetailPage() {
                       </div>
 
                       {/* Desktop Proceed to Pay Button */}
+                      {bookingError && (
+                        <div style={{ color: '#e74c3c', fontSize: '0.85rem', marginBottom: '0.5rem', padding: '0.5rem', background: '#ffeaea', borderRadius: '6px' }}>
+                          {bookingError}
+                        </div>
+                      )}
                       <button 
                         className={styles.proceedToPayBtn}
-                        disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone}
-                        onClick={() => {
-                          const newBookingId = 'JL' + Date.now().toString().slice(-8);
-                          setBookingId(newBookingId);
-                          setCheckoutStep('confirmed');
+                        disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone || isSubmittingBooking}
+                        onClick={async () => {
+                          setBookingError(null);
+                          setIsSubmittingBooking(true);
+                          try {
+                            const room = lodgeData?.roomTypes?.find((r: any) => r.name === checkoutRoomType);
+                            const result = await api.createBooking({
+                              lodgeSlug: lodgeSlug,
+                              roomTypeId: room?.id,
+                              checkIn: checkoutCheckIn,
+                              checkOut: checkoutCheckOut,
+                              adults: checkoutAdults,
+                              children: checkoutChildren,
+                              guestFirstName,
+                              guestLastName,
+                              guestEmail,
+                              guestPhone,
+                              specialRequests: specialRequests || undefined,
+                            });
+                            setBookingId(result.booking?.bookingId || result.bookingId || '');
+                            setCheckoutStep('confirmed');
+                          } catch (err: any) {
+                            setBookingError(err?.data?.error || err?.message || 'Booking failed. Please try again.');
+                          } finally {
+                            setIsSubmittingBooking(false);
+                          }
                         }}
                       >
-                        Proceed to Pay
+                        {isSubmittingBooking ? 'Processing...' : 'Proceed to Pay'}
                       </button>
 
                       {/* Mobile Total Amount Bar with Button */}
@@ -1219,14 +1254,35 @@ export default function LodgeDetailPage() {
                         </div>
                         <button 
                           className={styles.checkoutMobileBtn}
-                          disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone}
-                          onClick={() => {
-                            const newBookingId = 'JL' + Date.now().toString().slice(-8);
-                            setBookingId(newBookingId);
-                            setCheckoutStep('confirmed');
+                          disabled={!guestFirstName || !guestLastName || !guestEmail || !guestPhone || isSubmittingBooking}
+                          onClick={async () => {
+                            setBookingError(null);
+                            setIsSubmittingBooking(true);
+                            try {
+                              const room = lodgeData?.roomTypes?.find((r: any) => r.name === checkoutRoomType);
+                              const result = await api.createBooking({
+                                lodgeSlug: lodgeSlug,
+                                roomTypeId: room?.id,
+                                checkIn: checkoutCheckIn,
+                                checkOut: checkoutCheckOut,
+                                adults: checkoutAdults,
+                                children: checkoutChildren,
+                                guestFirstName,
+                                guestLastName,
+                                guestEmail,
+                                guestPhone,
+                                specialRequests: specialRequests || undefined,
+                              });
+                              setBookingId(result.booking?.bookingId || result.bookingId || '');
+                              setCheckoutStep('confirmed');
+                            } catch (err: any) {
+                              setBookingError(err?.data?.error || err?.message || 'Booking failed.');
+                            } finally {
+                              setIsSubmittingBooking(false);
+                            }
                           }}
                         >
-                          Proceed to Pay
+                          {isSubmittingBooking ? 'Processing...' : 'Proceed to Pay'}
                         </button>
                       </div>
                     </div>

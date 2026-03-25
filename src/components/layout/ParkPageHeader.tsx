@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Globe, DollarSign } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import SearchBox from '../domain/SearchBox';
-import { lodgesData } from '@/data/mock/LodgeData';
+import api from '@/lib/api';
 import styles from './ParkPageHeader.module.css';
 
 interface ParkPageHeaderProps {
@@ -20,6 +20,7 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<string>(region);
   const [selectedPark, setSelectedPark] = useState<string>(park);
+  const [parks, setParks] = useState<{value: string; label: string}[]>([]);
   const { setIsModalOpen, currency, language } = useLocalization();
   
   // Drag-to-close state
@@ -32,15 +33,24 @@ const ParkPageHeader: React.FC<ParkPageHeaderProps> = ({ region = '', park = '' 
     { value: 'africa', label: 'Africa' }
   ];
 
-  const getNationalParks = () => {
-    if (!selectedRegion) return [];
-    const regionData = lodgesData[selectedRegion as keyof typeof lodgesData];
-    if (!regionData) return [];
-    return Object.keys(regionData).map(parkName => ({
-      value: parkName,
-      label: parkName
-    }));
-  };
+  // Fetch parks from API when region changes
+  useEffect(() => {
+    if (!selectedRegion) {
+      setParks([]);
+      return;
+    }
+    api.getParksByRegion(selectedRegion)
+      .then((data: any) => {
+        const parkList = (data.parks || []).map((p: any) => ({
+          value: p.slug,
+          label: p.name,
+        }));
+        setParks(parkList);
+      })
+      .catch(() => setParks([]));
+  }, [selectedRegion]);
+
+  const getNationalParks = () => parks;
 
   const createSlug = (text: string) => {
     return text

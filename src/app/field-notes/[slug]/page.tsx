@@ -1,44 +1,76 @@
 "use client";
 
-import React from 'react';
-import { notFound } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import styles from './note.module.css';
-import { fieldNotesData } from '@/data/mock/FieldNotesData';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
+import api from '@/lib/api';
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+const FieldNotePage = () => {
+  const params = useParams();
+  const slug = params.slug as string;
+  const [note, setNote] = useState<any>(null);
+  const [relatedNotes, setRelatedNotes] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
-const FieldNotePage = ({ params }: PageProps) => {
-  const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
-  const [linkCopied, setLinkCopied] = React.useState(false);
-  
-  const note = fieldNotesData.find(n => n.slug === params.slug);
+  useEffect(() => {
+    if (!slug) return;
+    api.getFieldNoteBySlug(slug)
+      .then((data) => {
+        setNote(data.fieldNote || data);
+        setRelatedNotes(data.relatedNotes || []);
+      })
+      .catch((err) => console.error('Failed to load field note:', err))
+      .finally(() => setIsLoading(false));
+  }, [slug]);
 
-  if (!note) {
-    notFound();
+  if (isLoading) {
+    return (
+      <>
+        <Header forceVisible={true} darkMode={true} />
+        <main className={styles.main}>
+          <div className={styles.container} style={{ display: 'flex', justifyContent: 'center', padding: '8rem 0' }}>
+            <div style={{ width: '2rem', height: '2rem', border: '2px solid #1E2D27', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
   }
 
-  const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      'TECHNIQUE': '#F1663F',
-      'IMPACT': '#D97757',
-      'PREP': '#4A90E2',
-      'WILDLIFE': '#2ECC71',
-      'CONSERVATION': '#27AE60'
-    };
-    return colors[category] || '#F1663F';
+  if (!note) {
+    return (
+      <>
+        <Header forceVisible={true} darkMode={true} />
+        <main className={styles.main}>
+          <div className={styles.container} style={{ textAlign: 'center', padding: '8rem 0' }}>
+            <h1>Field Note Not Found</h1>
+            <Link href="/field-notes" style={{ color: '#F1663F', marginTop: '1rem', display: 'inline-block' }}>
+              ← Back to Field Notes
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  const formatDate = (dateStr: string) => {
+    try {
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    } catch { return dateStr; }
   };
 
-  // Get related notes (exclude current note, limit to 3)
-  const relatedNotes = fieldNotesData
-    .filter(n => n.id !== note.id)
-    .slice(0, 3);
+  // Support both API format (content as array) and string content
+  const contentParagraphs = Array.isArray(note.content) 
+    ? note.content 
+    : (note.body || note.content || '').split('\n\n').filter(Boolean);
 
   return (
     <>
@@ -62,11 +94,7 @@ const FieldNotePage = ({ params }: PageProps) => {
               <span className={styles.author}>By {note.author}</span>
               <span className={styles.dot}>•</span>
               <span className={styles.date}>
-                {new Date(note.date).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
+                {formatDate(note.publishedDate || note.date)}
               </span>
               <span className={styles.dot}>•</span>
               <span className={styles.readTime}>{note.readTime}</span>
@@ -84,7 +112,7 @@ const FieldNotePage = ({ params }: PageProps) => {
 
           {/* Article Content */}
           <article className={styles.content}>
-            {note.content.map((paragraph, index) => (
+            {contentParagraphs.map((paragraph: string, index: number) => (
               <p key={index} className={styles.paragraph}>
                 {paragraph}
               </p>
@@ -106,24 +134,6 @@ const FieldNotePage = ({ params }: PageProps) => {
                 </svg>
                 Share
               </button>
-              {/* <button 
-                className={styles.shareButton}
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(window.location.href);
-                    setLinkCopied(true);
-                    setTimeout(() => setLinkCopied(false), 2000);
-                  } catch (err) {
-                    console.log('Error copying link:', err);
-                  }
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </svg>
-                {linkCopied ? 'Copied!' : 'Copy Link'}
-              </button> */}
             </div>
           </div>
         </div>
@@ -134,7 +144,7 @@ const FieldNotePage = ({ params }: PageProps) => {
             <div className={styles.container}>
               <h2 className={styles.relatedTitle}>Related Field Notes</h2>
               <div className={styles.relatedGrid}>
-                {relatedNotes.map((relatedNote) => (
+                {relatedNotes.map((relatedNote: any) => (
                   <Link 
                     key={relatedNote.id}
                     href={`/field-notes/${relatedNote.slug}`}
