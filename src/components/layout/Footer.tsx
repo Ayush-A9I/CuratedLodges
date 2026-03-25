@@ -1,12 +1,28 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
+import api from '@/lib/api'
 import styles from './Footer.module.css'
 
 export default function Footer() {
   const { t } = useTranslation()
+  const [nlEmail, setNlEmail] = useState('')
+  const [nlStatus, setNlStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!nlEmail) return
+    setNlStatus('loading')
+    try {
+      await api.subscribe(nlEmail)
+      setNlStatus('success')
+      setNlEmail('')
+    } catch {
+      setNlStatus('error')
+    }
+  }
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -74,17 +90,26 @@ export default function Footer() {
             <p className={styles.newsletterText}>
               {t('footer.newsletterDesc')}
             </p>
-            <form className={styles.newsletterForm}>
-              <input 
-                type="email" 
-                placeholder={t('footer.enterEmail')} 
-                className={styles.newsletterInput}
-                required
-              />
-              <button type="submit" className={styles.newsletterButton}>
-                {t('footer.subscribe')}
-              </button>
-            </form>
+            {nlStatus === 'success' ? (
+              <p style={{ color: '#a3e635', fontSize: '0.9rem' }}>✓ Subscribed! Welcome to the wild side.</p>
+            ) : (
+              <form className={styles.newsletterForm} onSubmit={handleNewsletterSubmit}>
+                <input 
+                  type="email" 
+                  placeholder={t('footer.enterEmail')} 
+                  className={styles.newsletterInput}
+                  value={nlEmail}
+                  onChange={(e) => setNlEmail(e.target.value)}
+                  required
+                />
+                <button type="submit" className={styles.newsletterButton} disabled={nlStatus === 'loading'}>
+                  {nlStatus === 'loading' ? '...' : t('footer.subscribe')}
+                </button>
+                {nlStatus === 'error' && (
+                  <p style={{ color: '#f87171', fontSize: '0.8rem', marginTop: '0.5rem' }}>Failed to subscribe. Try again.</p>
+                )}
+              </form>
+            )}
           </div>
         </div>
 
