@@ -35,9 +35,14 @@ erDiagram
     LODGE ||--o{ NATURALIST : employs
     LODGE ||--o{ BANK_OFFER : has
     LODGE ||--o{ LODGE_FAQ : has
-    ROOM_TYPE ||--o{ ROOM_AMENITY : includes
+    LODGE ||--o{ LODGE_AMENITY : tagged_with
+    AMENITY ||--o{ LODGE_AMENITY : used_by
+    ROOM_TYPE ||--o{ ROOM_AVAILABILITY : tracked_in
+    ROOM_TYPE ||--o{ SEASONAL_RATE : priced_by
     USER ||--o{ BOOKING : makes
     BOOKING ||--o{ NATURALIST_SESSION : includes
+    BOOKING ||--o{ PAYMENT : paid_via
+    BOOKING }o--o| REVIEW : reviewed_in
     BOOKING }o--|| LODGE : at
     BOOKING }o--|| ROOM_TYPE : for
     FIELD_NOTE }o--|| PARK : about
@@ -125,10 +130,9 @@ Individual lodges/accommodations within a park.
 | `slug` | VARCHAR(200) | NOT NULL | URL slug |
 | `thumbnail` | VARCHAR(500) | NOT NULL | Card thumbnail image URL |
 | `rating` | DECIMAL(2,1) | DEFAULT 0 | Average rating (e.g., 4.8) |
-| `price_per_night` | INTEGER | NOT NULL | Base price in INR (smallest room fallback) |
+| `price_per_night` | INTEGER | NOT NULL | Base/fallback price in INR (used when no seasonal rate exists) |
 | `location` | VARCHAR(300) | NOT NULL | Full address string |
 | `nearest_gates` | TEXT[] | | Array of gate names |
-| `amenities` | TEXT[] | | Array of amenity keys (e.g., ["WiFi", "Pool", "Spa"]) |
 | `eco_certified` | BOOLEAN | DEFAULT false | Eco-certification badge |
 | `external_link` | VARCHAR(500) | | Link to external Junglore page |
 | `about_description` | TEXT[] | | Array of about paragraphs |
@@ -139,6 +143,9 @@ Individual lodges/accommodations within a park.
 | `sort_order` | INTEGER | DEFAULT 0 | |
 | `created_at` | TIMESTAMP | DEFAULT NOW() | |
 | `updated_at` | TIMESTAMP | DEFAULT NOW() | |
+
+> [!IMPORTANT]
+> Amenities have been normalized out of this table into `amenities` + `lodge_amenities` mapping tables (see below). Do NOT store amenities as a TEXT[] array here.
 
 **Unique constraint:** `(park_id, slug)`
 
@@ -167,7 +174,8 @@ Room type options within a lodge.
 | `id` | UUID | PK, auto | |
 | `lodge_id` | UUID | FK → lodges.id, NOT NULL | |
 | `name` | VARCHAR(100) | NOT NULL | e.g., "Deluxe Room", "Premium Suite" |
-| `price` | INTEGER | NOT NULL | Price per night in INR |
+| `base_price` | INTEGER | NOT NULL | Default price per night in INR (used when no seasonal rate applies) |
+| `total_units` | INTEGER | NOT NULL | Total number of rooms of this type available |
 | `image` | VARCHAR(500) | NOT NULL | Room photo URL |
 | `description` | TEXT | | Room description |
 | `amenities` | TEXT[] | | e.g., ["King Bed", "AC", "WiFi", "Mini Bar"] |
@@ -244,6 +252,7 @@ Registered users (guests/travelers).
 | `avatar_url` | VARCHAR(500) | | Profile picture |
 | `auth_provider` | VARCHAR(20) | DEFAULT 'email' | 'email', 'google', 'facebook' |
 | `auth_provider_id` | VARCHAR(255) | | OAuth provider user ID |
+| `refresh_token_version` | INTEGER | DEFAULT 0 | Incremented on logout/ban to revoke all active refresh tokens |
 | `whatsapp_enabled` | BOOLEAN | DEFAULT false | Communication preference |
 | `preferred_language` | VARCHAR(10) | DEFAULT 'en' | |
 | `preferred_currency` | VARCHAR(5) | DEFAULT 'INR' | |
@@ -299,9 +308,9 @@ Booking records created through the checkout flow.
 | `total_amount` | INTEGER | NOT NULL | room + experience + tax |
 | `currency_paid` | VARCHAR(5) | DEFAULT 'INR' | Currency at time of booking |
 | `exchange_rate_used` | DECIMAL(10,6) | DEFAULT 1 | Exchange rate snapshot |
-| `status` | VARCHAR(20) | DEFAULT 'confirmed' | 'pending', 'confirmed', 'cancelled', 'completed', 'no_show' |
-| `payment_status` | VARCHAR(20) | DEFAULT 'pending' | 'pending', 'paid', 'refunded', 'failed' |
-| `payment_id` | VARCHAR(200) | | Payment gateway transaction ID |
+| `status` | VARCHAR(20) | DEFAULT 'held' | 'held', 'pending', 'confirmed', 'cancelled', 'completed', 'no_show' |
+| `held_until` | TIMESTAMP | NULL | When a 'held' booking expires (15 min from creation). Cron job releases expired holds |
+| `payment_status` | VARCHAR(20) | DEFAULT 'pending' | 'pending', 'paid', 'partially_paid', 'refunded', 'failed' |
 | `created_at` | TIMESTAMP | DEFAULT NOW() | |
 | `updated_at` | TIMESTAMP | DEFAULT NOW() | |
 
@@ -319,6 +328,125 @@ Naturalist sessions booked as part of a booking (optional add-on).
 | `session_date` | DATE | NOT NULL | Date of the session |
 | `num_sessions` | INTEGER | NOT NULL | 1 or 2 (max per day) |
 | `price_per_session` | INTEGER | NOT NULL | Snapshot of price at booking time |
+
+---
+
+#### `room_availability`
+
+Tracks per-date inventory for each room type to prevent double-bookings.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `room_type_id` | UUID | FK → room_types.id, NOT NULL | |
+| `date` | DATE | NOT NULL | Specific calendar date |
+| `total_units` | INTEGER | NOT NULL | Total rooms available (copied from room_type, can be overridden) |
+| `booked_units` | INTEGER | DEFAULT 0 | Currently confirmed + held bookings |
+
+**Unique constraint:** `(room_type_id, date)`
+
+**Derived:** `available_units = total_units - booked_units`. A booking is only valid if `booked_units < total_units` for every date in the range.
+
+> [!IMPORTANT]
+> When creating a booking (status = 'held'), increment `booked_units` for each date in the check-in → check-out range. When a hold expires or booking is cancelled, decrement it. This must be done inside a database transaction with row-level locking (`SELECT ... FOR UPDATE`) to prevent race conditions.
+
+---
+
+#### `seasonal_rates`
+
+Date-range-based pricing overrides for room types. If a date falls within a seasonal rate range, use that price instead of `room_types.base_price`.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `room_type_id` | UUID | FK → room_types.id, NOT NULL | |
+| `name` | VARCHAR(100) | NOT NULL | e.g., "Peak Season", "Monsoon Off-Season", "Festive Premium" |
+| `start_date` | DATE | NOT NULL | Season start (inclusive) |
+| `end_date` | DATE | NOT NULL | Season end (inclusive) |
+| `price` | INTEGER | NOT NULL | Override price per night in INR |
+| `is_active` | BOOLEAN | DEFAULT true | |
+| `created_at` | TIMESTAMP | DEFAULT NOW() | |
+
+**Price resolution order:**
+1. Check `seasonal_rates` for matching date range → use `seasonal_rates.price`
+2. No match → fall back to `room_types.base_price`
+
+> [!NOTE]
+> A multi-night booking may span multiple seasons. The total is calculated per-night: each night uses the seasonal rate for that specific date.
+
+---
+
+#### `payments`
+
+Transaction ledger logging every individual payment attempt, success, failure, or refund linked to a booking.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `booking_id` | UUID | FK → bookings.id, NOT NULL | |
+| `gateway` | VARCHAR(50) | NOT NULL | e.g., 'razorpay', 'stripe', 'paypal' |
+| `gateway_transaction_id` | VARCHAR(200) | | Payment gateway's own transaction ID |
+| `gateway_order_id` | VARCHAR(200) | | Payment gateway's order/session ID |
+| `type` | VARCHAR(20) | NOT NULL | 'charge', 'refund', 'partial_refund' |
+| `amount` | INTEGER | NOT NULL | Amount in INR (paise-level precision if needed) |
+| `currency` | VARCHAR(5) | DEFAULT 'INR' | |
+| `status` | VARCHAR(20) | NOT NULL | 'initiated', 'success', 'failed', 'expired' |
+| `failure_reason` | TEXT | | Gateway error message on failure |
+| `metadata` | JSONB | | Any additional gateway response data |
+| `created_at` | TIMESTAMP | DEFAULT NOW() | |
+
+> [!NOTE]
+> A single booking can have multiple payment records — e.g., a failed attempt followed by a success, or a charge + a later partial refund. The booking's `payment_status` is derived from the latest state of its payments.
+
+---
+
+#### `amenities`
+
+Master list of all amenities (normalized from the old TEXT[] approach).
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `key` | VARCHAR(50) | NOT NULL, UNIQUE | Machine-readable key (e.g., "wifi", "pool", "spa") |
+| `label` | VARCHAR(100) | NOT NULL | Display label (e.g., "WiFi", "Swimming Pool", "Spa") |
+| `icon` | VARCHAR(50) | | Icon name or emoji |
+| `category` | VARCHAR(50) | | Grouping (e.g., "connectivity", "wellness", "dining") |
+| `sort_order` | INTEGER | DEFAULT 0 | |
+
+---
+
+#### `lodge_amenities`
+
+Mapping table linking lodges to amenities (many-to-many). Enables scalable filtering (e.g., "show me all lodges with Pool AND WiFi").
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `lodge_id` | UUID | FK → lodges.id, NOT NULL | |
+| `amenity_id` | UUID | FK → amenities.id, NOT NULL | |
+
+**Unique constraint:** `(lodge_id, amenity_id)`
+
+---
+
+#### `reviews` *(Planned — Future Implementation)*
+
+Customer reviews that require a verified, completed booking.
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PK, auto | |
+| `booking_id` | UUID | FK → bookings.id, NOT NULL, UNIQUE | One review per booking only |
+| `user_id` | UUID | FK → users.id, NOT NULL | |
+| `lodge_id` | UUID | FK → lodges.id, NOT NULL | |
+| `rating` | INTEGER | NOT NULL, CHECK (1-5) | Star rating |
+| `title` | VARCHAR(200) | | Review headline |
+| `body` | TEXT | | Review text |
+| `is_approved` | BOOLEAN | DEFAULT false | Admin moderation flag |
+| `created_at` | TIMESTAMP | DEFAULT NOW() | |
+
+> [!IMPORTANT]
+> A review can only be created if `bookings.status = 'completed'` for the referenced booking. This ensures only guests who actually stayed can leave reviews. The lodge's `rating` field should be recalculated as an average of all approved reviews.
 
 ---
 
@@ -893,13 +1021,26 @@ Key-value storage for admin-controlled homepage content.
 2. Validate naturalist belongs to the specified lodge
 3. Validate dates (check-in < check-out, not in the past)
 4. Validate session constraints (max 2 per day, sessions within date range)
-5. Calculate: `numNights = checkOut - checkIn`
-6. Calculate: `roomTotal = roomType.price × numNights`
-7. Calculate: `experienceTotal = sum(naturalist.price × numSessions)`
-8. Calculate: `taxAmount = (roomTotal + experienceTotal) × 0.18`
-9. Calculate: `totalAmount = roomTotal + experienceTotal + taxAmount`
-10. Generate `bookingId` (e.g., "JL" + 8 random digits)
-11. Send confirmation email to `guest.email`
+5. **Check availability:** For each date in range, verify `room_availability.booked_units < total_units` (with row-level lock)
+6. Calculate: `numNights = checkOut - checkIn`
+7. **Resolve seasonal pricing:** For each night, look up `seasonal_rates` for that date → fall back to `room_types.base_price`
+8. Calculate: `roomTotal = sum(resolved_price_per_night)`
+9. Calculate: `experienceTotal = sum(naturalist.price × numSessions)`
+10. Calculate: `taxAmount = (roomTotal + experienceTotal) × 0.18`
+11. Calculate: `totalAmount = roomTotal + experienceTotal + taxAmount`
+12. Generate `bookingId` (e.g., "JL" + 8 random digits)
+13. **Create booking with status = 'held'**, set `held_until = NOW() + 15 minutes`
+14. **Increment `room_availability.booked_units`** for each date in range (inside transaction)
+15. Create initial `payments` record with status = 'initiated'
+16. Return booking to frontend for payment completion
+17. On payment success → update booking status to 'confirmed', create `payments` record with status = 'success'
+18. Send confirmation email to `guest.email`
+
+**Cart Lock / Hold Expiry (Cron Job):**
+- Runs every **1 minute**
+- Finds all bookings where `status = 'held' AND held_until < NOW()`
+- For each expired hold: set `status = 'cancelled'`, decrement `room_availability.booked_units` for each date
+- This ensures inventory is released if a user abandons checkout
 
 ---
 
@@ -1149,21 +1290,26 @@ The admin panel provides a full content management system for all dynamic data. 
 |--------|--------|------|--------|--------|---------|
 | **Regions** | ✅ | ✅ | ✅ | ✅ | Reorder |
 | **Parks** | ✅ | ✅ | ✅ | ✅ | Toggle active, reorder, manage features & FAQs |
-| **Lodges** | ✅ | ✅ | ✅ | ✅ | Toggle active/featured, reorder, manage images |
-| **Room Types** | ✅ | ✅ | ✅ | ✅ | Reorder within lodge |
+| **Lodges** | ✅ | ✅ | ✅ | ✅ | Toggle active/featured, reorder, manage images & amenities |
+| **Amenities** | ✅ | ✅ | ✅ | ✅ | Master amenity list, assign to lodges |
+| **Room Types** | ✅ | ✅ | ✅ | ✅ | Reorder within lodge, set `total_units` |
+| **Seasonal Rates** | ✅ | ✅ | ✅ | ✅ | Date-range pricing per room type |
+| **Room Availability** | – | ✅ | ✅ (override units) | – | View calendar, override total_units per date |
 | **Naturalists** | ✅ | ✅ | ✅ | ✅ | Toggle active |
 | **Bank Offers** | ✅ | ✅ | ✅ | ✅ | Set validity dates, attach to lodge or global |
 | **Lodge FAQs** | ✅ | ✅ | ✅ | ✅ | Reorder |
 | **Field Notes** | ✅ | ✅ | ✅ | ✅ | Draft/publish toggle, rich text editing |
 | **Testimonials** | ✅ | ✅ | ✅ | ✅ | Toggle active, reorder |
 | **Homepage Settings** | – | ✅ | ✅ | – | Hero image/video URL, featured section config |
+| **Reviews** | – | ✅ | ✅ (approve/reject) | ✅ | Moderation queue, require verified booking |
 
 ### User & Booking Management
 
 | Entity | Create | Read | Update | Delete | Special |
 |--------|--------|------|--------|--------|---------|
-| **Users** | – | ✅ | ✅ | ✅ (deactivate) | View booking history, toggle active |
-| **Bookings** | – | ✅ | ✅ (status) | – | Change status, view details, export CSV |
+| **Users** | – | ✅ | ✅ | ✅ (deactivate) | View booking history, toggle active, revoke sessions |
+| **Bookings** | – | ✅ | ✅ (status) | – | Change status, view details, view payment ledger, export CSV |
+| **Payments** | – | ✅ | – | – | View full transaction history per booking, filter by status |
 | **Newsletter** | – | ✅ | – | ✅ (unsubscribe) | Export list CSV |
 | **Admin Users** | ✅ | ✅ | ✅ | ✅ | Role management (super_admin only) |
 
@@ -1216,9 +1362,31 @@ All prefixed with `/api/v1/admin/` and require admin JWT authentication.
 | DELETE | `/admin/testimonials/:id` | Delete |
 | **Bookings** | | |
 | GET | `/admin/bookings` | List all (with filters, search, date range) |
-| GET | `/admin/bookings/:id` | View detail |
+| GET | `/admin/bookings/:id` | View detail (includes payment ledger) |
 | PATCH | `/admin/bookings/:id/status` | Change booking status |
 | GET | `/admin/bookings/export` | Export as CSV |
+| **Payments** | | |
+| GET | `/admin/payments` | List all transactions (with filters) |
+| GET | `/admin/bookings/:id/payments` | Payment ledger for a specific booking |
+| **Seasonal Rates** | | |
+| GET | `/admin/room-types/:id/seasonal-rates` | List rates for a room type |
+| POST | `/admin/room-types/:id/seasonal-rates` | Create seasonal rate |
+| PUT | `/admin/seasonal-rates/:id` | Update rate |
+| DELETE | `/admin/seasonal-rates/:id` | Delete rate |
+| **Availability** | | |
+| GET | `/admin/room-types/:id/availability?from=DATE&to=DATE` | View availability calendar |
+| PATCH | `/admin/room-availability/:id` | Override total_units for a date |
+| **Amenities** | | |
+| GET | `/admin/amenities` | List all amenities |
+| POST | `/admin/amenities` | Create amenity |
+| PUT | `/admin/amenities/:id` | Update amenity |
+| DELETE | `/admin/amenities/:id` | Delete amenity |
+| POST | `/admin/lodges/:id/amenities` | Assign amenities to lodge |
+| DELETE | `/admin/lodges/:id/amenities/:amenityId` | Remove amenity from lodge |
+| **Reviews** | | |
+| GET | `/admin/reviews` | List all (with moderation filter) |
+| PATCH | `/admin/reviews/:id/approve` | Approve a review |
+| DELETE | `/admin/reviews/:id` | Delete a review |
 | **Users** | | |
 | GET | `/admin/users` | List all users |
 | GET | `/admin/users/:id` | View user detail + bookings |
@@ -1276,8 +1444,20 @@ All prefixed with `/api/v1/admin/` and require admin JWT authentication.
 
 ### Token Strategy
 - **Access Token**: Short-lived JWT (15 min), stored in memory on frontend
-- **Refresh Token**: Long-lived JWT (7 days), stored as httpOnly cookie
+- **Refresh Token**: Long-lived JWT (7 days), stored as httpOnly cookie. **Includes `tokenVersion` claim.**
 - **Admin Token**: Separate JWT with admin claims, 1-hour expiry
+
+### Token Revocation
+The `users.refresh_token_version` integer is embedded in the refresh token JWT as the `tokenVersion` claim. On every refresh request:
+1. Decode the refresh token → extract `tokenVersion`
+2. Query `users.refresh_token_version` from DB
+3. If `tokenVersion !== users.refresh_token_version` → **reject** (token is revoked)
+4. If match → issue new access + refresh tokens
+
+**Revocation triggers:**
+- **Logout**: Increment `refresh_token_version` by 1 → all existing refresh tokens become invalid
+- **Admin ban/deactivate**: Increment `refresh_token_version` → instantly kills all active sessions
+- **Password change**: Increment `refresh_token_version` → forces re-login everywhere
 
 ### Password Policy
 - Minimum 8 characters
@@ -1392,8 +1572,14 @@ backend/
 │   ├── services/
 │   │   ├── auth.service.ts
 │   │   ├── booking.service.ts     # Business logic (price calc, validation)
+│   │   ├── availability.service.ts # Room availability checks & inventory locking
+│   │   ├── pricing.service.ts     # Seasonal rate resolution per night
+│   │   ├── payment.service.ts     # Payment gateway integration & ledger
 │   │   ├── email.service.ts       # Send booking confirmations, reset emails
-│   │   └── upload.service.ts      # S3/Cloudinary uploads
+│   │   ├── upload.service.ts      # S3/Cloudinary uploads
+│   │   └── scheduler.service.ts   # Manages cron jobs and scheduled tasks
+│   ├── cron/
+│   │   └── releaseExpiredHolds.ts  # Runs every 1 min, releases 'held' bookings past held_until
 │   ├── validators/
 │   │   ├── auth.validator.ts      # Zod schemas
 │   │   ├── booking.validator.ts
