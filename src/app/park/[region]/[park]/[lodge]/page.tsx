@@ -337,7 +337,7 @@ export default function LodgeDetailPage() {
             <div className={`lg:col-span-6 lg:pl-16 lg:h-full lg:flex lg:flex-col lg:justify-center ${revealClass('arch-copy')}`} data-reveal-id="arch-copy">
               <span className="text-[#CCDD99] uppercase tracking-[0.2em] text-sm font-semibold mb-6 block">Blurring the Lines</span>
               <h2 className="text-3xl md:text-5xl font-serif text-[#FFFFFF] leading-tight mb-8">
-                "{lodgeProfile.natureBlend[0]}"
+                &ldquo;{lodgeProfile.natureBlend[0]}&rdquo;
               </h2>
               <div className="space-y-6 text-[#FFFFFF]/80 text-lg font-light leading-relaxed">
                 <p>{lodgeProfile.natureBlend[1]}</p>
@@ -359,7 +359,7 @@ export default function LodgeDetailPage() {
               <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-8">Deeply educational and ethical wildlife tracking.</h2>
               <div className="space-y-6 text-[#FFFFFF]/70 text-lg font-light leading-relaxed mb-10">
                 <p className="font-serif italic text-xl text-[#FFFFFF]/90 pb-4">
-                  "Instead of just chasing sightings, we focus on interpretation; helping guests understand tracks, alarm calls, habitat relationships and the interconnectedness of the ecosystem. Even a quiet drive becomes rich with insight."
+                  &ldquo;Instead of just chasing sightings, we focus on interpretation; helping guests understand tracks, alarm calls, habitat relationships and the interconnectedness of the ecosystem. Even a quiet drive becomes rich with insight.&rdquo;
                 </p>
                 <p>
                   Being a naturalist owned and run property, at Outpost 12, our guiding team sits at the heart of the guest
@@ -437,7 +437,7 @@ export default function LodgeDetailPage() {
               </div>
               <div className="p-6 bg-[#1E2D27] text-[#FFFFFF]/90 rounded-sm border-l-4 border-[#F1663F]">
                 <p className="font-serif italic text-lg leading-snug">
-                  "Conversations by the fire, quiet moments under the stars, and the steady awareness that the jungle is alive all around you. There is always a scary story to tell in the jungle and our Naturalists make sure you hear one!"
+                  &ldquo;Conversations by the fire, quiet moments under the stars, and the steady awareness that the jungle is alive all around you. There is always a scary story to tell in the jungle and our Naturalists make sure you hear one!&rdquo;
                 </p>
               </div>
             </div>
