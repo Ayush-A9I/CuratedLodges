@@ -16,6 +16,7 @@ const FieldNotePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -31,7 +32,7 @@ const FieldNotePage = () => {
   if (isLoading) {
     return (
       <>
-        <Header forceVisible={true} darkMode={true} />
+        <Header forceVisible={true} forceScrolled={true} />
         <main className={styles.main}>
           <div className={styles.container} style={{ display: 'flex', justifyContent: 'center', padding: '8rem 0' }}>
             <div style={{ width: '2rem', height: '2rem', border: '2px solid #1E2D27', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
@@ -45,7 +46,7 @@ const FieldNotePage = () => {
   if (!note) {
     return (
       <>
-        <Header forceVisible={true} darkMode={true} />
+        <Header forceVisible={true} forceScrolled={true} />
         <main className={styles.main}>
           <div className={styles.container} style={{ textAlign: 'center', padding: '8rem 0' }}>
             <h1>Field Note Not Found</h1>
@@ -72,9 +73,11 @@ const FieldNotePage = () => {
     ? note.content 
     : (note.body || note.content || '').split('\n\n').filter(Boolean);
 
+  const heroVideoSrc = '/assests/videos/Outpost12.mp4';
+
   return (
     <>
-      <Header forceVisible={true} darkMode={true} />
+      <Header forceVisible={true} forceScrolled={true} />
       
       <main className={styles.main}>
         <div className={styles.container}>
@@ -101,13 +104,26 @@ const FieldNotePage = () => {
             </div>
           </header>
 
-          {/* Featured Image */}
+          {/* Featured Media */}
           <div className={styles.featuredImage}>
-            <img 
-              src={note.image} 
-              alt={note.title}
-              className={styles.image}
-            />
+            {videoError ? (
+              <img 
+                src={note.image} 
+                alt={note.title}
+                className={styles.image}
+              />
+            ) : (
+              <video
+                className={styles.image}
+                controls
+                playsInline
+                preload="metadata"
+                poster={note.image}
+                onError={() => setVideoError(true)}
+              >
+                <source src={heroVideoSrc} type="video/mp4" />
+              </video>
+            )}
           </div>
 
           {/* Article Content */}

@@ -13,9 +13,10 @@ interface HeaderProps {
   forceVisible?: boolean;
   forceScrolled?: boolean;
   darkMode?: boolean;
+  whiteTextAlways?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = false, darkMode = false }) => {
+const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = false, darkMode = false, whiteTextAlways = false }) => {
   const [isScrolled, setIsScrolled] = useState(forceScrolled);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -71,13 +72,13 @@ const Header: React.FC<HeaderProps> = ({ forceVisible = false, forceScrolled = f
   }, [lastScrollY, forceVisible, forceScrolled]);
 
   return (
-    <header className={`${styles.header} ${isScrolled ? styles.scrolled : styles.transparent} ${!isVisible ? styles.hidden : ''} ${darkMode ? styles.darkMode : ''}`}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : styles.transparent} ${!isVisible ? styles.hidden : ''} ${darkMode ? styles.darkMode : ''} ${whiteTextAlways ? styles.whiteTextAlways : ''}`}>
       <div className={styles.container}>
         {/* Logo Section */}
         <div className={styles.logoWrapper}>
           <Link href="/" className={styles.logo}>
             <Image 
-              src={isScrolled ? "/assests/images/curatedlodges_logo.svg" : "/assests/images/CL_whitelogo.svg"}
+              src={whiteTextAlways ? "/assests/images/CL_whitelogo.svg" : (isScrolled ? "/assests/images/curatedlodges_logo.svg" : "/assests/images/CL_whitelogo.svg")}
               alt="Curated Lodges"
               width={180}
               height={45}

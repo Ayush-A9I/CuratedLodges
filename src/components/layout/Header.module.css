@@ -135,9 +135,9 @@
   width: 100%;
 }
 
-/* Dark mode navigation links - force dark text */
+/* Dark mode navigation links - force white text */
 .darkMode .navLink {
-  color: #1E2D27;
+  color: #ffffff;
 }
 
 /* Dark mode button styles - override both transparent and scrolled states */
@@ -205,14 +205,14 @@
 
 .darkMode.transparent .localizationButton,
 .darkMode.scrolled .localizationButton {
-  color: #1E2D27;
-  border: 1px solid rgba(30, 45, 39, 0.2);
-  background: rgba(30, 45, 39, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .darkMode.transparent .localizationButton:hover,
 .darkMode.scrolled .localizationButton:hover {
-  background: rgba(30, 45, 39, 0.12);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .conciergeButton {
@@ -288,9 +288,71 @@
   background-color: #1E2D27;
 }
 
-/* Dark mode - force dark lines */
+/* Dark mode - force white lines */
 .darkMode .hamburgerLine {
-  background-color: #1E2D27;
+  background-color: #ffffff;
+}
+
+/* White Text Always Mode - for lodge page */
+/* Keep white text/logo always, black background when scrolled */
+.whiteTextAlways.transparent {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.whiteTextAlways.scrolled {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.whiteTextAlways .navLink {
+  color: #ffffff;
+}
+
+.whiteTextAlways.transparent .logoImage {
+  filter: brightness(1);
+}
+
+.whiteTextAlways.scrolled .logoImage {
+  filter: brightness(1);
+}
+
+.whiteTextAlways .hamburgerLine {
+  background-color: #ffffff;
+}
+
+.whiteTextAlways.transparent .localizationButton {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.whiteTextAlways.scrolled .localizationButton {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.whiteTextAlways.transparent .localizationButton:hover,
+.whiteTextAlways.scrolled .localizationButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.whiteTextAlways.transparent .conciergeButton,
+.whiteTextAlways.scrolled .conciergeButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.whiteTextAlways.transparent .conciergeButton:hover,
+.whiteTextAlways.scrolled .conciergeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Mobile Menu Overlay */
