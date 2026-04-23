@@ -119,7 +119,7 @@ export const api = {
   // Bookings
   createBooking: (data: any) => request('/bookings', { method: 'POST', body: JSON.stringify(data) }),
   getBooking: (bookingId: string) => request(`/bookings/${bookingId}`),
-  cancelBooking: (bookingId: string) => request(`/bookings/${bookingId}/cancel`, { method: 'POST' }),
+  cancelBooking: (bookingId: string) => request(`/bookings/${bookingId}/cancel`, { method: 'PATCH' }),
 
   // Auth
   login: (email: string, password: string) =>
@@ -141,7 +141,7 @@ export const api = {
 
   // Newsletter
   subscribe: (email: string) =>
-    request('/newsletter', { method: 'POST', body: JSON.stringify({ email }) }),
+    request('/newsletter/subscribe', { method: 'POST', body: JSON.stringify({ email }) }),
 };
 
 export default api;
