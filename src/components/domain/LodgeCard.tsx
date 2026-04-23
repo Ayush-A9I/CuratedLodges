@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf, Sun, CloudRain, Snowflake } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import { useTranslation } from 'react-i18next';
@@ -49,6 +50,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   const { convertPrice, currency, exchangeRate } = useLocalization();
   const { t } = useTranslation();
   const [, forceUpdate] = useState({});
+  const router = useRouter();
 
   // Force re-render when currency changes
   useEffect(() => {
@@ -78,8 +80,16 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
 
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (link && link !== '#') {
+      router.push(link);
+    }
+  };
+
   return (
-    <div className={styles.card} onClick={onClick} style={{ cursor: onClick ? 'pointer' : 'default' }}>
+    <div className={styles.card} onClick={handleCardClick} style={{ cursor: (onClick || (link && link !== '#')) ? 'pointer' : 'default' }}>
       <div className={styles.imageContainer}>
         <img 
           src={images[currentImageIndex]} 
@@ -167,7 +177,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           <span className={styles.price}>{displayPrice}</span>
           <span className={styles.nightText}>{t('price.perNight')}</span>
         </div>
-        <button className={styles.arrowButton}>
+        <button className={styles.arrowButton} onClick={(e) => { e.stopPropagation(); handleCardClick(); }}>
           <ArrowRight size={20} />
         </button>
       </div>
