@@ -232,14 +232,44 @@
 }
 
 .logoutBtn {
-    background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: var(--cl-surface);
+    color: var(--cl-green);
+    border: 1px solid var(--cl-border);
     padding: 7px 14px;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.logoutBtn:hover {
+    background: var(--cl-danger);
+    color: #fff;
+    border-color: var(--cl-danger);
+}
+
+/* ─── Sidebar brand / logo ─── */
+.brandLogo {
+    width: auto;
+    height: 30px;
+    object-fit: contain;
+}
+
+.brandPoweredBy {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.04em;
+    padding: 0 20px 14px;
+    margin-top: -8px;
+}
+
+.loginLogo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 18px;
 }
 
 /* ─── Page header ─── */

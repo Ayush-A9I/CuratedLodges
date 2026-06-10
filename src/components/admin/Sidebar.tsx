@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './admin.module.css';
 
@@ -29,6 +30,7 @@ export const ADMIN_NAV: NavGroup[] = [
             { label: 'Parks', href: '/admin/parks', icon: '⛰' },
             { label: 'Regions', href: '/admin/regions', icon: '◍' },
             { label: 'Amenities', href: '/admin/amenities', icon: '✦' },
+            { label: 'Bank Offers', href: '/admin/bank-offers', icon: '◉' },
         ],
     },
     {
@@ -36,19 +38,24 @@ export const ADMIN_NAV: NavGroup[] = [
         items: [
             { label: 'Field Notes', href: '/admin/field-notes', icon: '✎' },
             { label: 'Testimonials', href: '/admin/testimonials', icon: '❝' },
+            { label: 'Reviews', href: '/admin/reviews', icon: '★' },
         ],
     },
     {
         label: 'Operations',
         items: [
             { label: 'Bookings', href: '/admin/bookings', icon: '▤' },
+            { label: 'Payments', href: '/admin/payments', icon: '₹' },
             { label: 'Users', href: '/admin/users', icon: '◑' },
             { label: 'Newsletter', href: '/admin/newsletter', icon: '✉' },
         ],
     },
     {
         label: 'System',
-        items: [{ label: 'Settings', href: '/admin/homepage-settings', icon: '⚙' }],
+        items: [
+            { label: 'Settings', href: '/admin/homepage-settings', icon: '⚙' },
+            { label: 'Admin Users', href: '/admin/admin-users', icon: '⚷' },
+        ],
     },
 ];
 
@@ -64,8 +71,14 @@ export function Sidebar() {
     return (
         <aside className={styles.sidebar}>
             <div className={styles.sidebarBrand}>
-                <span className={styles.brandDot} />
-                <span>Curated Lodges</span>
+                <Image
+                    src="/assests/images/CL_whitelogo.svg"
+                    alt="Curated Lodges"
+                    width={160}
+                    height={30}
+                    className={styles.brandLogo}
+                    priority
+                />
             </div>
             <nav>
                 {ADMIN_NAV.map((group) => (

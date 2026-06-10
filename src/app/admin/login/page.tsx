@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { AdminInput, SaveButton } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
@@ -38,10 +39,14 @@ export default function AdminLoginPage() {
     return (
         <div className={styles.loginScreen}>
             <form className={styles.loginCard} onSubmit={handleSubmit}>
-                <div className={styles.loginBrand}>
-                    <span className={styles.brandDot} />
-                    Curated Lodges
-                </div>
+                <Image
+                    src="/assests/images/curatedlodges_logo.svg"
+                    alt="Curated Lodges"
+                    width={200}
+                    height={40}
+                    className={styles.loginLogo}
+                    priority
+                />
                 <p className={styles.loginSubtitle}>Admin panel — sign in to continue</p>
 
                 {error && <div className={styles.loginError}>{error}</div>}

@@ -31,23 +31,48 @@ interface SettingRow {
     isNew: boolean;
 }
 
+// Known homepage keys read by the homepage controller (settingsMap.get(...)).
+// These always render in the Hero section, even before the backend seeds them.
+const HERO_IMAGE_KEY = 'hero_image_url';
+const HERO_VIDEO_KEY = 'hero_video_url';
+const KNOWN_KEYS: string[] = [HERO_IMAGE_KEY, HERO_VIDEO_KEY];
+
 export default function AdminHomepageSettingsPage() {
     const toast = useToast();
 
-    const [original, setOriginal] = useState<HomepageSetting[]>([]);
-    const [items, setItems] = useState<SettingRow[]>([]);
     const [loading, setLoading] = useState(true);
-    const [saving, setSaving] = useState(false);
+
+    // ─── Hero section state ───
+    const [heroImageUrl, setHeroImageUrl] = useState('');
+    const [heroVideoUrl, setHeroVideoUrl] = useState('');
+    const [heroOriginal, setHeroOriginal] = useState({ image: '', video: '' });
+    const [savingHero, setSavingHero] = useState(false);
+
+    // ─── Other settings state ───
+    const [otherOriginal, setOtherOriginal] = useState<HomepageSetting[]>([]);
+    const [otherItems, setOtherItems] = useState<SettingRow[]>([]);
+    const [savingOther, setSavingOther] = useState(false);
 
     const loadSettings = useCallback(async () => {
         setLoading(true);
         try {
             const data = await adminApi.homepageSettings.get();
-            // Controller returns { settings }.
             const settings = (data as { settings: HomepageSetting[] }).settings ?? [];
-            setOriginal(settings);
-            setItems(
-                settings.map((s) => ({
+
+            const byKey = new Map(settings.map((s) => [s.key, s.value ?? '']));
+
+            // Hero fields default to empty when not yet seeded.
+            const image = byKey.get(HERO_IMAGE_KEY) ?? '';
+            const video = byKey.get(HERO_VIDEO_KEY) ?? '';
+            setHeroImageUrl(image);
+            setHeroVideoUrl(video);
+            setHeroOriginal({ image, video });
+
+            // Everything else becomes an editable key/value row.
+            const others = settings.filter((s) => !KNOWN_KEYS.includes(s.key));
+            setOtherOriginal(others);
+            setOtherItems(
+                others.map((s) => ({
                     originalKey: s.key,
                     key: s.key,
                     value: s.value ?? '',
@@ -67,67 +92,112 @@ export default function AdminHomepageSettingsPage() {
         loadSettings();
     }, [loadSettings]);
 
-    // Compute which rows changed (value differs, or brand new with a key).
-    const changedRows = useMemo(() => {
-        const byKey = new Map(original.map((s) => [s.key, s.value ?? '']));
-        return items.filter((row) => {
+    // ─── Hero save ───
+    const heroDirty = useMemo(
+        () => heroImageUrl !== heroOriginal.image || heroVideoUrl !== heroOriginal.video,
+        [heroImageUrl, heroVideoUrl, heroOriginal]
+    );
+
+    const handleHeroSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!heroDirty) {
+            toast.error('No changes to save.');
+            return;
+        }
+
+        // Only persist the fields that actually changed.
+        const changes: { key: string; value: string }[] = [];
+        if (heroImageUrl !== heroOriginal.image) {
+            changes.push({ key: HERO_IMAGE_KEY, value: heroImageUrl.trim() });
+        }
+        if (heroVideoUrl !== heroOriginal.video) {
+            changes.push({ key: HERO_VIDEO_KEY, value: heroVideoUrl.trim() });
+        }
+
+        setSavingHero(true);
+        try {
+            for (const change of changes) {
+                await adminApi.homepageSettings.update(change);
+            }
+            toast.success('Homepage hero saved.');
+            await loadSettings();
+        } catch (err) {
+            toast.error(
+                err instanceof AdminApiError ? err.message : 'Failed to save homepage hero.'
+            );
+        } finally {
+            setSavingHero(false);
+        }
+    };
+
+    // ─── Other settings ───
+    const otherChangedRows = useMemo(() => {
+        const byKey = new Map(otherOriginal.map((s) => [s.key, s.value ?? '']));
+        return otherItems.filter((row) => {
             const key = row.key.trim();
             if (!key) return false;
             if (row.isNew) return true;
             return byKey.get(row.originalKey) !== row.value;
         });
-    }, [items, original]);
+    }, [otherItems, otherOriginal]);
 
     const updateRow = (index: number, patch: Partial<SettingRow>) => {
-        setItems((prev) => prev.map((r, i) => (i === index ? { ...r, ...patch } : r)));
+        setOtherItems((prev) => prev.map((r, i) => (i === index ? { ...r, ...patch } : r)));
     };
 
     const addRow = () => {
-        setItems((prev) => [...prev, { originalKey: '', key: '', value: '', isNew: true }]);
+        setOtherItems((prev) => [...prev, { originalKey: '', key: '', value: '', isNew: true }]);
     };
 
     const removeRow = (index: number) => {
-        setItems((prev) => prev.filter((_, i) => i !== index));
+        setOtherItems((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleOtherSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (changedRows.length === 0) {
+        if (otherChangedRows.length === 0) {
             toast.error('No changes to save.');
             return;
         }
 
+        // Don't let custom keys collide with the managed hero keys.
+        const reserved = otherChangedRows.find((r) => KNOWN_KEYS.includes(r.key.trim()));
+        if (reserved) {
+            toast.error(`"${reserved.key.trim()}" is managed in the Homepage Hero section above.`);
+            return;
+        }
+
         // Guard against duplicate keys in the form.
-        const keys = changedRows.map((r) => r.key.trim());
+        const keys = otherChangedRows.map((r) => r.key.trim());
         const dupes = keys.filter((k, i) => keys.indexOf(k) !== i);
         if (dupes.length > 0) {
             toast.error(`Duplicate key: ${dupes[0]}`);
             return;
         }
 
-        setSaving(true);
+        setSavingOther(true);
         try {
-            // updateHomepageSetting accepts a single { key, value } and upserts,
-            // so save each changed pair sequentially.
-            for (const row of changedRows) {
+            // update() accepts a single { key, value } and upserts, so save each
+            // changed pair sequentially.
+            for (const row of otherChangedRows) {
                 await adminApi.homepageSettings.update({
                     key: row.key.trim(),
                     value: row.value,
                 });
             }
             toast.success(
-                changedRows.length === 1
+                otherChangedRows.length === 1
                     ? 'Setting saved.'
-                    : `${changedRows.length} settings saved.`
+                    : `${otherChangedRows.length} settings saved.`
             );
             await loadSettings();
         } catch (err) {
             toast.error(
-                err instanceof AdminApiError ? err.message : 'Failed to save homepage settings.'
+                err instanceof AdminApiError ? err.message : 'Failed to save settings.'
             );
         } finally {
-            setSaving(false);
+            setSavingOther(false);
         }
     };
 
@@ -135,69 +205,178 @@ export default function AdminHomepageSettingsPage() {
         <div>
             <PageHeader
                 title="Homepage Settings"
-                subtitle="Edit the key/value content blocks shown on the homepage"
-                actionLabel="Add Setting"
-                onAction={addRow}
+                subtitle="Manage the hero media and content blocks shown on the homepage"
             />
 
-            <div className={styles.panel}>
-                {loading ? (
+            {loading ? (
+                <div className={styles.panel}>
                     <div className={styles.tableState}>
                         <div className={styles.spinner} />
                         Loading…
                     </div>
-                ) : items.length === 0 ? (
-                    <div className={styles.tableState}>
-                        No settings yet. Add your first setting to get started.
-                    </div>
-                ) : (
-                    <form id="homepage-settings-form" onSubmit={handleSubmit}>
-                        {items.map((row, index) => (
-                            <div
-                                key={row.isNew ? `new-${index}` : row.originalKey}
-                                style={{
-                                    borderBottom: '1px solid var(--cl-border, #e5e7eb)',
-                                    paddingBottom: 12,
-                                    marginBottom: 12,
-                                }}
-                            >
+                </div>
+            ) : (
+                <>
+                    {/* ─── Homepage Hero ─── */}
+                    <div className={styles.panel}>
+                        <div className={styles.panelHeader}>Homepage Hero</div>
+                        <div className={styles.panelBody} style={{ padding: '16px 20px' }}>
+                            <form id="hero-form" onSubmit={handleHeroSubmit}>
                                 <AdminInput
-                                    label="Key"
-                                    name={`key-${index}`}
-                                    value={row.key}
-                                    readOnly={!row.isNew}
-                                    disabled={!row.isNew}
-                                    placeholder="e.g. hero_title"
-                                    onChange={(e) => updateRow(index, { key: e.target.value })}
+                                    label="Hero Image URL"
+                                    name="hero_image_url"
+                                    type="url"
+                                    inputMode="url"
+                                    placeholder="https://example.com/hero.jpg"
+                                    value={heroImageUrl}
+                                    onChange={(e) => setHeroImageUrl(e.target.value)}
                                 />
-                                <AdminTextarea
-                                    label="Value"
-                                    name={`value-${index}`}
-                                    rows={3}
-                                    value={row.value}
-                                    onChange={(e) => updateRow(index, { value: e.target.value })}
-                                />
-                                {row.isNew && (
-                                    <button
-                                        type="button"
-                                        className={`${styles.btn} ${styles.btnGhost} ${styles.btnSmall}`}
-                                        style={{ color: 'var(--cl-danger)' }}
-                                        onClick={() => removeRow(index)}
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-                            </div>
-                        ))}
 
-                        <div className={styles.modalFooter} style={{ paddingRight: 0 }}>
-                            <SaveButton loading={saving} disabled={changedRows.length === 0}>
-                                Save Changes
-                            </SaveButton>
+                                {heroImageUrl.trim() ? (
+                                    <div style={{ marginBottom: 16 }}>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={heroImageUrl.trim()}
+                                            alt="Hero preview"
+                                            style={{
+                                                display: 'block',
+                                                width: '100%',
+                                                maxHeight: 280,
+                                                objectFit: 'cover',
+                                                borderRadius: 8,
+                                                border: '1px solid var(--cl-border)',
+                                                background: 'var(--cl-bg)',
+                                            }}
+                                            onError={(e) => {
+                                                (e.currentTarget as HTMLImageElement).style.display =
+                                                    'none';
+                                            }}
+                                            onLoad={(e) => {
+                                                (e.currentTarget as HTMLImageElement).style.display =
+                                                    'block';
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <p
+                                        style={{
+                                            margin: '-8px 0 16px',
+                                            fontSize: 13,
+                                            color: 'var(--cl-text-muted)',
+                                        }}
+                                    >
+                                        Add an image URL to see a live preview here.
+                                    </p>
+                                )}
+
+                                <AdminInput
+                                    label="Hero Video URL"
+                                    name="hero_video_url"
+                                    type="url"
+                                    inputMode="url"
+                                    placeholder="https://example.com/hero.mp4 (optional)"
+                                    value={heroVideoUrl}
+                                    onChange={(e) => setHeroVideoUrl(e.target.value)}
+                                />
+
+                                <div className={styles.modalFooter} style={{ paddingRight: 0 }}>
+                                    <SaveButton loading={savingHero} disabled={!heroDirty}>
+                                        Save Hero
+                                    </SaveButton>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                )}
-            </div>
+                    </div>
+
+                    {/* ─── Other settings ─── */}
+                    <div className={styles.panel}>
+                        <div
+                            className={styles.panelHeader}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <span>Other settings</span>
+                            <button
+                                type="button"
+                                className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
+                                onClick={addRow}
+                            >
+                                Add custom setting
+                            </button>
+                        </div>
+                        <div className={styles.panelBody} style={{ padding: '16px 20px' }}>
+                            {otherItems.length === 0 ? (
+                                <p
+                                    style={{
+                                        margin: '4px 0 16px',
+                                        fontSize: 13,
+                                        color: 'var(--cl-text-muted)',
+                                    }}
+                                >
+                                    No additional settings. Use “Add custom setting” to create a new
+                                    key/value pair.
+                                </p>
+                            ) : null}
+
+                            <form id="other-settings-form" onSubmit={handleOtherSubmit}>
+                                {otherItems.map((row, index) => (
+                                    <div
+                                        key={row.isNew ? `new-${index}` : row.originalKey}
+                                        style={{
+                                            borderBottom: '1px solid var(--cl-border)',
+                                            paddingBottom: 12,
+                                            marginBottom: 12,
+                                        }}
+                                    >
+                                        <AdminInput
+                                            label="Key"
+                                            name={`key-${index}`}
+                                            value={row.key}
+                                            readOnly={!row.isNew}
+                                            disabled={!row.isNew}
+                                            placeholder="e.g. hero_title"
+                                            onChange={(e) =>
+                                                updateRow(index, { key: e.target.value })
+                                            }
+                                        />
+                                        <AdminTextarea
+                                            label="Value"
+                                            name={`value-${index}`}
+                                            rows={3}
+                                            value={row.value}
+                                            onChange={(e) =>
+                                                updateRow(index, { value: e.target.value })
+                                            }
+                                        />
+                                        {row.isNew && (
+                                            <button
+                                                type="button"
+                                                className={`${styles.btn} ${styles.btnGhost} ${styles.btnSmall}`}
+                                                style={{ color: 'var(--cl-danger)' }}
+                                                onClick={() => removeRow(index)}
+                                            >
+                                                Remove
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+
+                                <div className={styles.modalFooter} style={{ paddingRight: 0 }}>
+                                    <SaveButton
+                                        loading={savingOther}
+                                        disabled={otherChangedRows.length === 0}
+                                    >
+                                        Save Changes
+                                    </SaveButton>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

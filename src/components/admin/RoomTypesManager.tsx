@@ -15,6 +15,7 @@ import {
     useToast,
 } from '@/components/admin';
 import { formatMoney } from '@/lib/money';
+import { SeasonalRatesModal } from '@/components/admin/SeasonalRatesModal';
 import styles from '@/components/admin/admin.module.css';
 
 export interface RoomTypeRecord {
@@ -72,6 +73,8 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
 
     const [deleteTarget, setDeleteTarget] = useState<RoomTypeRecord | null>(null);
     const [deleting, setDeleting] = useState(false);
+
+    const [ratesTarget, setRatesTarget] = useState<RoomTypeRecord | null>(null);
 
     const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
         setForm((p) => ({ ...p, [k]: v }));
@@ -194,6 +197,14 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                 emptyMessage="No room types yet."
                 onEdit={openEdit}
                 onDelete={(r) => setDeleteTarget(r)}
+                renderActions={(r) => (
+                    <button
+                        className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
+                        onClick={() => setRatesTarget(r)}
+                    >
+                        Rates
+                    </button>
+                )}
             />
 
             <Modal
@@ -295,6 +306,15 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                 onConfirm={handleDelete}
                 onCancel={() => setDeleteTarget(null)}
             />
+
+            {ratesTarget && (
+                <SeasonalRatesModal
+                    open={!!ratesTarget}
+                    onClose={() => setRatesTarget(null)}
+                    roomTypeId={ratesTarget.id}
+                    roomTypeName={ratesTarget.name}
+                />
+            )}
         </div>
     );
 }
