@@ -16,6 +16,7 @@ import {
 } from '@/components/admin';
 import { formatMoney } from '@/lib/money';
 import { SeasonalRatesModal } from '@/components/admin/SeasonalRatesModal';
+import { AvailabilityModal } from '@/components/admin/AvailabilityModal';
 import styles from '@/components/admin/admin.module.css';
 
 export interface RoomTypeRecord {
@@ -75,6 +76,7 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
     const [deleting, setDeleting] = useState(false);
 
     const [ratesTarget, setRatesTarget] = useState<RoomTypeRecord | null>(null);
+    const [availabilityTarget, setAvailabilityTarget] = useState<RoomTypeRecord | null>(null);
 
     const set = <K extends keyof FormState>(k: K, v: FormState[K]) =>
         setForm((p) => ({ ...p, [k]: v }));
@@ -198,12 +200,20 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                 onEdit={openEdit}
                 onDelete={(r) => setDeleteTarget(r)}
                 renderActions={(r) => (
-                    <button
-                        className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
-                        onClick={() => setRatesTarget(r)}
-                    >
-                        Rates
-                    </button>
+                    <>
+                        <button
+                            className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
+                            onClick={() => setRatesTarget(r)}
+                        >
+                            Rates
+                        </button>
+                        <button
+                            className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
+                            onClick={() => setAvailabilityTarget(r)}
+                        >
+                            Availability
+                        </button>
+                    </>
                 )}
             />
 
@@ -313,6 +323,16 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                     onClose={() => setRatesTarget(null)}
                     roomTypeId={ratesTarget.id}
                     roomTypeName={ratesTarget.name}
+                />
+            )}
+
+            {availabilityTarget && (
+                <AvailabilityModal
+                    open={!!availabilityTarget}
+                    onClose={() => setAvailabilityTarget(null)}
+                    roomTypeId={availabilityTarget.id}
+                    roomTypeName={availabilityTarget.name}
+                    defaultUnits={availabilityTarget.totalUnits}
                 />
             )}
         </div>

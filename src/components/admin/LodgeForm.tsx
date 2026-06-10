@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from 'react';
 import {
     AdminInput,
-    AdminTextarea,
     AdminSelect,
     AdminCheckbox,
     AdminLabel,
@@ -11,6 +10,7 @@ import {
     SaveButton,
 } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
+import { LodgeContentEditor } from '@/components/admin/LodgeContentEditor';
 
 /* ─── Types ─── */
 
@@ -71,19 +71,14 @@ interface FormState {
     bestSeason: string;
     aboutDescription: string[]; // repeatable paragraphs
     jungloreStoryReasons: string[]; // repeatable reasons
-    jungloreStoryHighlights: string; // raw JSON text
     isActive: boolean;
     isFeatured: boolean;
     sortOrder: string;
 }
 
-function prettyJson(value: unknown): string {
-    if (value === null || value === undefined || value === '') return '';
-    try {
-        return JSON.stringify(value, null, 2);
-    } catch {
-        return '';
-    }
+/** True when the value is a non-null, non-array plain object. */
+function isPlainObject(v: unknown): v is Record<string, any> {
+    return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
 function buildInitialState(initial?: LodgeRecord): FormState {
@@ -112,7 +107,6 @@ function buildInitialState(initial?: LodgeRecord): FormState {
             initial?.jungloreStoryReasons && initial.jungloreStoryReasons.length > 0
                 ? [...initial.jungloreStoryReasons]
                 : [''],
-        jungloreStoryHighlights: prettyJson(initial?.jungloreStoryHighlights),
         isActive: initial?.isActive ?? true,
         isFeatured: initial?.isFeatured ?? false,
         sortOrder:
@@ -139,6 +133,11 @@ export function LodgeForm({
     onCancel,
 }: LodgeFormProps) {
     const [form, setForm] = useState<FormState>(() => buildInitialState(initial));
+    const [content, setContent] = useState<Record<string, any>>(() =>
+        isPlainObject(initial?.jungloreStoryHighlights)
+            ? { ...(initial!.jungloreStoryHighlights as Record<string, any>) }
+            : {}
+    );
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const parkOptions = useMemo(
@@ -188,18 +187,6 @@ export function LodgeForm({
         const sortOrder = Number.parseInt(form.sortOrder || '0', 10);
         if (Number.isNaN(sortOrder)) errs.sortOrder = 'Sort order must be a number.';
 
-        // jungloreStoryHighlights must be valid JSON when provided.
-        let highlights: unknown = undefined;
-        const raw = form.jungloreStoryHighlights.trim();
-        if (raw) {
-            try {
-                highlights = JSON.parse(raw);
-            } catch {
-                errs.jungloreStoryHighlights =
-                    'Flexible content must be valid JSON. Check for trailing commas or unquoted keys.';
-            }
-        }
-
         setErrors(errs);
         if (Object.keys(errs).length > 0) return { ok: false };
 
@@ -226,10 +213,13 @@ export function LodgeForm({
         // Optional fields: only include when present (schema fields are .optional()).
         if (form.slug.trim()) payload.slug = form.slug.trim();
         if (form.externalLink.trim()) payload.externalLink = form.externalLink.trim();
-        if (raw) {
-            payload.jungloreStoryHighlights = highlights;
+
+        // Structured lodge content: include the object when it has any keys.
+        const hasContent = content && Object.keys(content).length > 0;
+        if (hasContent) {
+            payload.jungloreStoryHighlights = content;
         } else if (mode === 'edit') {
-            // Allow clearing the flexible content on edit.
+            // Allow clearing the structured content on edit.
             payload.jungloreStoryHighlights = null;
         }
 
@@ -462,26 +452,9 @@ export function LodgeForm({
             </div>
 
             <div className={styles.panel}>
-                <div className={styles.panelHeader}>Flexible content (JSON)</div>
+                <div className={styles.panelHeader}>Lodge Content</div>
                 <div style={{ padding: '20px' }}>
-                    <AdminTextarea
-                        label="jungloreStoryHighlights"
-                        wrapRow={false}
-                        rows={14}
-                        spellCheck={false}
-                        style={{ fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', minHeight: 220 }}
-                        placeholder={
-                            '{\n  "natureBlend": "…",\n  "naturalistPhilosophy": "…",\n  "afterSafariVibe": "…",\n  "conservation": "…",\n  "usps": [],\n  "contact": {},\n  "paymentInfo": "…",\n  "cancellationPolicy": "…",\n  "originStory": "…"\n}'
-                        }
-                        value={form.jungloreStoryHighlights}
-                        error={errors.jungloreStoryHighlights}
-                        onChange={(e) => set('jungloreStoryHighlights', e.target.value)}
-                    />
-                    <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
-                        Per-hotel rich content (natureBlend, naturalistPhilosophy, afterSafariVibe,
-                        conservation, usps, contact, paymentInfo, cancellationPolicy, originStory…).
-                        Must be valid JSON. Leave blank to clear.
-                    </p>
+                    <LodgeContentEditor value={content} onChange={setContent} />
                 </div>
             </div>
 

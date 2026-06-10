@@ -441,6 +441,9 @@ export const adminApi = {
         /** PATCH /admin/room-availability/:id */
         update: (availabilityId: string, data: AdminPayload) =>
             request(`/admin/room-availability/${availabilityId}`, { method: 'PATCH', body: body(data) }),
+        /** PUT /admin/room-types/:id/availability { date, totalUnits } — upserts a row by (roomTypeId, date). */
+        upsert: (roomTypeId: string, data: { date: string; totalUnits: number }) =>
+            request(`/admin/room-types/${roomTypeId}/availability`, { method: 'PUT', body: JSON.stringify(data) }),
     },
 };
 
