@@ -17,10 +17,19 @@ type MediaItem = {
 
 // ─── Helper: map API response to page data shape ──────────────
 function mapApiToProfile(data: any) {
-  // jungloreStory.highlights is an ARRAY of { icon, text } objects
-  // (see BACKEND_ARCHITECTURE.md / LodgeDetail in @/types/api), not a keyed object.
-  const highlights: { icon: string; text: string }[] = Array.isArray(data.jungloreStory?.highlights)
-    ? data.jungloreStory.highlights
+  // jungloreStory.highlights carries the lodge's flexible content. Different
+  // hotels submit content differently, so this can be EITHER:
+  //  - a keyed content object ({ natureBlend, naturalistPhilosophy, afterSafariVibe,
+  //    conservation, usps, originStory, contact, paymentInfo, cancellationPolicy, ... }), or
+  //  - the legacy contract array of { icon, text } highlights.
+  // Read whatever shape is present and render only the sections that exist.
+  const rawHighlights = data.jungloreStory?.highlights;
+  const content: any =
+    rawHighlights && typeof rawHighlights === 'object' && !Array.isArray(rawHighlights)
+      ? rawHighlights
+      : {};
+  const highlights: { icon: string; text: string }[] = Array.isArray(rawHighlights)
+    ? rawHighlights
     : [];
 
   return {
@@ -38,14 +47,26 @@ function mapApiToProfile(data: any) {
       maxOccupancy: rt.maxOccupancy,
     })),
     mealPlans: data.mealPlans || [],
-    originStory: data.about?.description || [],
-    natureBlend: [] as string[],
-    naturalistPhilosophy: [] as string[],
-    afterSafariVibe: [] as string[],
-    conservation: [] as string[],
+    // Prefer the structured content object, falling back to the dedicated
+    // about/reasons fields and the legacy highlights array.
+    originStory: content.originStory || data.about?.description || [],
+    natureBlend: content.natureBlend || [],
+    naturalistPhilosophy: content.naturalistPhilosophy || [],
+    afterSafariVibe: content.afterSafariVibe || [],
+    // Conservation may be an object ({ intro, wildlifeEcosystem, indigenousCommunities })
+    // or a flat array; the render layer handles both.
+    conservation: content.conservation || [],
     uniquePoints: data.jungloreStory?.reasons || [],
-    // Iterate the highlights array into the USP card shape ({ icon, title, desc }).
-    usps: highlights.map((h) => ({ icon: h.icon, title: h.text, desc: '' })),
+    // USPs come either as structured { title, text } objects from the content
+    // object, or are derived from the legacy { icon, text } highlights array.
+    usps:
+      Array.isArray(content.usps) && content.usps.length > 0
+        ? content.usps
+        : highlights.map((h) => ({ icon: h.icon, title: h.text, desc: '' })),
+    // Extra flexible content (rendered where the page has sections for them).
+    contact: content.contact || null,
+    paymentInfo: content.paymentInfo || null,
+    cancellationPolicy: content.cancellationPolicy || null,
     parkName: data.park?.name || '',
     parkSlug: data.park?.slug || '',
     regionSlug: data.park?.region?.slug || '',
