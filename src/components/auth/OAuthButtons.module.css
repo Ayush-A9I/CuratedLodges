@@ -1,0 +1,53 @@
+/* Mirrors the social-button Theme_Conventions used on the sign-in/sign-up views
+   (src/app/signin/signin.module.css) so OAuthButtons looks identical (Req 8.9). */
+
+.socialButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.socialButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 16px;
+    background: white;
+    color: #1E2D27;
+    border: 1.5px solid #E5E5E5;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.socialButton:hover {
+    border-color: #1E2D27;
+    background: #FAFAFA;
+}
+
+.socialButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.socialIcon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .socialButtons {
+        flex-direction: column;
+    }
+
+    .socialButton {
+        width: 100%;
+        padding: 14px 16px;
+    }
+}

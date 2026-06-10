@@ -124,6 +124,10 @@ export const api = {
   // Auth
   login: (email: string, password: string) =>
     request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  loginWithGoogle: (idToken: string) =>
+    request('/auth/google', { method: 'POST', body: JSON.stringify({ idToken }) }),
+  loginWithFacebook: (accessToken: string) =>
+    request('/auth/facebook', { method: 'POST', body: JSON.stringify({ accessToken }) }),
   register: (data: { firstName: string; lastName: string; email: string; password: string }) =>
     request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
   forgotPassword: (email: string) =>

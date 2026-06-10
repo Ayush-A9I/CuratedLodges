@@ -11,7 +11,7 @@
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.1);
   /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); */
-  
+
   /* Ensure dropdown appears below */
   overflow: visible;
   position: relative;
@@ -107,7 +107,7 @@
   padding-right: 20px;
   text-align: left;
   direction: ltr;
-  
+
   /* Force dropdown to appear below the select element */
   position: relative;
 }
@@ -118,7 +118,7 @@
   flex-direction: column;
   padding: 12px 20px;
   position: relative;
-  
+
   /* Ensure dropdown appears below */
   overflow: visible;
 }
@@ -178,6 +178,51 @@
   color: rgba(255, 255, 255, 0.5);
   font-style: italic;
   background: rgba(30, 45, 39, 0.7);
+}
+
+/* Per-control feedback row (loading/error/empty/required) */
+.controlMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.7rem;
+  line-height: 1.2;
+  flex-wrap: wrap;
+}
+
+.controlError {
+  color: #ff9b8a;
+  font-weight: 500;
+}
+
+.controlEmpty {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+.retryLink {
+  background: transparent;
+  border: none;
+  color: #F1663F;
+  font-weight: 600;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-family: inherit;
+}
+
+.retryLink:hover {
+  color: #D94F2A;
+}
+
+.searchBox.compact .controlMessage {
+  font-size: 0.6rem;
+}
+
+.searchBox.compact .retryLink {
+  font-size: 0.6rem;
 }
 
 .findButton {

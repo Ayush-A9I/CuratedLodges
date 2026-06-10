@@ -1,0 +1,60 @@
+/*
+ * Checkout page shell.
+ * Header/Footer composition with a centered content container.
+ * Brand tokens: dark green #1E2D27, orange #F1663F, DM Sans typography.
+ */
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f6f5f1;
+}
+
+.main {
+    flex: 1 0 auto;
+    padding: 120px 24px 64px;
+}
+
+.container {
+    max-width: 1120px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.heading {
+    margin-bottom: 28px;
+}
+
+.back {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f1663f;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 12px;
+    transition: opacity 0.2s ease;
+}
+
+.back:hover {
+    opacity: 0.8;
+}
+
+.title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e2d27;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .main {
+        padding: 100px 16px 48px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+}

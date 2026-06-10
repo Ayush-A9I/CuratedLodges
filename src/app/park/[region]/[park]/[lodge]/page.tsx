@@ -8,6 +8,7 @@ import ReadMoreModal from '../../../../../components/ui/ReadMoreModal';
 import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, ArrowRight, Tent, Volume2 } from 'lucide-react';
 import styles from './lodge.module.css';
 import api from '../../../../../lib/api';
+import type { LodgeDetail } from '@/types/api';
 
 type MediaItem = {
   src: string;
@@ -16,13 +17,18 @@ type MediaItem = {
 
 // ─── Helper: map API response to page data shape ──────────────
 function mapApiToProfile(data: any) {
-  const highlights = data.jungloreStory?.highlights || {};
+  // jungloreStory.highlights is an ARRAY of { icon, text } objects
+  // (see BACKEND_ARCHITECTURE.md / LodgeDetail in @/types/api), not a keyed object.
+  const highlights: { icon: string; text: string }[] = Array.isArray(data.jungloreStory?.highlights)
+    ? data.jungloreStory.highlights
+    : [];
 
   return {
     name: data.name || '',
     category: data.category || 'Wildlife Lodge',
     roomCount: data.roomTypes?.length || 0,
-    totalRooms: data.roomTypes?.reduce((sum: number, rt: any) => sum + (rt.totalUnits || 1), 0) || 0,
+    // roomTypes carry no `totalUnits` field; surface the number of room types instead.
+    totalRooms: data.roomTypes?.length || 0,
     location: data.location || '',
     roomTypes: (data.roomTypes || []).map((rt: any) => ({
       name: rt.name,
@@ -32,13 +38,14 @@ function mapApiToProfile(data: any) {
       maxOccupancy: rt.maxOccupancy,
     })),
     mealPlans: data.mealPlans || [],
-    originStory: highlights.originStory || data.about?.description || [],
-    natureBlend: highlights.natureBlend || [],
-    naturalistPhilosophy: highlights.naturalistPhilosophy || [],
-    afterSafariVibe: highlights.afterSafariVibe || [],
-    conservation: highlights.conservation || [],
+    originStory: data.about?.description || [],
+    natureBlend: [] as string[],
+    naturalistPhilosophy: [] as string[],
+    afterSafariVibe: [] as string[],
+    conservation: [] as string[],
     uniquePoints: data.jungloreStory?.reasons || [],
-    usps: highlights.usps || [],
+    // Iterate the highlights array into the USP card shape ({ icon, title, desc }).
+    usps: highlights.map((h) => ({ icon: h.icon, title: h.text, desc: '' })),
     parkName: data.park?.name || '',
     parkSlug: data.park?.slug || '',
     regionSlug: data.park?.region?.slug || '',
@@ -63,7 +70,7 @@ export default function LodgeDetailPage() {
   const params = useParams();
   const lodgeSlug = params?.lodge as string;
 
-  const [lodge, setLodge] = useState<any>(null);
+  const [lodge, setLodge] = useState<LodgeDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -473,7 +480,7 @@ export default function LodgeDetailPage() {
                 const titles = ['The Ecological Footprint', 'Community Empowerment', 'The Simple Truth'];
                 const Icon = icons[i] || Shield;
                 return (
-                  <div key={i} className={`bg-[#FFFFFF] p-10 md:p-12 hover:-translate-y-2 transition-transform duration-300 border-t-4 border-[#F1663F] shadow-[0_4px_40px_rgba(30,45,39,0.06)] ${revealClass(`cons-${i+1}`)}`} data-reveal-id={`cons-${i+1}`}>
+                  <div key={i} className={`bg-[#FFFFFF] p-10 md:p-12 hover:-translate-y-2 transition-transform duration-300 border-t-4 border-[#F1663F] shadow-[0_4px_40px_rgba(30,45,39,0.06)] ${revealClass(`cons-${i + 1}`)}`} data-reveal-id={`cons-${i + 1}`}>
                     <Icon className="text-[#F1663F] mb-6" size={32} strokeWidth={1.5} />
                     <h3 className="font-serif text-xl mb-4 text-[#1E2D27]">{titles[i] || 'Our Commitment'}</h3>
                     <p className="text-[#1E2D27]/70 text-sm leading-relaxed">
@@ -591,17 +598,17 @@ export default function LodgeDetailPage() {
                     : styles.revealFromRight;
 
                 return (
-                <button
-                  key={image.src + idx}
-                  onClick={() => setLightboxIndex(idx)}
-                  data-reveal-id={`gallery-item-${idx}`}
-                  className={`relative group overflow-hidden rounded-sm shadow-[0_8px_30px_rgba(30,45,39,0.12)] ${idx % 9 === 0 ? 'col-span-2 row-span-2 ' : ''}${idx % 7 === 0 ? 'row-span-2 ' : ''}${revealClass(`gallery-item-${idx}`, galleryDirection)}`}
-                >
-                  <img src={image.src} alt={image.alt} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
-                    <span className="text-white uppercase tracking-widest text-xs font-semibold">View</span>
-                  </div>
-                </button>
+                  <button
+                    key={image.src + idx}
+                    onClick={() => setLightboxIndex(idx)}
+                    data-reveal-id={`gallery-item-${idx}`}
+                    className={`relative group overflow-hidden rounded-sm shadow-[0_8px_30px_rgba(30,45,39,0.12)] ${idx % 9 === 0 ? 'col-span-2 row-span-2 ' : ''}${idx % 7 === 0 ? 'row-span-2 ' : ''}${revealClass(`gallery-item-${idx}`, galleryDirection)}`}
+                  >
+                    <img src={image.src} alt={image.alt} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+                      <span className="text-white uppercase tracking-widest text-xs font-semibold">View</span>
+                    </div>
+                  </button>
                 );
               })}
             </div>

@@ -19,6 +19,11 @@ interface AuthContextValue {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (data: { firstName: string; lastName: string; email: string; password: string }) => Promise<void>;
+  /**
+   * Apply an authentication result (e.g. from an OAuth exchange) directly to the
+   * session: persists the tokens and sets the in-memory token/user (Req 8.4).
+   */
+  setSession: (authResult: { user: User; token: string; refreshToken: string }) => void;
   logout: () => Promise<void>;
   error: string | null;
   clearError: () => void;
@@ -90,6 +95,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const clearError = useCallback(() => setError(null), []);
 
+  const setSession = useCallback(
+    (authResult: { user: User; token: string; refreshToken: string }) => {
+      setTokens(authResult.token, authResult.refreshToken);
+      setToken(authResult.token);
+      setUser(authResult.user);
+    },
+    [],
+  );
+
   return (
     <AuthContext.Provider
       value={{
@@ -99,6 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isLoading,
         login,
         register,
+        setSession,
         logout,
         error,
         clearError,

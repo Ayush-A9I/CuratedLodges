@@ -1,0 +1,75 @@
+.main {
+    min-height: 100vh;
+    background: #F8F9F8;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.heroSection {
+    background: #1E2D27;
+    padding: 140px 24px 64px;
+}
+
+.heroContainer {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.heroLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #F1663F;
+    margin: 0;
+}
+
+.heroTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+    line-height: 1.15;
+}
+
+.heroDescription {
+    font-size: 1rem;
+    color: #C7D1CC;
+    margin: 0;
+    max-width: 560px;
+    line-height: 1.6;
+}
+
+/* ── List ─────────────────────────────────────────────── */
+.listSection {
+    padding: 48px 24px 96px;
+}
+
+.listContainer {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.bookingsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .heroSection {
+        padding: 120px 18px 48px;
+    }
+
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .listSection {
+        padding: 32px 18px 64px;
+    }
+}

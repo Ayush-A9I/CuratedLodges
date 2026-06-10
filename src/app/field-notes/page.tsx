@@ -7,21 +7,21 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import api from '@/lib/api';
+import type { FieldNotesResponse, FieldNoteListItem } from '@/types/api';
 
 const FieldNotesPage = () => {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<string>('__ALL__');
-  const [fieldNotes, setFieldNotes] = useState<any[]>([]);
+  const [fieldNotes, setFieldNotes] = useState<FieldNoteListItem[]>([]);
   const [parks, setParks] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     api.getFieldNotes()
-      .then((data) => {
+      .then((data: FieldNotesResponse) => {
         setFieldNotes(data.fieldNotes || []);
-        // Extract unique parks for filters
-        const uniqueParks = Array.from(new Set((data.fieldNotes || []).map((n: any) => n.park))) as string[];
-        setParks(uniqueParks);
+        // Park filter options come from the documented `filters.parks` field.
+        setParks(data.filters?.parks || []);
       })
       .catch((err) => console.error('Failed to load field notes:', err))
       .finally(() => setIsLoading(false));
@@ -29,7 +29,7 @@ const FieldNotesPage = () => {
 
   // Get park filters
   const parkFilters = ['__ALL__', ...parks, '__OTHERS__'];
-  
+
   // Map internal keys to display labels
   const getFilterLabel = (filter: string) => {
     if (filter === '__ALL__') return t('fieldNotesPage.all');
@@ -38,8 +38,8 @@ const FieldNotesPage = () => {
   };
 
   // Filter notes based on active filter
-  const filteredNotes = activeFilter === '__ALL__' 
-    ? fieldNotes 
+  const filteredNotes = activeFilter === '__ALL__'
+    ? fieldNotes
     : fieldNotes.filter(note => note.park === activeFilter);
 
   // Format date
@@ -54,7 +54,7 @@ const FieldNotesPage = () => {
   return (
     <>
       <Header forceVisible={true} forceScrolled={true} />
-      
+
       <main className={styles.main}>
         <div className={styles.container}>
           {/* Header Section */}
@@ -89,15 +89,15 @@ const FieldNotesPage = () => {
             </div>
           ) : (
             <div className={styles.articlesGrid}>
-              {filteredNotes.map((note: any) => (
-                <Link 
-                  key={note.id} 
+              {filteredNotes.map((note) => (
+                <Link
+                  key={note.id}
                   href={`/field-notes/${note.slug}`}
                   className={styles.articleCard}
                 >
                   <div className={styles.imageWrapper}>
-                    <img 
-                      src={note.image} 
+                    <img
+                      src={note.image}
                       alt={note.title}
                       className={styles.articleImage}
                     />
@@ -105,7 +105,7 @@ const FieldNotesPage = () => {
                   </div>
                   <div className={styles.articleContent}>
                     <div className={styles.articleMeta}>
-                      <span className={styles.date}>{formatDate(note.publishedDate || note.date)}</span>
+                      <span className={styles.date}>{formatDate(note.publishedDate)}</span>
                       <span className={styles.dot}>•</span>
                       <span className={styles.readTime}>{note.readTime}</span>
                     </div>
@@ -114,7 +114,7 @@ const FieldNotesPage = () => {
                     <div className={styles.readMore}>
                       {t('fieldNotesPage.readMore')}
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                   </div>

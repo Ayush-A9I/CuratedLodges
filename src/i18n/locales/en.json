@@ -17,7 +17,13 @@
     "selectNationalPark": "SELECT NATIONAL PARK",
     "selectRegionFirst": "Select region first",
     "whichDestination": "Which destination?",
-    "search": "Find Lodges"
+    "search": "Find Lodges",
+    "loadingRegions": "Loading regions…",
+    "loadingParks": "Loading parks…",
+    "emptyRegions": "No regions available",
+    "emptyParks": "No parks available for this region",
+    "regionRequired": "Please select a region",
+    "parkRequired": "Please select a park"
   },
   "sections": {
     "curatedStays": "CURATED WILDERNESS STAYS",
@@ -135,6 +141,11 @@
     "howManySessions": "How Many Sessions?",
     "scheduleDates": "Schedule Dates",
     "allocated": "Allocated",
+    "naturalistSessions": "Naturalist Sessions",
+    "noSessions": "No naturalist sessions added yet.",
+    "addSession": "Add Session",
+    "removeSession": "Remove session",
+    "sessionsLimit": "You can add up to 20 sessions.",
     "completeReservation": "Complete Reservation",
     "back": "← Back",
     "personalInformation": "Personal Information",
@@ -149,6 +160,64 @@
     "specialRequestsDesc": "Dietary restrictions, accessibility needs, or special occasions",
     "specialRequestsPlaceholder": "Let us know how we can make your stay perfect...",
     "proceedToPay": "Proceed to Pay"
+  },
+  "bookings": {
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "night": "night",
+    "nights": "nights",
+    "total": "Total",
+    "status": "Status",
+    "payment": "Payment",
+    "viewDetails": "View details",
+    "statusLabel": {
+      "held": "Held",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "no_show": "No-show"
+    },
+    "paymentLabel": {
+      "pending": "Payment pending",
+      "paid": "Paid",
+      "partially_paid": "Partially paid",
+      "refunded": "Refunded",
+      "failed": "Payment failed"
+    }
+  },
+  "booking": {
+    "confirmationTitle": "Booking Confirmation",
+    "bookingId": "Booking ID",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "Nights",
+    "guests": "Guests",
+    "adultsCount": "{{count}} adult",
+    "adultsCount_other": "{{count}} adults",
+    "childrenCount": "{{count}} child",
+    "childrenCount_other": "{{count}} children",
+    "priceSummary": "Price Summary",
+    "status": "Booking status",
+    "payment": "Payment status",
+    "heldNotice": "Your booking is being held and will expire if payment is not completed. Current payment status: {{payment}}.",
+    "notFound": "We couldn't find this booking. The booking link may be incomplete or invalid."
+  },
+  "cancelBooking": {
+    "action": "Cancel booking",
+    "title": "Cancel this booking?",
+    "message": "This will cancel your reservation. Any applicable refund will be processed according to the cancellation policy. This action cannot be undone.",
+    "confirm": "Yes, cancel booking",
+    "keep": "Keep booking",
+    "cancelling": "Cancelling...",
+    "success": "Your booking has been cancelled."
+  },
+  "myBookings": {
+    "label": "YOUR JOURNEYS",
+    "title": "My Bookings",
+    "subtitle": "Review and manage all of your reservations in one place.",
+    "empty": "You don't have any bookings yet. Once you reserve a stay, it will appear here.",
+    "error": "We couldn't load your bookings. Please try again."
   },
   "experience": {
     "heroLabel": "Beyond the Map",
@@ -177,5 +246,72 @@
     "ctaTitle": "Ready to feel it?",
     "ctaSubtitle": "Let us curate a bespoke itinerary that matches your rhythm of the wild.",
     "ctaButton": "Explore Basecamps"
+  },
+  "errors": {
+    "network": "Unable to connect. Please check your internet connection and try again.",
+    "timeout": "The request took too long to respond. Please try again.",
+    "serverGeneric": "Something went wrong. Please try again.",
+    "unknown": "An unexpected error occurred. Please try again."
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "empty": "Nothing to show here yet."
+  },
+  "profile": {
+    "title": "Account Settings",
+    "subtitle": "Manage your contact details and preferences.",
+    "loading": "Loading your profile…",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "language": "Preferred Language",
+    "currency": "Preferred Currency",
+    "whatsapp": "WhatsApp notifications",
+    "whatsappHint": "Receive booking updates on WhatsApp.",
+    "save": "Save Changes",
+    "saving": "Saving…",
+    "success": "Your profile has been updated.",
+    "errors": {
+      "firstName": "First name must be 100 characters or fewer.",
+      "lastName": "Last name must be 100 characters or fewer.",
+      "phone": "Enter a phone number with 7 to 15 digits.",
+      "preferredLanguage": "Select a supported language.",
+      "preferredCurrency": "Select a supported currency."
+    }
+  },
+  "park": {
+    "home": "Home",
+    "breadcrumbCurrent": "Curated stays at {{park}}",
+    "bestTime": "Best Time to Visit",
+    "features": "Features",
+    "faqs": "FAQs",
+    "faqsSubtitle": "Everything you need to know about lodges in {{park}}",
+    "lodgesHeading": "Curated Stays",
+    "lodgesEmpty": "No lodges found in this park yet.",
+    "notFound": "We couldn't find this park."
+  },
+  "resetPassword": {
+    "imageTitle": "Create a New Password",
+    "imageSubtitle": "You're one step away from getting back to planning your next wild adventure.",
+    "goToImage": "Go to image {{index}}",
+    "title": "Reset Password",
+    "subtitle": "Enter a new password for your account below.",
+    "newPasswordLabel": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter your new password",
+    "submit": "Reset Password",
+    "submitting": "Resetting…",
+    "errorLength": "Password must be between 8 and 128 characters.",
+    "errorMismatch": "Passwords do not match.",
+    "missingToken": "This password reset link is invalid or has expired. Please request a new one.",
+    "requestNewLink": "Request a new reset link",
+    "successTitle": "Password Reset Successful",
+    "successSubtitle": "Your password has been updated. You can now sign in with your new password.",
+    "goToSignIn": "Go to Sign In",
+    "rememberPassword": "Remember your password?",
+    "signIn": "Sign In"
   }
 }

@@ -1,0 +1,221 @@
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.card[role='button']:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card[role='button']:focus-visible {
+    outline: 2px solid #F1663F;
+    outline-offset: 2px;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.lodgeName {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1E2D27;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.roomType {
+    font-size: 0.85rem;
+    color: #6B7B75;
+    margin: 0;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+    white-space: nowrap;
+    background: #F1F5F3;
+    color: #1E2D27;
+}
+
+/* Booking-status badge colors */
+.statusConfirmed {
+    background: #E3F4EA;
+    color: #1B7F4B;
+}
+
+.statusCompleted {
+    background: #E5EEF9;
+    color: #1F5FA8;
+}
+
+.statusHeld,
+.statusPending {
+    background: #FDF1E8;
+    color: #C25318;
+}
+
+.statusCancelled,
+.statusNoShow {
+    background: #FBE7E7;
+    color: #B23B3B;
+}
+
+/* Payment-status badge colors */
+.paymentPaid {
+    background: #E3F4EA;
+    color: #1B7F4B;
+}
+
+.paymentPending,
+.paymentPartial {
+    background: #FDF1E8;
+    color: #C25318;
+}
+
+.paymentRefunded {
+    background: #E5EEF9;
+    color: #1F5FA8;
+}
+
+.paymentFailed {
+    background: #FBE7E7;
+    color: #B23B3B;
+}
+
+/* ── Dates ────────────────────────────────────────────── */
+.dates {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid #E5E7EB;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.dateBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dateLabel {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #6B7B75;
+}
+
+.dateValue {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1E2D27;
+}
+
+.dateArrow {
+    color: #F1663F;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.nights {
+    margin-left: auto;
+    padding: 6px 12px;
+    background: #F1F5F3;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1E2D27;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.totalBlock {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.totalLabel {
+    font-size: 0.8rem;
+    color: #1E2D27;
+    font-weight: 400;
+}
+
+.totalValue {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #F1663F;
+}
+
+.viewDetails {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1E2D27;
+    transition: color 0.3s ease;
+}
+
+.card[role='button']:hover .viewDetails {
+    color: #F1663F;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    .card {
+        padding: 18px 18px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .badges {
+        justify-content: flex-start;
+    }
+
+    .nights {
+        margin-left: 0;
+    }
+}

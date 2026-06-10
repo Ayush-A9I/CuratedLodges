@@ -2,59 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LoadingState } from '@/components/feedback'
+import { shouldRenderTestimonials, resolveTestimonialImage } from '@/logic/predicates'
+import type { Testimonial } from '@/types/api'
+import api from '@/lib/api'
 import styles from './Testimonials.module.css'
 
-interface Testimonial {
-  id: number | string
-  name: string
-  company?: string
-  designation?: string
-  text?: string
-  content?: string
-  image?: string
-  avatar?: string
-}
-
-// Fallback testimonials for when no API data is available
-const fallbackTestimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: 'Leslie Alexander',
-    company: 'The Walt Disney Company',
-    text: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'
-  },
-  {
-    id: 2,
-    name: 'Sarah Mitchell',
-    company: 'National Geographic',
-    text: 'The experience was absolutely transformative. Every detail was carefully curated, and the connection with nature was profound. Junglore truly understands what travelers seek.',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop'
-  },
-  {
-    id: 3,
-    name: 'Michael Chen',
-    company: 'Wildlife Conservation Society',
-    text: 'Outstanding service and attention to sustainable tourism. The lodges are perfectly integrated into their environments, and the wildlife experiences exceeded all expectations.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop'
-  },
-  {
-    id: 4,
-    name: 'Emma Rodriguez',
-    company: 'Adventure Travel Trade',
-    text: 'From booking to departure, everything was seamless. The guides were knowledgeable, the accommodations luxurious yet eco-conscious. A perfect blend of adventure and comfort.',
-    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop'
-  },
-  {
-    id: 5,
-    name: 'James Patterson',
-    company: 'Travel + Leisure',
-    text: 'Junglore has redefined wildlife tourism. The curated experiences are unmatched, and every moment felt special. This is how nature travel should be done.',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop'
-  }
-]
+// Placeholder used when a testimonial has no image (Req 11.6).
+const PLACEHOLDER_IMAGE =
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'
 
 interface TestimonialsProps {
+  /**
+   * Testimonials supplied by the homepage bundle (`getHomepage().testimonials`).
+   * When omitted, the component fetches its own data via `getTestimonials()`.
+   */
   testimonials?: Testimonial[]
 }
 
@@ -63,12 +25,39 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
-  // Use prop testimonials if provided and non-empty, otherwise use fallback
-  const testimonials = propTestimonials && propTestimonials.length > 0 
-    ? propTestimonials 
-    : fallbackTestimonials
+  // Self-fetch state — only used when the homepage does not provide testimonials.
+  const shouldSelfFetch = propTestimonials === undefined
+  const [fetched, setFetched] = useState<Testimonial[] | null>(null)
+  const [isLoading, setIsLoading] = useState(shouldSelfFetch)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
+    if (!shouldSelfFetch) return
+    let active = true
+    setIsLoading(true)
+    setHasError(false)
+    api
+      .getTestimonials()
+      .then((data: { testimonials: Testimonial[] }) => {
+        if (!active) return
+        setFetched(data?.testimonials ?? [])
+      })
+      .catch(() => {
+        if (active) setHasError(true)
+      })
+      .finally(() => {
+        if (active) setIsLoading(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [shouldSelfFetch])
+
+  const testimonials = shouldSelfFetch ? fetched : propTestimonials
+
+  // Auto-rotation — guarded so it is a no-op when there is no data.
+  useEffect(() => {
+    if (!testimonials || testimonials.length === 0) return
     const interval = setInterval(() => {
       setIsAnimating(true)
       setTimeout(() => {
@@ -78,12 +67,30 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [testimonials.length])
+  }, [testimonials])
 
-  const currentTestimonial = testimonials[currentIndex]
-  const testimonialText = currentTestimonial.text || currentTestimonial.content || ''
-  const testimonialImage = currentTestimonial.image || currentTestimonial.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'
-  const testimonialCompany = currentTestimonial.company || currentTestimonial.designation || ''
+  // While self-fetching, show a themed loading state without disturbing the rest
+  // of the homepage layout.
+  if (shouldSelfFetch && isLoading) {
+    return (
+      <section className="py-20 px-8 bg-white relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto relative">
+          <LoadingState />
+        </div>
+      </section>
+    )
+  }
+
+  // Omit the section entirely on error or empty list (Req 11.4, 11.5).
+  if (!shouldRenderTestimonials(hasError, testimonials)) {
+    return null
+  }
+
+  // `shouldRenderTestimonials` guarantees a non-empty array here.
+  const list = testimonials as Testimonial[]
+  const safeIndex = currentIndex % list.length
+  const currentTestimonial = list[safeIndex]
+  const testimonialImage = resolveTestimonialImage(currentTestimonial, PLACEHOLDER_IMAGE)
 
   return (
     <section className="py-20 px-8 bg-white relative overflow-hidden">
@@ -103,8 +110,8 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
           {/* Large Profile Image */}
           <div className={`${styles.mainProfile} ${isAnimating ? styles.animating : ''}`}>
             <div className={styles.mainProfileInner}>
-              <img 
-                src={testimonialImage} 
+              <img
+                src={testimonialImage}
                 alt={currentTestimonial.name}
               />
             </div>
@@ -113,22 +120,24 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
           {/* Testimonial Content */}
           <div className={`${styles.testimonialContent} ${isAnimating ? styles.fadeOut : styles.fadeIn}`}>
             <p className="text-lg md:text-xl text-[#6B7B75] leading-relaxed mb-8 max-w-3xl mx-auto">
-              {testimonialText}
+              {currentTestimonial.text}
             </p>
 
             <div>
               <h4 className="text-xl font-bold text-[#1E2D27] mb-1">
                 {currentTestimonial.name}
               </h4>
-              <p className="text-[#6B7B75] text-sm">
-                {testimonialCompany}
-              </p>
+              {currentTestimonial.company && (
+                <p className="text-[#6B7B75] text-sm">
+                  {currentTestimonial.company}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Pagination Dots */}
           <div className="flex justify-center gap-3 mt-12">
-            {testimonials.map((_: any, index: number) => (
+            {list.map((_: Testimonial, index: number) => (
               <button
                 key={index}
                 onClick={() => {
@@ -138,11 +147,10 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
                     setIsAnimating(false)
                   }, 300)
                 }}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-[#1E2D27] w-8' 
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === safeIndex
+                    ? 'bg-[#1E2D27] w-8'
                     : 'bg-[#6B7B75]/30 hover:bg-[#6B7B75]/50'
-                }`}
+                  }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}

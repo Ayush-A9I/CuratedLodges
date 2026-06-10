@@ -7,12 +7,13 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import api from '@/lib/api';
+import type { FieldNoteDetail } from '@/types/api';
 
 const FieldNotePage = () => {
   const params = useParams();
   const slug = params.slug as string;
-  const [note, setNote] = useState<any>(null);
-  const [relatedNotes, setRelatedNotes] = useState<any[]>([]);
+  const [note, setNote] = useState<FieldNoteDetail | null>(null);
+  const [relatedNotes, setRelatedNotes] = useState<FieldNoteDetail['relatedNotes']>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -21,8 +22,8 @@ const FieldNotePage = () => {
   useEffect(() => {
     if (!slug) return;
     api.getFieldNoteBySlug(slug)
-      .then((data) => {
-        setNote(data.fieldNote || data);
+      .then((data: FieldNoteDetail) => {
+        setNote(data);
         setRelatedNotes(data.relatedNotes || []);
       })
       .catch((err) => console.error('Failed to load field note:', err))
@@ -68,17 +69,15 @@ const FieldNotePage = () => {
     } catch { return dateStr; }
   };
 
-  // Support both API format (content as array) and string content
-  const contentParagraphs = Array.isArray(note.content) 
-    ? note.content 
-    : (note.body || note.content || '').split('\n\n').filter(Boolean);
+  // The contract defines `content` as an array of paragraph strings.
+  const contentParagraphs = note.content || [];
 
   const heroVideoSrc = '/assests/videos/Outpost12.mp4';
 
   return (
     <>
       <Header forceVisible={true} forceScrolled={true} />
-      
+
       <main className={styles.main}>
         <div className={styles.container}>
           {/* Breadcrumb */}
@@ -97,7 +96,7 @@ const FieldNotePage = () => {
               <span className={styles.author}>By {note.author}</span>
               <span className={styles.dot}>•</span>
               <span className={styles.date}>
-                {formatDate(note.publishedDate || note.date)}
+                {formatDate(note.publishedDate)}
               </span>
               <span className={styles.dot}>•</span>
               <span className={styles.readTime}>{note.readTime}</span>
@@ -107,8 +106,8 @@ const FieldNotePage = () => {
           {/* Featured Media */}
           <div className={styles.featuredImage}>
             {videoError ? (
-              <img 
-                src={note.image} 
+              <img
+                src={note.image}
                 alt={note.title}
                 className={styles.image}
               />
@@ -139,7 +138,7 @@ const FieldNotePage = () => {
           <div className={styles.shareSection}>
             <h3 className={styles.shareTitle}>Share this article</h3>
             <div className={styles.shareButtons}>
-              <button 
+              <button
                 className={styles.shareButton}
                 onClick={() => setIsShareModalOpen(true)}
               >
@@ -160,15 +159,15 @@ const FieldNotePage = () => {
             <div className={styles.container}>
               <h2 className={styles.relatedTitle}>Related Field Notes</h2>
               <div className={styles.relatedGrid}>
-                {relatedNotes.map((relatedNote: any) => (
-                  <Link 
+                {relatedNotes.map((relatedNote) => (
+                  <Link
                     key={relatedNote.id}
                     href={`/field-notes/${relatedNote.slug}`}
                     className={styles.relatedCard}
                   >
                     <div className={styles.relatedImageWrapper}>
-                      <img 
-                        src={relatedNote.image} 
+                      <img
+                        src={relatedNote.image}
                         alt={relatedNote.title}
                         className={styles.relatedImage}
                       />
@@ -190,10 +189,10 @@ const FieldNotePage = () => {
         <div className={styles.shareModalOverlay} onClick={() => setIsShareModalOpen(false)}>
           <div className={styles.shareModalContent} onClick={(e) => e.stopPropagation()}>
             <button className={styles.shareModalClose} onClick={() => setIsShareModalOpen(false)}>×</button>
-            
+
             <div className={styles.sharePreview}>
-              <img 
-                src={note.image} 
+              <img
+                src={note.image}
                 alt={note.title}
                 className={styles.sharePreviewImage}
               />
@@ -202,7 +201,7 @@ const FieldNotePage = () => {
             </div>
 
             <div className={styles.shareActions}>
-              <div 
+              <div
                 className={styles.shareActionItem}
                 onClick={async () => {
                   try {
@@ -223,7 +222,7 @@ const FieldNotePage = () => {
                 <span className={styles.shareActionLabel}>{linkCopied ? 'Copied!' : 'Copy Link'}</span>
               </div>
 
-              <div 
+              <div
                 className={styles.shareActionItem}
                 onClick={() => {
                   const text = `Check out this field note: ${note.title}`;
@@ -234,7 +233,7 @@ const FieldNotePage = () => {
               >
                 <div className={`${styles.shareActionIcon} ${styles.whatsappIcon}`}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
                   </svg>
                 </div>
                 <span className={styles.shareActionLabel}>WhatsApp</span>

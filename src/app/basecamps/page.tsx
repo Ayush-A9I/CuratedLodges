@@ -1,38 +1,39 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
+import { StateBoundary } from '@/components/feedback';
+import { useApiResource } from '@/hooks/useApiResource';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import api from '@/lib/api';
+import type { LodgeListItem } from '@/types/api';
 import styles from './basecamps.module.css';
+
+interface AllLodgesResponse {
+  lodges: LodgeListItem[];
+}
 
 export default function BasecampsPage() {
   const { t } = useTranslation();
-  const { convertPrice, currency, exchangeRate } = useLocalization();
-  const [lodges, setLodges] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    api.getAllLodges()
-      .then((data) => setLodges(data.lodges || []))
-      .catch((err) => console.error('Failed to load lodges:', err))
-      .finally(() => setIsLoading(false));
-  }, []);
+  // Consuming the LocalizationContext makes this component re-render reactively
+  // when the active currency or exchange rate changes (no forceUpdate hack).
+  const { convertPrice } = useLocalization();
 
-  // Force re-render when currency changes
-  const [, forceUpdate] = useState({});
-  useEffect(() => {
-    forceUpdate({});
-  }, [currency, exchangeRate]);
+  // Read-only retrieval with uniform loading/error/retry handling (Req 1.4, 13).
+  const { data, loading, error, retry } = useApiResource<AllLodgesResponse>(
+    () => api.getAllLodges(),
+  );
+
+  const lodges = data?.lodges ?? [];
 
   return (
     <>
       <Header forceVisible={true} forceScrolled={true} />
-      
+
       <main className={styles.main}>
         {/* Hero Section */}
         <section className={styles.heroSection}>
@@ -48,25 +49,26 @@ export default function BasecampsPage() {
         {/* Lodges Grid Section */}
         <section className={styles.lodgesSection}>
           <div className={styles.lodgesContainer}>
-            {isLoading ? (
-              <div style={{ display: 'flex', justifyContent: 'center', padding: '4rem 0' }}>
-                <div style={{ width: '2rem', height: '2rem', border: '2px solid #1E2D27', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-              </div>
-            ) : (
+            <StateBoundary
+              loading={loading}
+              error={error}
+              empty={lodges.length === 0}
+              onRetry={retry}
+            >
               <div className={styles.lodgesGrid}>
-                {lodges.map((lodge: any) => {
+                {lodges.map((lodge) => {
                   const lodgeUrl = `/park/${lodge.regionSlug}/${lodge.parkSlug}/${lodge.slug}`;
-                  const minPrice = lodge.minRoomPrice || lodge.pricePerNight || 0;
+                  const minPrice = lodge.minRoomPrice ?? lodge.pricePerNight ?? 0;
 
                   return (
-                    <Link 
-                      href={lodgeUrl} 
-                      key={lodge.id} 
+                    <Link
+                      href={lodgeUrl}
+                      key={lodge.id}
                       className={styles.lodgeCard}
                     >
                       <div className={styles.lodgeImageWrapper}>
-                        <img 
-                          src={lodge.thumbnail} 
+                        <img
+                          src={lodge.thumbnail}
                           alt={lodge.name}
                           className={styles.lodgeImage}
                         />
@@ -74,7 +76,7 @@ export default function BasecampsPage() {
                           {(lodge.parkName || '').toUpperCase()}
                         </div>
                       </div>
-                      
+
                       <div className={styles.lodgeInfo}>
                         <h3 className={styles.lodgeName}>{lodge.name}</h3>
                         <p className={styles.lodgeLocation}>
@@ -88,8 +90,8 @@ export default function BasecampsPage() {
                         <div className={styles.hoverBottom}>
                           <h3 className={styles.hoverTitle}>{lodge.name}</h3>
                           <p className={styles.hoverDescription}>
-                            {lodge.about?.substring(0, 150) || 
-                             `Experience luxury and wildlife at ${lodge.name}. Located in the heart of ${lodge.parkName || 'the park'}, offering an unforgettable safari experience.`}
+                            {lodge.about?.substring(0, 150) ||
+                              `Experience luxury and wildlife at ${lodge.name}. Located in the heart of ${lodge.parkName || 'the park'}, offering an unforgettable safari experience.`}
                             ...
                           </p>
                           <div className={styles.priceSection}>
@@ -108,11 +110,11 @@ export default function BasecampsPage() {
                   );
                 })}
               </div>
-            )}
+            </StateBoundary>
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </>
   );

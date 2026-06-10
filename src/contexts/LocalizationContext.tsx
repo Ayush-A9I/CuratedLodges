@@ -8,6 +8,7 @@ interface LocalizationContextType {
   language: string;
   currency: string;
   exchangeRate: number;
+  exchangeRateUnavailable: boolean;
   setLanguage: (lang: string) => void;
   setCurrency: (curr: string) => void;
   convertPrice: (price: number) => string;
@@ -25,6 +26,7 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [language, setLanguageState] = useState('en');
   const [currency, setCurrencyState] = useState('INR');
   const [exchangeRate, setExchangeRate] = useState(1);
+  const [exchangeRateUnavailable, setExchangeRateUnavailable] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +34,7 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   useEffect(() => {
     const savedLanguage = localStorage.getItem('junglore_language');
     const savedCurrency = localStorage.getItem('junglore_currency');
-    
+
     if (savedLanguage) {
       setLanguageState(savedLanguage);
       i18n.changeLanguage(savedLanguage);
@@ -46,6 +48,7 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const fetchExchangeRate = async (targetCurrency: string) => {
     if (targetCurrency === 'INR') {
       setExchangeRate(1);
+      setExchangeRateUnavailable(false);
       return;
     }
 
@@ -55,10 +58,15 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (response.data.result === 'success') {
         const rate = response.data.conversion_rates[targetCurrency];
         setExchangeRate(rate || 1);
+        setExchangeRateUnavailable(false);
+      } else {
+        setExchangeRateUnavailable(true);
       }
     } catch (error) {
       console.error('Error fetching exchange rate:', error);
+      // Keep existing fallback: retain amounts at exchangeRate=1, no crash (Req 15.3)
       setExchangeRate(1);
+      setExchangeRateUnavailable(true);
     } finally {
       setIsLoading(false);
     }
@@ -128,6 +136,7 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         language,
         currency,
         exchangeRate,
+        exchangeRateUnavailable,
         setLanguage,
         setCurrency,
         convertPrice,

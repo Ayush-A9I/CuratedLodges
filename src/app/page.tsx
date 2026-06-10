@@ -11,18 +11,21 @@ import HouseOfJunglore from '../components/domain/HouseOfJunglore'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import api from '@/lib/api'
+import type { HomepageResponse, LodgeListItem, Testimonial } from '@/types/api'
+
+type LatestFieldNote = HomepageResponse['latestFieldNotes'][number];
 
 export default function Home() {
   const { t } = useTranslation();
-  const [lodges, setLodges] = useState<any[]>([]);
-  const [fieldNotes, setFieldNotes] = useState<any[]>([]);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [lodges, setLodges] = useState<LodgeListItem[]>([]);
+  const [fieldNotes, setFieldNotes] = useState<LatestFieldNote[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [heroImage, setHeroImage] = useState<string>('https://images.unsplash.com/photo-1655102736801-dc15c6552a16?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     api.getHomepage()
-      .then((data) => {
+      .then((data: HomepageResponse) => {
         setLodges(data.featuredLodges || []);
         setFieldNotes(data.latestFieldNotes || []);
         setTestimonials(data.testimonials || []);
@@ -31,23 +34,23 @@ export default function Home() {
       .catch((err) => console.error('Failed to load homepage:', err))
       .finally(() => setIsLoading(false));
   }, []);
-  
+
   return (
     <>
       <Header />
-      
+
       {/* Hero Section with Video/Image Background */}
       <section className="relative h-screen w-full overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${heroImage})`
           }}
         />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/40" />
-        
+
         {/* Hero Content */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 md:px-12 pt-20">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 tracking-tight">
@@ -56,10 +59,10 @@ export default function Home() {
           <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl font-light leading-relaxed mb-6">
             {t('hero.subtitle')}
           </p>
-          
+
           <SearchBox />
         </div>
-        
+
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
@@ -67,11 +70,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {/* Main Content */}
       <main className="relative z-20">
         <FeaturesSection />
-        
+
         {/* Our Founding Collection */}
         <section className="py-16 px-6 bg-[#FAFAFA]">
           <div className="max-w-[1400px] mx-auto">
@@ -81,7 +84,7 @@ export default function Home() {
             <p className="text-sm md:text-base text-[#6B7B75] font-light mb-8">
               {t('sections.foundingCollectionDesc')}
             </p>
-            
+
             {/* Lodge Cards Grid with Horizontal Scroll */}
             <div className="relative">
               <div className="overflow-x-auto pb-4 scrollbar-hide">
@@ -91,7 +94,7 @@ export default function Home() {
                       <div className="w-8 h-8 border-2 border-[#1E2D27] border-t-transparent rounded-full animate-spin" />
                     </div>
                   ) : (
-                    lodges.map((lodge: any) => {
+                    lodges.map((lodge) => {
                       const lodgeUrl = `/park/${lodge.regionSlug}/${lodge.parkSlug}/${lodge.slug}`;
                       return (
                         <div key={lodge.id} className="flex-shrink-0 w-[380px] md:w-[400px]">
@@ -101,11 +104,10 @@ export default function Home() {
                             title={lodge.name}
                             location={lodge.location}
                             rating={lodge.rating}
-                            price={lodge.minRoomPrice || lodge.pricePerNight}
+                            price={lodge.minRoomPrice || lodge.pricePerNight || 0}
                             link={lodgeUrl}
                             amenities={lodge.amenities}
                             ecoCertified={lodge.ecoCertified}
-                            bestSeason={lodge.bestSeason}
                           />
                         </div>
                       );
@@ -113,12 +115,12 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              
+
               {/* Swipe indicator - Mobile only */}
               <div className="md:hidden text-center mt-4">
                 <p className="text-sm text-[#6B7B75] font-light flex items-center justify-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                    <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                   Swipe left to view collection
                 </p>
@@ -188,9 +190,9 @@ export default function Home() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1200px]">
                 {/* Left Side - Featured Article */}
                 <Link href={`/field-notes/${fieldNotes[0].slug}`} className="relative rounded-3xl overflow-hidden group cursor-pointer h-[450px]">
-                  <img 
-                    src={fieldNotes[0].image} 
-                    alt={fieldNotes[0].title} 
+                  <img
+                    src={fieldNotes[0].image}
+                    alt={fieldNotes[0].title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -209,12 +211,12 @@ export default function Home() {
 
                 {/* Right Side - Article List */}
                 <div className="flex flex-col gap-5">
-                  {fieldNotes.slice(1, 4).map((note: any) => (
+                  {fieldNotes.slice(1, 4).map((note) => (
                     <Link key={note.id} href={`/field-notes/${note.slug}`} className="flex gap-3 group cursor-pointer">
                       <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
-                        <img 
-                          src={note.image} 
-                          alt={note.title} 
+                        <img
+                          src={note.image}
+                          alt={note.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
@@ -237,7 +239,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      
+
       <Footer />
     </>
   )
