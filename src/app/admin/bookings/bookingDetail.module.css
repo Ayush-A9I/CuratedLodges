@@ -1,0 +1,146 @@
+/* ───────────────────────────────────────────────────────────────
+   Booking detail page styles (CSS module).
+   Reuses the admin brand palette (--cl-* vars) cascaded from the
+   AdminShell `.theme` wrapper. Font: DM Sans (loaded globally).
+   ─────────────────────────────────────────────────────────────── */
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 980px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Definition list: label / value rows */
+.dl {
+    margin: 0;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    row-gap: 12px;
+    column-gap: 16px;
+}
+
+.dt {
+    color: var(--cl-text-muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dd {
+    margin: 0;
+    font-size: 14px;
+    color: var(--cl-text);
+    word-break: break-word;
+}
+
+/* Cost breakdown rows */
+.costRows {
+    padding: 8px 20px 16px;
+}
+
+.costRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--cl-border);
+}
+
+.costRow:last-child {
+    border-bottom: none;
+}
+
+.costLabel {
+    color: var(--cl-text-muted);
+}
+
+.costValue {
+    font-variant-numeric: tabular-nums;
+}
+
+.costTotal {
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--cl-text);
+    border-top: 2px solid var(--cl-border);
+    border-bottom: none;
+    margin-top: 4px;
+    padding-top: 12px;
+}
+
+/* Status update control */
+.statusControl {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.statusActions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Back link */
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--cl-text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 12px;
+    font-family: inherit;
+}
+
+.backLink:hover {
+    color: var(--cl-orange);
+}
+
+/* Sessions / payments list items */
+.lineItem {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--cl-border);
+    font-size: 14px;
+}
+
+.lineItem:last-child {
+    border-bottom: none;
+}
+
+.lineItemTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.lineItemMeta {
+    font-size: 12px;
+    color: var(--cl-text-muted);
+    margin-top: 4px;
+}
+
+.emptyState {
+    padding: 16px 20px;
+    color: var(--cl-text-muted);
+    font-size: 14px;
+}
