@@ -41,3 +41,6 @@ next-env.d.ts
 # Misc
 *.pem
 .vercel
+
+# Secrets / credentials (do not commit)
+ADMIN_CREDENTIALS.md
