@@ -568,15 +568,18 @@
 }
 
 .toastSuccess {
-    background: var(--cl-success);
+    background: var(--cl-success, #2e7d52);
+    color: #fff;
 }
 
 .toastError {
-    background: var(--cl-danger);
+    background: var(--cl-danger, #c0392b);
+    color: #fff;
 }
 
 .toastInfo {
-    background: var(--cl-green-light);
+    background: var(--cl-green-light, #2c4036);
+    color: #fff;
 }
 
 .toastClose {
@@ -662,7 +665,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--cl-green);
+    background: var(--cl-green, #1e2d27);
     padding: 20px;
     font-family: var(--font-sans, 'DM Sans', sans-serif);
 }

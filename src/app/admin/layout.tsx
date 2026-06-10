@@ -50,10 +50,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const isLoginRoute = pathname === LOGIN_PATH;
 
     return (
-        <AdminAuthProvider>
-            <ToastProvider>
-                {isLoginRoute ? children : <AdminGuard>{children}</AdminGuard>}
-            </ToastProvider>
-        </AdminAuthProvider>
+        <div className={styles.theme}>
+            <AdminAuthProvider>
+                <ToastProvider>
+                    {isLoginRoute ? children : <AdminGuard>{children}</AdminGuard>}
+                </ToastProvider>
+            </AdminAuthProvider>
+        </div>
     );
 }
