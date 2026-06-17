@@ -17,6 +17,9 @@ import {
     exceedsDisplayLimit,
     truncateForDisplay,
 } from '@/lib/lodgeDisplayLimits';
+import { resolveSectionTitle } from '@/lib/lodgeSectionTitles';
+import { formatMoney } from '@/lib/money';
+import SectionTitleHeading from '@/components/domain/SectionTitleHeading';
 
 type MediaItem = {
   src: string;
@@ -43,17 +46,21 @@ function mapApiToProfile(data: any) {
   return {
     name: data.name || '',
     category: data.category || 'Wildlife Lodge',
-    roomCount: data.roomTypes?.length || 0,
-    // roomTypes carry no `totalUnits` field; surface the number of room types instead.
-    totalRooms: data.roomTypes?.length || 0,
     location: data.location || '',
     roomTypes: (data.roomTypes || []).map((rt: any) => ({
+      id: rt.id,
       name: rt.name,
       description: rt.description,
       price: rt.price,
+      image: rt.image,
       amenities: rt.amenities || [],
       maxOccupancy: rt.maxOccupancy,
+      totalUnits: rt.totalUnits ?? 1,
     })),
+    totalUnits: (data.roomTypes || []).reduce(
+      (sum: number, rt: any) => sum + (rt.totalUnits ?? 0),
+      0
+    ),
     mealPlans: data.mealPlans || [],
     // Prefer the structured content object, falling back to the dedicated
     // about/reasons fields and the legacy highlights array.
@@ -61,6 +68,12 @@ function mapApiToProfile(data: any) {
     natureBlend: content.natureBlend || [],
     naturalistPhilosophy: content.naturalistPhilosophy || [],
     afterSafariVibe: content.afterSafariVibe || [],
+    sectionTitles:
+      content.sectionTitles &&
+      typeof content.sectionTitles === 'object' &&
+      !Array.isArray(content.sectionTitles)
+        ? content.sectionTitles
+        : {},
     // Conservation may be an object ({ intro, wildlifeEcosystem, indigenousCommunities })
     // or a flat array; the render layer handles both.
     conservation: content.conservation || [],
@@ -263,6 +276,10 @@ export default function LodgeDetailPage() {
   // ─── Map API data ──────────────────────────────────────────
   const lodgeProfile = mapApiToProfile(lodge);
   const allImages = mapApiImages(lodge);
+  const customSectionTitles = lodgeProfile.sectionTitles as Record<string, string>;
+  const originSectionTitle = resolveSectionTitle('originStory', customSectionTitles);
+  const philosophySectionTitle = resolveSectionTitle('naturalistPhilosophy', customSectionTitles);
+  const afterSafariSectionTitle = resolveSectionTitle('afterSafariVibe', customSectionTitles);
 
   // Split images for layout: first 4 for property, rest for safari/gallery
   const propertyImages: MediaItem[] = allImages.slice(0, 4);
@@ -404,9 +421,10 @@ export default function LodgeDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div className={revealClass('origin-copy')} data-reveal-id="origin-copy">
               <span className="text-[#F1663F] uppercase tracking-[0.2em] text-sm font-semibold mb-6 block">The Origin Story</span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#1E2D27] leading-tight mb-8">
-                Not just a place to visit, but a place to <span className="italic bg-[#FFE8A1]/50 px-2 rounded-sm">call home.</span>
-              </h2>
+              <SectionTitleHeading
+                display={originSectionTitle}
+                className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#1E2D27] leading-tight mb-8"
+              />
               <div className="space-y-6 text-[#1E2D27]/70 text-lg leading-relaxed">
                 <p>{lodgeProfile.originStory[0]?.length > 350 ? lodgeProfile.originStory[0].substring(0, 350) + '...' : lodgeProfile.originStory[0]}</p>
               </div>
@@ -470,7 +488,10 @@ export default function LodgeDetailPage() {
 
             <div className={`lg:col-span-6 lg:pl-16 lg:h-full lg:flex lg:flex-col lg:justify-center ${revealClass('philosophy-copy')}`} data-reveal-id="philosophy-copy">
               <span className="text-[#FFE8A1] uppercase tracking-[0.2em] text-sm font-semibold mb-4 block">The Philosophy</span>
-              <h2 className="text-4xl md:text-5xl font-serif leading-tight mb-8">Deeply educational and ethical wildlife tracking.</h2>
+              <SectionTitleHeading
+                display={philosophySectionTitle}
+                className="text-4xl md:text-5xl font-serif leading-tight mb-8"
+              />
               <div className="space-y-6 text-[#FFFFFF]/70 text-lg font-light leading-relaxed mb-10">
                 {lodgeProfile.naturalistPhilosophy.length > 0 ? (
                   <>
@@ -540,9 +561,10 @@ export default function LodgeDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div className={revealClass('evenings-copy')} data-reveal-id="evenings-copy">
               <span className="text-[#F1663F] uppercase tracking-[0.2em] text-sm font-semibold mb-4 block">The Evenings</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-[#1E2D27] mb-6">
-                The After-Safari <span className="italic bg-[#CCDD99]/40 px-2 rounded-sm">Rhythm.</span>
-              </h2>
+              <SectionTitleHeading
+                display={afterSafariSectionTitle}
+                className="text-4xl md:text-5xl font-serif text-[#1E2D27] mb-6"
+              />
               <div className="space-y-6 text-[#1E2D27]/70 text-lg leading-relaxed mb-8">
                 <p>{lodgeProfile.afterSafariVibe[0]}</p>
                 {lodgeProfile.afterSafariVibe.length > 1 && (
@@ -563,43 +585,87 @@ export default function LodgeDetailPage() {
             </div>
           </div>
 
-          {/* ─── Accommodation ──────────────────────────────── */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-            <div className={`order-2 lg:order-1 relative group overflow-hidden rounded-sm shadow-xl ${revealClass('acc-media', styles.revealFromLeft)}`} data-reveal-id="acc-media">
-              <img src={propertyImages[1].src} alt={lodgeProfile.roomTypes[0]?.name || 'Room'} className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-105" />
-            </div>
-            <div className={`order-1 lg:order-2 ${revealClass('acc-copy')}`} data-reveal-id="acc-copy">
-              <span className="text-[#F1663F] uppercase tracking-[0.2em] text-sm font-semibold mb-4 block">Accommodation</span>
-              <h2 className="text-4xl md:text-5xl font-serif text-[#1E2D27] mb-6">{lodgeProfile.roomTypes[0]?.name || 'The Room'}</h2>
-              <div className="inline-flex items-center space-x-2 bg-[#CCDD99] px-4 py-1.5 rounded-full mb-8">
-                <Tent size={14} className="text-[#1E2D27]" />
-                <span className="text-xs uppercase tracking-widest font-bold text-[#1E2D27]">{lodgeProfile.totalRooms} Exclusive Units</span>
-              </div>
-              <p className="text-[#1E2D27]/70 text-lg leading-relaxed mb-10">
-                {lodgeProfile.roomTypes[0]?.description || 'Thoughtfully designed rooms connecting you to the wilderness.'}
-              </p>
+          {/* ─── Accommodation (one block per room type) ───── */}
+          {lodgeProfile.roomTypes.map((room: any, index: number) => {
+            const imageOnLeft = index % 2 === 0;
+            const unitsLabel =
+              room.totalUnits === 1 ? '1 Unit' : `${room.totalUnits} Units`;
+            const amenitiesLabel =
+              Array.isArray(room.amenities) && room.amenities.length > 0
+                ? room.amenities.join(', ')
+                : '—';
 
-              <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-t border-b border-[#1E2D27]/10 py-8">
-                <div className="flex flex-col space-y-1">
-                  <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Room Types</span>
-                  <span className="font-medium text-[#1E2D27]">{lodgeProfile.roomTypes.map((rt: any) => rt.name).join(', ')}</span>
+            return (
+              <div
+                key={room.id || `${room.name}-${index}`}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center"
+              >
+                <div
+                  className={`relative group overflow-hidden rounded-sm shadow-xl ${imageOnLeft ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} ${revealClass(`acc-media-${index}`, imageOnLeft ? styles.revealFromLeft : styles.revealFromRight)}`}
+                  data-reveal-id={`acc-media-${index}`}
+                >
+                  <img
+                    src={resolveImageUrl(room.image, 'room')}
+                    alt={room.name}
+                    className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
                 </div>
-                <div className="flex flex-col space-y-1">
-                  <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Category</span>
-                  <span className="font-medium text-[#1E2D27]">{lodgeProfile.category}</span>
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Dining</span>
-                  <span className="font-medium text-[#1E2D27]">{lodgeProfile.mealPlans[0] || 'Available'}</span>
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Max Occupancy</span>
-                  <span className="font-medium text-[#1E2D27]">{lodgeProfile.roomTypes[0]?.maxOccupancy || 'N/A'} guests</span>
+                <div
+                  className={`${imageOnLeft ? 'order-1 lg:order-2' : 'order-1 lg:order-1'} ${revealClass(`acc-copy-${index}`)}`}
+                  data-reveal-id={`acc-copy-${index}`}
+                >
+                  {index === 0 && (
+                    <span className="text-[#F1663F] uppercase tracking-[0.2em] text-sm font-semibold mb-4 block">
+                      Accommodation
+                    </span>
+                  )}
+                  <h2 className="text-4xl md:text-5xl font-serif text-[#1E2D27] mb-6">{room.name}</h2>
+                  <div className="inline-flex items-center space-x-2 bg-[#CCDD99] px-4 py-1.5 rounded-full mb-8">
+                    <Tent size={14} className="text-[#1E2D27]" />
+                    <span className="text-xs uppercase tracking-widest font-bold text-[#1E2D27]">
+                      {unitsLabel}
+                    </span>
+                  </div>
+                  <p className="text-[#1E2D27]/70 text-lg leading-relaxed mb-10">
+                    {room.description || 'Thoughtfully designed rooms connecting you to the wilderness.'}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-6 border-t border-b border-[#1E2D27]/10 py-8">
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">From</span>
+                      <span className="font-medium text-[#1E2D27]">
+                        {formatMoney(room.price ?? 0, 'INR')}/night
+                      </span>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Max Occupancy</span>
+                      <span className="font-medium text-[#1E2D27]">
+                        {room.maxOccupancy || 'N/A'} guests
+                      </span>
+                    </div>
+                    {index === 0 && (
+                      <>
+                        <div className="flex flex-col space-y-1">
+                          <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Category</span>
+                          <span className="font-medium text-[#1E2D27]">{lodgeProfile.category}</span>
+                        </div>
+                        <div className="flex flex-col space-y-1">
+                          <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Dining</span>
+                          <span className="font-medium text-[#1E2D27]">
+                            {lodgeProfile.mealPlans[0] || 'Available'}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="col-span-2 flex flex-col space-y-1">
+                      <span className="text-xs uppercase tracking-widest text-[#1E2D27]/50">Amenities</span>
+                      <span className="font-medium text-[#1E2D27]">{amenitiesLabel}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-            </div>
-          </div>
+            );
+          })}
         </section>
 
         {/* ─── Immerse Divider ──────────────────────────────── */}
@@ -679,7 +745,7 @@ export default function LodgeDetailPage() {
       <ReadMoreModal
         isOpen={activeModal === 'origin'}
         onClose={() => setActiveModal(null)}
-        title="The Origin Story"
+        title={originSectionTitle.title}
         subtitle={lodgeProfile.name}
       >
         {lodgeProfile.originStory.map((para: string, i: number) => (
@@ -701,7 +767,7 @@ export default function LodgeDetailPage() {
       <ReadMoreModal
         isOpen={activeModal === 'philosophy'}
         onClose={() => setActiveModal(null)}
-        title="The Naturalist Philosophy"
+        title={philosophySectionTitle.title}
         subtitle="Our Approach"
       >
         {lodgeProfile.naturalistPhilosophy.map((para: string, i: number) => (
@@ -734,7 +800,7 @@ export default function LodgeDetailPage() {
       <ReadMoreModal
         isOpen={activeModal === 'evening'}
         onClose={() => setActiveModal(null)}
-        title="The After-Safari Rhythm"
+        title={afterSafariSectionTitle.title}
         subtitle="The Evenings"
       >
         {lodgeProfile.afterSafariVibe.map((para: string, i: number) => (

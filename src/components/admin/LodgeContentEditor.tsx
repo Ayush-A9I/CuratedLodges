@@ -4,6 +4,11 @@ import React, { useState } from 'react';
 import { AdminInput, AdminLabel, FormRow } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
 import { LODGE_HERO_QUOTE_MAX } from '@/lib/lodgeDisplayLimits';
+import {
+    DEFAULT_SECTION_TITLES,
+    SECTION_TITLE_FIELD_META,
+    type SectionTitleKey,
+} from '@/lib/lodgeSectionTitles';
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -55,6 +60,7 @@ const CANCELLATION_SUBS: Array<{ key: string; label: string }> = [
 /** Every key the friendly editor knows about. Anything else is preserved verbatim. */
 const MANAGED_KEYS = new Set<string>([
     ...PARAGRAPH_KEYS,
+    'sectionTitles',
     'conservation',
     'usps',
     'contact',
@@ -130,6 +136,13 @@ function serialize(draft: Dict): Dict {
         if (arr.length > 0) conservation[key] = arr;
     }
     if (Object.keys(conservation).length > 0) out.conservation = conservation;
+
+    // 3b. Section titles (optional overrides for lodge page headings).
+    const sectionTitles = cleanStringFields(
+        draft.sectionTitles,
+        SECTION_TITLE_FIELD_META.map((f) => f.key)
+    );
+    if (Object.keys(sectionTitles).length > 0) out.sectionTitles = sectionTitles;
 
     // 4. USPs ({ title, text }[]).
     const usps = (Array.isArray(draft.usps) ? draft.usps : [])
@@ -373,9 +386,32 @@ export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps)
     const cancellationPolicy = isPlainObject(draft.cancellationPolicy)
         ? draft.cancellationPolicy
         : {};
+    const sectionTitles = isPlainObject(draft.sectionTitles) ? draft.sectionTitles : {};
 
     return (
         <div>
+            {/* Section headings */}
+            <Section title="Section headings (optional)">
+                <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
+                    Override the large headings on the public lodge page. Leave blank to use the
+                    default styled titles.
+                </p>
+                {SECTION_TITLE_FIELD_META.map(({ key, label, description }) => (
+                    <AdminInput
+                        key={key}
+                        label={label}
+                        wrapRow={false}
+                        placeholder={DEFAULT_SECTION_TITLES[key as SectionTitleKey].title}
+                        value={asString(sectionTitles[key])}
+                        onChange={(e) => setNested('sectionTitles', key, e.target.value)}
+                    />
+                ))}
+                <p className={styles.pageHeaderSubtitle} style={{ marginBottom: 0 }}>
+                    Custom headings render as plain text. Default headings keep their accent styling
+                    (e.g. &ldquo;call home.&rdquo;, &ldquo;Rhythm.&rdquo;).
+                </p>
+            </Section>
+
             {/* Origin Story */}
             <Section title="Origin Story">
                 <ParagraphListEditor
