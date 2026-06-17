@@ -12,6 +12,7 @@ import {
 } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
 import { LodgeContentEditor } from '@/components/admin/LodgeContentEditor';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 
 /* ─── Types ─── */
 
@@ -172,7 +173,6 @@ export function LodgeForm({
 
         if (!form.parkId) errs.parkId = 'Park is required.';
         if (!form.name.trim()) errs.name = 'Name is required.';
-        if (!form.thumbnail.trim()) errs.thumbnail = 'Thumbnail URL is required.';
         if (!form.location.trim()) errs.location = 'Location is required.';
 
         const price = Number.parseInt(form.pricePerNight, 10);
@@ -279,10 +279,10 @@ export function LodgeForm({
 
                     <ImageUpload
                         label="Thumbnail"
-                        required
                         folder="lodges"
                         value={form.thumbnail}
                         error={errors.thumbnail}
+                        fallbackPreview={FALLBACK_IMAGES.lodge}
                         onChange={(url) => set('thumbnail', url)}
                     />
 

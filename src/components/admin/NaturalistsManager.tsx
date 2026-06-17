@@ -8,6 +8,7 @@ import {
     Modal,
     ConfirmDialog,
     AdminInput,
+    AdminTextarea,
     AdminCheckbox,
     FormRow,
     ImageUpload,
@@ -15,6 +16,7 @@ import {
     useToast,
 } from '@/components/admin';
 import { formatMoney } from '@/lib/money';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import styles from '@/components/admin/admin.module.css';
 
 export interface NaturalistRecord {
@@ -186,7 +188,7 @@ export function NaturalistsManager({ lodgeId, naturalists, onChanged }: Props) {
                 open={open}
                 onClose={() => setOpen(false)}
                 title={editing ? 'Edit naturalist' : 'Add naturalist'}
-                maxWidth={560}
+                maxWidth={640}
                 footer={
                     <>
                         <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={() => setOpen(false)} disabled={saving}>
@@ -217,25 +219,22 @@ export function NaturalistsManager({ lodgeId, naturalists, onChanged }: Props) {
                             onChange={(e) => set('role', e.target.value)}
                         />
                     </FormRow>
-                    <FormRow inline>
-                        <AdminInput
-                            label="Experience"
-                            wrapRow={false}
-                            placeholder="e.g. 12 years"
-                            value={form.experience}
-                            onChange={(e) => set('experience', e.target.value)}
-                        />
-                        <AdminInput
-                            label="Price per session (₹)"
-                            required
-                            type="number"
-                            min={0}
-                            wrapRow={false}
-                            value={form.pricePerSession}
-                            error={errors.pricePerSession}
-                            onChange={(e) => set('pricePerSession', e.target.value)}
-                        />
-                    </FormRow>
+                    <AdminInput
+                        label="Price per session (₹)"
+                        required
+                        type="number"
+                        min={0}
+                        value={form.pricePerSession}
+                        error={errors.pricePerSession}
+                        onChange={(e) => set('pricePerSession', e.target.value)}
+                    />
+                    <AdminTextarea
+                        label="Experience / bio"
+                        placeholder="Years of experience, background, notable projects…"
+                        rows={8}
+                        value={form.experience}
+                        onChange={(e) => set('experience', e.target.value)}
+                    />
                     <AdminInput
                         label="Specialty"
                         value={form.specialty}
@@ -245,6 +244,7 @@ export function NaturalistsManager({ lodgeId, naturalists, onChanged }: Props) {
                         label="Image"
                         folder="naturalists"
                         value={form.image}
+                        fallbackPreview={FALLBACK_IMAGES.naturalist}
                         onChange={(url) => set('image', url)}
                     />
                     <AdminCheckbox

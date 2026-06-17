@@ -9,6 +9,7 @@ import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, 
 import styles from './lodge.module.css';
 import api from '../../../../../lib/api';
 import type { LodgeDetail } from '@/types/api';
+import { resolveImageUrl } from '@/lib/fallbackImages';
 
 type MediaItem = {
   src: string;
@@ -78,11 +79,12 @@ function mapApiToProfile(data: any) {
 }
 
 function mapApiImages(data: any): MediaItem[] {
+  const thumb = resolveImageUrl(data.thumbnail, 'lodge');
   if (!data.images || data.images.length === 0) {
-    return [{ src: data.thumbnail || '', alt: data.name || '' }];
+    return [{ src: thumb, alt: data.name || '' }];
   }
   return data.images.map((img: any) => ({
-    src: img.url,
+    src: resolveImageUrl(img.url, 'lodgeGallery'),
     alt: img.altText || data.name || '',
   }));
 }

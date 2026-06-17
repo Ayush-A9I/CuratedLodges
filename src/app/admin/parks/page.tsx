@@ -18,6 +18,7 @@ import {
     SaveButton,
     useToast,
 } from '@/components/admin';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import styles from '@/components/admin/admin.module.css';
 
 interface Region {
@@ -203,9 +204,7 @@ export default function AdminParksPage() {
         if (!form.regionId) e.regionId = 'Region is required.';
         if (!form.name.trim()) e.name = 'Name is required.';
         if (!form.description.trim()) e.description = 'Description is required.';
-        if (!form.heroImage.trim()) {
-            e.heroImage = 'Hero image URL is required.';
-        } else {
+        if (form.heroImage.trim()) {
             try {
                 // eslint-disable-next-line no-new
                 new URL(form.heroImage.trim());
@@ -393,9 +392,9 @@ export default function AdminParksPage() {
 
                     <ImageUpload
                         label="Hero Image"
-                        required
                         folder="parks"
                         value={form.heroImage}
+                        fallbackPreview={FALLBACK_IMAGES.park}
                         onChange={(url) => set('heroImage', url)}
                         error={errors.heroImage}
                     />

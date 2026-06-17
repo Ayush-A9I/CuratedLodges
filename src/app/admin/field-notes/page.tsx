@@ -18,6 +18,7 @@ import {
     SaveButton,
     useToast,
 } from '@/components/admin';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import styles from '@/components/admin/admin.module.css';
 
 // ─── Types (match prisma FieldNote + admin.controller listFieldNotesAdmin) ───
@@ -458,9 +459,9 @@ export default function AdminFieldNotesPage() {
 
                     <ImageUpload
                         label="Image"
-                        required
                         folder="field-notes"
                         value={form.image}
+                        fallbackPreview={FALLBACK_IMAGES.fieldNote}
                         onChange={(url) => setForm((f) => ({ ...f, image: url }))}
                     />
 

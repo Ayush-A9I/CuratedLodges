@@ -22,6 +22,8 @@ export interface ImageUploadProps {
     previewHeight?: number;
     /** Placeholder for the URL text input. */
     placeholder?: string;
+    /** Placeholder image shown in preview when no URL is set yet. */
+    fallbackPreview?: string;
     /** Wrap the control in its own FormRow. Defaults to true. */
     wrapRow?: boolean;
 }
@@ -46,6 +48,7 @@ export function ImageUpload({
     previewHeight = 120,
     placeholder = 'https://… or upload a file',
     wrapRow = true,
+    fallbackPreview,
 }: ImageUploadProps) {
     const inputId = useId();
     const fileRef = useRef<HTMLInputElement | null>(null);
@@ -110,6 +113,7 @@ export function ImageUpload({
     };
 
     const trimmed = value.trim();
+    const previewSrc = trimmed || fallbackPreview || '';
     const showError = error || uploadError || undefined;
 
     const control = (
@@ -156,12 +160,12 @@ export function ImageUpload({
 
             {showError && <div className={styles.fieldError}>{showError}</div>}
 
-            {trimmed && !previewFailed ? (
+            {previewSrc && !previewFailed ? (
                 <div style={{ marginTop: 8 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src={trimmed}
-                        alt="Preview"
+                        src={previewSrc}
+                        alt={trimmed ? 'Preview' : 'Placeholder preview'}
                         style={{
                             display: 'block',
                             maxWidth: '100%',
@@ -170,9 +174,15 @@ export function ImageUpload({
                             borderRadius: 8,
                             border: '1px solid var(--cl-border)',
                             background: 'var(--cl-bg)',
+                            opacity: trimmed ? 1 : 0.85,
                         }}
                         onError={() => setPreviewFailed(true)}
                     />
+                    {!trimmed && fallbackPreview ? (
+                        <p className={styles.pageHeaderSubtitle} style={{ marginTop: 6, marginBottom: 0 }}>
+                            Placeholder preview — upload or paste a URL to replace.
+                        </p>
+                    ) : null}
                 </div>
             ) : null}
         </>

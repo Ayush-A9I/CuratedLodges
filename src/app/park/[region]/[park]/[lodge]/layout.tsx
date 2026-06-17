@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { resolveImageUrl } from '@/lib/fallbackImages';
 
 export async function generateMetadata({
   params,
@@ -21,10 +22,11 @@ export async function generateMetadata({
       `Experience luxury and wildlife at ${lodgeData.name}`;
 
     // Normalize image: could be string or {url, altText} object
-    let imageUrl = lodgeData.thumbnail || '';
+    let imageUrl = resolveImageUrl(lodgeData.thumbnail, 'lodge');
     if (lodgeData.images && lodgeData.images.length > 0) {
       const firstImg = lodgeData.images[0];
-      imageUrl = typeof firstImg === 'object' ? firstImg.url : firstImg;
+      const raw = typeof firstImg === 'object' ? firstImg.url : firstImg;
+      imageUrl = resolveImageUrl(raw, 'lodgeGallery');
     }
 
     return {

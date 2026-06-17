@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf, Sun, CloudRain, Snowflake } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import { useTranslation } from 'react-i18next';
+import { resolveImageUrl } from '@/lib/fallbackImages';
 import styles from './LodgeCard.module.css';
 
 interface LodgeCardProps {
@@ -46,6 +47,10 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   bestSeason,
   onClick,
 }) => {
+  const heroImage = resolveImageUrl(image, 'lodge');
+  const galleryImages = (images && images.length > 0 ? images : [heroImage]).map((img) =>
+    resolveImageUrl(img, 'lodgeGallery')
+  );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { convertPrice, currency, exchangeRate } = useLocalization();
   const { t } = useTranslation();
@@ -72,12 +77,12 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
 
   const goToPrevious = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    setCurrentImageIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
   const goToNext = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
   };
 
   const handleCardClick = () => {
@@ -92,7 +97,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
     <div className={styles.card} onClick={handleCardClick} style={{ cursor: (onClick || (link && link !== '#')) ? 'pointer' : 'default' }}>
       <div className={styles.imageContainer}>
         <img 
-          src={images[currentImageIndex]} 
+          src={galleryImages[currentImageIndex]} 
           alt={title} 
           className={styles.image} 
         />
@@ -102,7 +107,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
             <span>Best in {bestSeason}</span>
           </div>
         )}
-        {images.length > 1 && (
+        {galleryImages.length > 1 && (
           <>
             <button 
               className={styles.navButtonLeft}
@@ -119,7 +124,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
               <ChevronRight size={24} />
             </button>
             <div className={styles.imageIndicators}>
-              {images.map((_, index) => (
+              {galleryImages.map((_, index) => (
                 <button
                   key={index}
                   className={`${styles.indicator} ${index === currentImageIndex ? styles.indicatorActive : ''}`}

@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LoadingState } from '@/components/feedback'
 import { shouldRenderTestimonials, resolveTestimonialImage } from '@/logic/predicates'
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages'
 import type { Testimonial } from '@/types/api'
 import api from '@/lib/api'
 import styles from './Testimonials.module.css'
 
-// Placeholder used when a testimonial has no image (Req 11.6).
-const PLACEHOLDER_IMAGE =
-  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop'
+const PLACEHOLDER_IMAGE = FALLBACK_IMAGES.testimonial
 
 interface TestimonialsProps {
   /**

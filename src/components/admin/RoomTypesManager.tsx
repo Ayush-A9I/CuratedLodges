@@ -16,6 +16,7 @@ import {
     useToast,
 } from '@/components/admin';
 import { formatMoney } from '@/lib/money';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import { SeasonalRatesModal } from '@/components/admin/SeasonalRatesModal';
 import { AvailabilityModal } from '@/components/admin/AvailabilityModal';
 import styles from '@/components/admin/admin.module.css';
@@ -109,7 +110,6 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
     const validate = (): Record<string, any> | null => {
         const errs: Record<string, string> = {};
         if (!form.name.trim()) errs.name = 'Name is required.';
-        if (!form.image.trim()) errs.image = 'Image URL is required.';
         const basePrice = Number.parseInt(form.basePrice, 10);
         if (form.basePrice === '' || Number.isNaN(basePrice) || basePrice < 0)
             errs.basePrice = 'Enter a valid base price.';
@@ -285,10 +285,10 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                     </FormRow>
                     <ImageUpload
                         label="Image"
-                        required
                         folder="rooms"
                         value={form.image}
                         error={errors.image}
+                        fallbackPreview={FALLBACK_IMAGES.room}
                         onChange={(url) => set('image', url)}
                     />
                     <AdminInput

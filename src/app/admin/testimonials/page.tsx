@@ -15,6 +15,7 @@ import {
     SaveButton,
     useToast,
 } from '@/components/admin';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import styles from '@/components/admin/admin.module.css';
 
 // ─── Types (match prisma Testimonial + admin.controller listTestimonialsAdmin) ───
@@ -289,9 +290,9 @@ function FormInputs({
 
             <ImageUpload
                 label="Image"
-                required
                 folder="testimonials"
                 value={form.image}
+                fallbackPreview={FALLBACK_IMAGES.testimonial}
                 onChange={(url) => setForm((f) => ({ ...f, image: url }))}
             />
 

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { resolveImageUrl } from '@/lib/fallbackImages';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Header from '../../components/layout/Header';
@@ -68,7 +69,7 @@ export default function BasecampsPage() {
                     >
                       <div className={styles.lodgeImageWrapper}>
                         <img
-                          src={lodge.thumbnail}
+                          src={resolveImageUrl(lodge.thumbnail, 'lodge')}
                           alt={lodge.name}
                           className={styles.lodgeImage}
                         />
