@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { AdminInput, AdminLabel, FormRow } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
+import { LODGE_HERO_QUOTE_MAX } from '@/lib/lodgeDisplayLimits';
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -167,10 +168,20 @@ interface ListEditorProps {
     onChange: (next: string[]) => void;
     addLabel: string;
     placeholder?: string;
+    /** When set, the first paragraph is capped (hero quote on the lodge page). */
+    firstItemMaxLength?: number;
+    firstItemHint?: string;
 }
 
 /** Repeatable list of multi-line paragraph textareas. */
-function ParagraphListEditor({ items, onChange, addLabel, placeholder }: ListEditorProps) {
+function ParagraphListEditor({
+    items,
+    onChange,
+    addLabel,
+    placeholder,
+    firstItemMaxLength,
+    firstItemHint,
+}: ListEditorProps) {
     const update = (i: number, val: string) => {
         const next = [...items];
         next[i] = val;
@@ -181,23 +192,45 @@ function ParagraphListEditor({ items, onChange, addLabel, placeholder }: ListEdi
 
     return (
         <>
+            {firstItemHint && (
+                <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
+                    {firstItemHint}
+                </p>
+            )}
             {items.map((para, i) => (
                 <FormRow key={i}>
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                        <textarea
-                            className={styles.textarea}
-                            value={para}
-                            placeholder={placeholder}
-                            onChange={(e) => update(i, e.target.value)}
-                        />
-                        <button
-                            type="button"
-                            className={`${styles.btn} ${styles.btnGhost} ${styles.btnSmall}`}
-                            onClick={() => remove(i)}
-                            aria-label="Remove paragraph"
-                        >
-                            Remove
-                        </button>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}>
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                            <textarea
+                                className={styles.textarea}
+                                value={para}
+                                placeholder={placeholder}
+                                maxLength={i === 0 ? firstItemMaxLength : undefined}
+                                onChange={(e) => update(i, e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                className={`${styles.btn} ${styles.btnGhost} ${styles.btnSmall}`}
+                                onClick={() => remove(i)}
+                                aria-label="Remove paragraph"
+                            >
+                                Remove
+                            </button>
+                        </div>
+                        {i === 0 && firstItemMaxLength ? (
+                            <span
+                                className={styles.pageHeaderSubtitle}
+                                style={{
+                                    margin: 0,
+                                    color:
+                                        para.length >= firstItemMaxLength
+                                            ? 'var(--cl-danger, #c0392b)'
+                                            : undefined,
+                                }}
+                            >
+                                {para.length}/{firstItemMaxLength} characters
+                            </span>
+                        ) : null}
                     </div>
                 </FormRow>
             ))}
@@ -360,6 +393,8 @@ export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps)
                     onChange={(next) => setKey('natureBlend', next)}
                     addLabel="+ Add paragraph"
                     placeholder="How the lodge blends with nature…"
+                    firstItemMaxLength={LODGE_HERO_QUOTE_MAX}
+                    firstItemHint={`Paragraph 1 is the large hero quote on the lodge page (max ${LODGE_HERO_QUOTE_MAX} characters). Put longer copy in paragraph 2 and beyond.`}
                 />
             </Section>
 
@@ -370,6 +405,8 @@ export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps)
                     onChange={(next) => setKey('naturalistPhilosophy', next)}
                     addLabel="+ Add paragraph"
                     placeholder="The naturalist philosophy…"
+                    firstItemMaxLength={LODGE_HERO_QUOTE_MAX}
+                    firstItemHint={`Paragraph 1 is the pull quote in The Philosophy section (max ${LODGE_HERO_QUOTE_MAX} characters).`}
                 />
             </Section>
 

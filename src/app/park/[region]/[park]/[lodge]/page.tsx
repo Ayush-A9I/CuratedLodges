@@ -10,6 +10,13 @@ import styles from './lodge.module.css';
 import api from '../../../../../lib/api';
 import type { LodgeDetail } from '@/types/api';
 import { resolveImageUrl } from '@/lib/fallbackImages';
+import {
+    LODGE_CONSERVATION_CARD_MAX,
+    LODGE_HERO_QUOTE_MAX,
+    LODGE_TEASER_MAX,
+    exceedsDisplayLimit,
+    truncateForDisplay,
+} from '@/lib/lodgeDisplayLimits';
 
 type MediaItem = {
   src: string;
@@ -436,12 +443,13 @@ export default function LodgeDetailPage() {
             <div className={`lg:col-span-6 lg:pl-16 lg:h-full lg:flex lg:flex-col lg:justify-center ${revealClass('arch-copy')}`} data-reveal-id="arch-copy">
               <span className="text-[#CCDD99] uppercase tracking-[0.2em] text-sm font-semibold mb-6 block">Blurring the Lines</span>
               <h2 className="text-3xl md:text-5xl font-serif text-[#FFFFFF] leading-tight mb-8">
-                &ldquo;{lodgeProfile.natureBlend[0] || 'Where architecture meets wilderness.'}&rdquo;
+                &ldquo;{truncateForDisplay(lodgeProfile.natureBlend[0], LODGE_HERO_QUOTE_MAX) || 'Where architecture meets wilderness.'}&rdquo;
               </h2>
               <div className="space-y-6 text-[#FFFFFF]/80 text-lg font-light leading-relaxed">
-                <p>{lodgeProfile.natureBlend[1]?.length > 300 ? lodgeProfile.natureBlend[1].substring(0, 300) + '...' : lodgeProfile.natureBlend[1]}</p>
+                <p>{truncateForDisplay(lodgeProfile.natureBlend[1], LODGE_TEASER_MAX)}</p>
               </div>
-              {lodgeProfile.natureBlend.length > 2 && (
+              {(lodgeProfile.natureBlend.length > 1 ||
+                exceedsDisplayLimit(lodgeProfile.natureBlend[0], LODGE_HERO_QUOTE_MAX)) && (
                 <button
                   onClick={() => setActiveModal('nature')}
                   className="mt-8 inline-flex items-center gap-2 text-[#CCDD99] font-semibold text-sm uppercase tracking-widest hover:gap-4 transition-all duration-300"
@@ -467,20 +475,21 @@ export default function LodgeDetailPage() {
                 {lodgeProfile.naturalistPhilosophy.length > 0 ? (
                   <>
                     <p className="font-serif italic text-xl text-[#FFFFFF]/90 pb-4">
-                      &ldquo;{lodgeProfile.naturalistPhilosophy[0]?.length > 250 ? lodgeProfile.naturalistPhilosophy[0].substring(0, 250) + '...' : lodgeProfile.naturalistPhilosophy[0]}&rdquo;
+                      &ldquo;{truncateForDisplay(lodgeProfile.naturalistPhilosophy[0], LODGE_HERO_QUOTE_MAX)}&rdquo;
                     </p>
                   </>
                 ) : (
                   <p>Our naturalist team brings deep field knowledge with ethical, guest-focused wildlife experiences.</p>
                 )}
-                {lodgeProfile.naturalistPhilosophy.length > 1 && (
+                {lodgeProfile.naturalistPhilosophy.length > 1 ||
+                exceedsDisplayLimit(lodgeProfile.naturalistPhilosophy[0], LODGE_HERO_QUOTE_MAX) ? (
                   <button
                     onClick={() => setActiveModal('philosophy')}
                     className="inline-flex items-center gap-2 text-[#FFE8A1] font-semibold text-sm uppercase tracking-widest hover:gap-4 transition-all duration-300"
                   >
                     Read our philosophy <ArrowRight size={16} />
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
@@ -507,7 +516,7 @@ export default function LodgeDetailPage() {
                     <Icon className="text-[#F1663F] mb-6" size={32} strokeWidth={1.5} />
                     <h3 className="font-serif text-xl mb-4 text-[#1E2D27]">{titles[i] || 'Our Commitment'}</h3>
                     <p className="text-[#1E2D27]/70 text-sm leading-relaxed">
-                      {item.length > 200 ? item.substring(0, 200) + '...' : item}
+                      {truncateForDisplay(item, LODGE_CONSERVATION_CARD_MAX)}
                     </p>
                   </div>
                 );
