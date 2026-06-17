@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 import { Field, TextInput, SubmitButton, FieldError } from '@/components/form';
@@ -50,7 +50,6 @@ export interface CheckoutFormProps {
  */
 export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormProps) {
     const { t } = useTranslation();
-    const router = useRouter();
     const { user } = useAuth();
     const { currency, convertPrice } = useLocalization();
 
@@ -78,6 +77,10 @@ export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormP
     const [specialRequests, setSpecialRequests] = useState('');
 
     const [sessions, setSessions] = useState<NaturalistSessionInput[]>([]);
+
+    // Holds the created request after a successful submit so we can show an inline
+    // confirmation (works for guests, who can't view the protected booking page).
+    const [submitted, setSubmitted] = useState<Booking | null>(null);
 
     // Validation output (populated on submit attempts).
     const [fieldErrors, setFieldErrors] = useState<
@@ -131,9 +134,9 @@ export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormP
         (body) => api.createBooking(body),
         {
             onSuccess: (result) => {
-                const id = result.bookingId ?? result.id;
-                if (id) {
-                    router.push(`/booking/${id}`);
+                setSubmitted(result);
+                if (typeof window !== 'undefined') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             },
         },
@@ -158,6 +161,32 @@ export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormP
         const body = buildCreateBookingRequest(form, currency);
         await submit(body);
     };
+
+    // ── Success: inline request-received confirmation ────────────
+    if (submitted) {
+        const ref = submitted.bookingId ?? submitted.id;
+        return (
+            <div className={styles.successCard} role="status">
+                <h2 className={styles.successTitle}>{t('checkout.requestReceivedTitle')}</h2>
+                <p className={styles.successBody}>{t('checkout.requestReceivedBody')}</p>
+                {ref && (
+                    <p className={styles.successRef}>
+                        {t('checkout.requestReference')}: <strong>{ref}</strong>
+                    </p>
+                )}
+                <div className={styles.successActions}>
+                    {user && (
+                        <Link href="/my-bookings" className={styles.successPrimary}>
+                            {t('checkout.viewMyRequests')}
+                        </Link>
+                    )}
+                    <Link href="/" className={styles.successSecondary}>
+                        {t('checkout.backToHome')}
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
@@ -388,7 +417,9 @@ export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormP
                             totalAmount={estimate.total}
                             numNights={numNights || undefined}
                         />
-                        <p className={styles.estimateNote}>{t('checkout.includesAll')}</p>
+                        <p className={styles.estimateNote}>{t('checkout.estimateOnly')}</p>
+
+                        <p className={styles.requestNote}>{t('checkout.requestNote')}</p>
 
                         {error && (
                             <div className={styles.errorWrap}>
@@ -397,7 +428,7 @@ export default function CheckoutForm({ lodge, initialRoomTypeId }: CheckoutFormP
                         )}
 
                         <SubmitButton loading={submitting}>
-                            {t('checkout.completeReservation')}
+                            {t('checkout.requestToBook')}
                         </SubmitButton>
                     </div>
                 </aside>

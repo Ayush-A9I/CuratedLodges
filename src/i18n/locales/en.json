@@ -147,6 +147,14 @@
     "removeSession": "Remove session",
     "sessionsLimit": "You can add up to 20 sessions.",
     "completeReservation": "Complete Reservation",
+    "requestToBook": "Request to Book",
+    "requestNote": "No payment is taken now. Our team will check availability and contact you to confirm your stay and arrange payment.",
+    "estimateOnly": "*Estimated total — final amount confirmed by our team",
+    "requestReceivedTitle": "Request received",
+    "requestReceivedBody": "Thank you! We’ve emailed you a copy of your request. Our team will confirm availability and reach out shortly.",
+    "requestReference": "Your reference",
+    "viewMyRequests": "View my requests",
+    "backToHome": "Back to home",
     "back": "← Back",
     "personalInformation": "Personal Information",
     "firstName": "First Name",
@@ -201,6 +209,7 @@
     "status": "Booking status",
     "payment": "Payment status",
     "heldNotice": "Your booking is being held and will expire if payment is not completed. Current payment status: {{payment}}.",
+    "pendingNotice": "This is a booking request awaiting confirmation. Our team will contact you to confirm availability and arrange payment.",
     "notFound": "We couldn't find this booking. The booking link may be incomplete or invalid."
   },
   "cancelBooking": {

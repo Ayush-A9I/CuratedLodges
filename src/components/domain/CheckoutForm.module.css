@@ -203,6 +203,86 @@
     margin: 4px 0;
 }
 
+.requestNote {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #6b7770;
+    line-height: 1.5;
+    margin: 4px 0 0;
+}
+
+/* Inline "request received" success state. */
+.successCard {
+    background: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 14px;
+    padding: 40px 32px;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.successTitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e2d27;
+    margin: 0 0 12px;
+}
+
+.successBody {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: #4a554f;
+    line-height: 1.6;
+    margin: 0 auto 16px;
+    max-width: 460px;
+}
+
+.successRef {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: #1e2d27;
+    margin: 0 0 24px;
+}
+
+.successActions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.successPrimary,
+.successSecondary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.successPrimary {
+    background: #f1663f;
+    color: #ffffff;
+}
+
+.successPrimary:hover {
+    background: #d9542f;
+}
+
+.successSecondary {
+    background: transparent;
+    color: #1e2d27;
+    border: 1.5px solid #e5e5e5;
+}
+
+.successSecondary:hover {
+    border-color: #1e2d27;
+}
+
 @media (max-width: 900px) {
     .layout {
         grid-template-columns: 1fr;

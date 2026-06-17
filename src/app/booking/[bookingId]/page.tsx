@@ -132,6 +132,12 @@ function BookingConfirmationContent() {
                     </div>
                 )}
 
+                {displayStatus === 'pending' && (
+                    <div className={styles.heldNotice} role="status">
+                        {t('booking.pendingNotice')}
+                    </div>
+                )}
+
                 <div className={styles.idRow}>
                     <span className={styles.idLabel}>{t('booking.bookingId')}</span>
                     <span className={styles.idValue}>{booking.bookingId}</span>
