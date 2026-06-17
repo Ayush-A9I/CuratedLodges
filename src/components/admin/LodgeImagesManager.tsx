@@ -8,6 +8,7 @@ import {
     Modal,
     ConfirmDialog,
     AdminInput,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -149,14 +150,13 @@ export function LodgeImagesManager({ lodgeId, images, onChanged }: Props) {
                 }
             >
                 <form onSubmit={handleSubmit}>
-                    <AdminInput
-                        label="Image URL"
+                    <ImageUpload
+                        label="Image"
                         required
-                        type="url"
-                        placeholder="https://…"
+                        folder="lodges"
                         value={url}
                         error={error || undefined}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={(next) => setUrl(next)}
                     />
                     <AdminInput
                         label="Alt text"

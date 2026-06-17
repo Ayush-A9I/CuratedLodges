@@ -65,6 +65,32 @@ export interface DashboardStats {
 /** Generic key/value payload accepted by create/update methods. */
 export type AdminPayload = Record<string, any>;
 
+/** Request shape for minting a presigned upload URL. */
+export interface PresignUploadRequest {
+    /** Original filename (used to derive the stored extension). */
+    filename?: string;
+    /** MIME type of the file being uploaded (e.g. "image/jpeg"). */
+    contentType: string;
+    /** Optional logical folder, e.g. "lodges", "parks", "field-notes". */
+    folder?: string;
+}
+
+/** Response from `POST /admin/uploads/presign`. Matches upload.service.ts#PresignResult. */
+export interface PresignUploadResponse {
+    /** Presigned S3 URL the browser PUTs the file bytes to. */
+    uploadUrl: string;
+    /** Permanent public URL to store in the DB and render on the site. */
+    publicUrl: string;
+    /** The object key (path within the bucket). */
+    key: string;
+    /** Headers that MUST be sent on the PUT for the signature to match. */
+    headers: Record<string, string>;
+    /** Max upload size (MB) advertised by the backend. */
+    maxFileSizeMb: number;
+    /** Seconds until the presigned URL expires. */
+    expiresIn: number;
+}
+
 // ─── Error ────────────────────────────────────────────────────
 
 /** Error thrown for any non-2xx admin API response. */
@@ -195,6 +221,16 @@ export const adminApi = {
     // ─── Dashboard ──────────────────────────────────────────────
     /** GET /admin/dashboard → aggregate stats. */
     getDashboard: () => request<DashboardStats>('/admin/dashboard'),
+
+    // ─── Media uploads ──────────────────────────────────────────
+    uploads: {
+        /** POST /admin/uploads/presign → presigned S3 PUT URL + public URL. */
+        presign: (data: PresignUploadRequest) =>
+            request<PresignUploadResponse>('/admin/uploads/presign', {
+                method: 'POST',
+                body: body(data),
+            }),
+    },
 
     // ─── Regions ────────────────────────────────────────────────
     regions: {

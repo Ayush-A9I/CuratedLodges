@@ -6,6 +6,7 @@ import {
     PageHeader,
     AdminInput,
     AdminTextarea,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -222,59 +223,20 @@ export default function AdminHomepageSettingsPage() {
                         <div className={styles.panelHeader}>Homepage Hero</div>
                         <div className={styles.panelBody} style={{ padding: '16px 20px' }}>
                             <form id="hero-form" onSubmit={handleHeroSubmit}>
-                                <AdminInput
-                                    label="Hero Image URL"
-                                    name="hero_image_url"
-                                    type="url"
-                                    inputMode="url"
-                                    placeholder="https://example.com/hero.jpg"
+                                <ImageUpload
+                                    label="Hero Image"
+                                    folder="homepage"
+                                    previewHeight={280}
                                     value={heroImageUrl}
-                                    onChange={(e) => setHeroImageUrl(e.target.value)}
+                                    onChange={(url) => setHeroImageUrl(url)}
                                 />
-
-                                {heroImageUrl.trim() ? (
-                                    <div style={{ marginBottom: 16 }}>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img
-                                            src={heroImageUrl.trim()}
-                                            alt="Hero preview"
-                                            style={{
-                                                display: 'block',
-                                                width: '100%',
-                                                maxHeight: 280,
-                                                objectFit: 'cover',
-                                                borderRadius: 8,
-                                                border: '1px solid var(--cl-border)',
-                                                background: 'var(--cl-bg)',
-                                            }}
-                                            onError={(e) => {
-                                                (e.currentTarget as HTMLImageElement).style.display =
-                                                    'none';
-                                            }}
-                                            onLoad={(e) => {
-                                                (e.currentTarget as HTMLImageElement).style.display =
-                                                    'block';
-                                            }}
-                                        />
-                                    </div>
-                                ) : (
-                                    <p
-                                        style={{
-                                            margin: '-8px 0 16px',
-                                            fontSize: 13,
-                                            color: 'var(--cl-text-muted)',
-                                        }}
-                                    >
-                                        Add an image URL to see a live preview here.
-                                    </p>
-                                )}
 
                                 <AdminInput
                                     label="Hero Video URL"
                                     name="hero_video_url"
                                     type="url"
                                     inputMode="url"
-                                    placeholder="https://example.com/hero.mp4 (optional)"
+                                    placeholder="https://example.com/hero.mp4 (optional — video pipeline deferred)"
                                     value={heroVideoUrl}
                                     onChange={(e) => setHeroVideoUrl(e.target.value)}
                                 />

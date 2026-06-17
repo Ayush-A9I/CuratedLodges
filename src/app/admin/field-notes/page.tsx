@@ -14,6 +14,7 @@ import {
     AdminCheckbox,
     AdminLabel,
     FormRow,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -455,14 +456,12 @@ export default function AdminFieldNotesPage() {
                         />
                     </FormRow>
 
-                    <AdminInput
-                        label="Image URL"
-                        name="image"
-                        type="url"
+                    <ImageUpload
+                        label="Image"
                         required
-                        placeholder="https://…"
+                        folder="field-notes"
                         value={form.image}
-                        onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+                        onChange={(url) => setForm((f) => ({ ...f, image: url }))}
                     />
 
                     <AdminInput

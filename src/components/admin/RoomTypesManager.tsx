@@ -11,6 +11,7 @@ import {
     AdminTextarea,
     AdminCheckbox,
     FormRow,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -282,13 +283,13 @@ export function RoomTypesManager({ lodgeId, roomTypes, onChanged }: Props) {
                             onChange={(e) => set('sortOrder', e.target.value)}
                         />
                     </FormRow>
-                    <AdminInput
-                        label="Image URL"
+                    <ImageUpload
+                        label="Image"
                         required
-                        type="url"
+                        folder="rooms"
                         value={form.image}
                         error={errors.image}
-                        onChange={(e) => set('image', e.target.value)}
+                        onChange={(url) => set('image', url)}
                     />
                     <AdminInput
                         label="Amenities (comma-separated)"

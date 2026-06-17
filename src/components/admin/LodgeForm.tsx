@@ -7,6 +7,7 @@ import {
     AdminCheckbox,
     AdminLabel,
     FormRow,
+    ImageUpload,
     SaveButton,
 } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
@@ -276,14 +277,13 @@ export function LodgeForm({
                         />
                     </FormRow>
 
-                    <AdminInput
-                        label="Thumbnail URL"
+                    <ImageUpload
+                        label="Thumbnail"
                         required
-                        type="url"
-                        placeholder="https://…"
+                        folder="lodges"
                         value={form.thumbnail}
                         error={errors.thumbnail}
-                        onChange={(e) => set('thumbnail', e.target.value)}
+                        onChange={(url) => set('thumbnail', url)}
                     />
 
                     <FormRow inline>

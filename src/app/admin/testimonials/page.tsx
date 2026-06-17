@@ -11,6 +11,7 @@ import {
     AdminInput,
     AdminTextarea,
     AdminCheckbox,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -286,14 +287,12 @@ function FormInputs({
                 onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
             />
 
-            <AdminInput
-                label="Image URL"
-                name="image"
-                type="url"
+            <ImageUpload
+                label="Image"
                 required
-                placeholder="https://…"
+                folder="testimonials"
                 value={form.image}
-                onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
+                onChange={(url) => setForm((f) => ({ ...f, image: url }))}
             />
 
             <AdminInput

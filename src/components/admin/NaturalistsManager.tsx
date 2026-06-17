@@ -10,6 +10,7 @@ import {
     AdminInput,
     AdminCheckbox,
     FormRow,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -240,11 +241,11 @@ export function NaturalistsManager({ lodgeId, naturalists, onChanged }: Props) {
                         value={form.specialty}
                         onChange={(e) => set('specialty', e.target.value)}
                     />
-                    <AdminInput
-                        label="Image URL"
-                        type="url"
+                    <ImageUpload
+                        label="Image"
+                        folder="naturalists"
                         value={form.image}
-                        onChange={(e) => set('image', e.target.value)}
+                        onChange={(url) => set('image', url)}
                     />
                     <AdminCheckbox
                         label="Active"

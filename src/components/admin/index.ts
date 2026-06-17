@@ -20,6 +20,10 @@ export type { DataTableProps, DataTableColumn } from './DataTable';
 export { PageHeader } from './PageHeader';
 export type { PageHeaderProps } from './PageHeader';
 
+// Media
+export { ImageUpload } from './ImageUpload';
+export type { ImageUploadProps } from './ImageUpload';
+
 // Overlays
 export { Modal } from './Modal';
 export type { ModalProps } from './Modal';

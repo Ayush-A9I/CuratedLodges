@@ -14,6 +14,7 @@ import {
     AdminCheckbox,
     FormRow,
     AdminLabel,
+    ImageUpload,
     SaveButton,
     useToast,
 } from '@/components/admin';
@@ -390,14 +391,12 @@ export default function AdminParksPage() {
                         error={errors.description}
                     />
 
-                    <AdminInput
-                        label="Hero Image URL"
-                        name="heroImage"
+                    <ImageUpload
+                        label="Hero Image"
                         required
-                        type="url"
+                        folder="parks"
                         value={form.heroImage}
-                        placeholder="https://…"
-                        onChange={(e) => set('heroImage', e.target.value)}
+                        onChange={(url) => set('heroImage', url)}
                         error={errors.heroImage}
                     />
 
