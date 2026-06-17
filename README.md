@@ -151,7 +151,7 @@ When it works you will see something like `Local: http://localhost:3000`.
 | | |
 |---|---|
 | Email | `admin@curatedlodges.com` |
-| Password | `admin123!` |
+| Password | `69wU£19!eT}kN73{` |
 
 After logging in you can open any section in the left sidebar (Lodges, Parks,
 Field Notes, Testimonials, Bookings, etc.) and test creating/editing entries
@@ -208,7 +208,7 @@ The seed didn't run. In Terminal 1 (backend folder) run `npm run seed` again
 | Backend URL | http://localhost:4000/api/v1 |
 | Frontend URL | http://localhost:3000 |
 | Admin login | http://localhost:3000/admin/login |
-| Admin email / password | `admin@curatedlodges.com` / `admin123!` |
+| Admin email / password | `admin@curatedlodges.com` / `69wU£19!eT}kN73{` |
 | Database name | `curated_lodges` |
 | Backend env file | `CuratedLodges_Backend\.env` (copied from `.env.example`) |
 | Frontend env file | `CuratedLodges\.env.local` (create with `NEXT_PUBLIC_API_URL`) |
