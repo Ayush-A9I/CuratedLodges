@@ -26,6 +26,8 @@ export interface ImageUploadProps {
     fallbackPreview?: string;
     /** Wrap the control in its own FormRow. Defaults to true. */
     wrapRow?: boolean;
+    /** Called after a successful file upload (not manual URL edits). */
+    onUploaded?: (url: string) => void;
 }
 
 const DEFAULT_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
@@ -49,12 +51,14 @@ export function ImageUpload({
     placeholder = 'https://… or upload a file',
     wrapRow = true,
     fallbackPreview,
+    onUploaded,
 }: ImageUploadProps) {
     const inputId = useId();
     const fileRef = useRef<HTMLInputElement | null>(null);
     const [uploading, setUploading] = useState(false);
-    const [uploadError, setUploadError] = useState<string | null>(null);
+    const [uploadError, setUploadError] = useState(null as string | null);
     const [previewFailed, setPreviewFailed] = useState(false);
+    const [previewVersion, setPreviewVersion] = useState(0);
 
     const handlePick = () => {
         setUploadError(null);
@@ -77,7 +81,9 @@ export function ImageUpload({
         try {
             const uploaded = await adminApi.uploads.upload(file, folder);
             setPreviewFailed(false);
+            setPreviewVersion((v) => v + 1);
             onChange(uploaded.publicUrl);
+            onUploaded?.(uploaded.publicUrl);
         } catch (err) {
             const msg =
                 err instanceof AdminApiError
@@ -92,7 +98,11 @@ export function ImageUpload({
     };
 
     const trimmed = value.trim();
-    const previewSrc = trimmed || fallbackPreview || '';
+    const previewBase = trimmed || fallbackPreview || '';
+    const previewSrc =
+        previewBase && previewVersion > 0 && trimmed
+            ? `${previewBase}${previewBase.includes('?') ? '&' : '?'}v=${previewVersion}`
+            : previewBase;
     const showError = error || uploadError || undefined;
 
     const control = (

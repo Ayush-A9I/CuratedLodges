@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { AdminInput, AdminLabel, FormRow } from '@/components/admin';
+import React, { useEffect, useState } from 'react';
+import { AdminInput, AdminLabel, AdminCheckbox, FormRow, ImageUpload } from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
 import { LODGE_HERO_QUOTE_MAX } from '@/lib/lodgeDisplayLimits';
 import {
@@ -9,6 +9,15 @@ import {
     SECTION_TITLE_FIELD_META,
     type SectionTitleKey,
 } from '@/lib/lodgeSectionTitles';
+import {
+    defaultSectionImageConfig,
+    readSectionImages,
+    SECTION_IMAGE_FIELD_META,
+    serializeSectionImages,
+    type SectionImageKey,
+    type SectionImagesMap,
+} from '@/lib/lodgeSectionImages';
+import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -17,6 +26,8 @@ export interface LodgeContentEditorProps {
     value: any;
     /** Called with the next (cleaned) content object whenever it changes. */
     onChange: (next: any) => void;
+    /** Lodge thumbnail from core details — used when a section follows the thumbnail. */
+    thumbnailUrl?: string;
 }
 
 type Dict = Record<string, any>;
@@ -61,6 +72,7 @@ const CANCELLATION_SUBS: Array<{ key: string; label: string }> = [
 const MANAGED_KEYS = new Set<string>([
     ...PARAGRAPH_KEYS,
     'sectionTitles',
+    'sectionImages',
     'conservation',
     'usps',
     'contact',
@@ -143,6 +155,10 @@ function serialize(draft: Dict): Dict {
         SECTION_TITLE_FIELD_META.map((f) => f.key)
     );
     if (Object.keys(sectionTitles).length > 0) out.sectionTitles = sectionTitles;
+
+    // 3c. Section hero images (optional overrides per narrative block).
+    const sectionImages = serializeSectionImages(readSectionImages(draft.sectionImages));
+    if (sectionImages) out.sectionImages = sectionImages;
 
     // 4. USPs ({ title, text }[]).
     const usps = (Array.isArray(draft.usps) ? draft.usps : [])
@@ -321,9 +337,84 @@ function SubGroup({ label, children }: { label: string; children: React.ReactNod
     );
 }
 
+interface SectionImageFieldProps {
+    meta: (typeof SECTION_IMAGE_FIELD_META)[number];
+    config: SectionImageConfig;
+    thumbnailUrl: string;
+    onChange: (next: SectionImageConfig) => void;
+}
+
+type SectionImageConfig = { useThumbnail?: boolean; url?: string };
+
+/** Per-section image: follow lodge thumbnail or upload a custom hero. */
+function SectionImageField({ meta, config, thumbnailUrl, onChange }: SectionImageFieldProps) {
+    const useThumbnail = config.useThumbnail !== false;
+    const previewSrc = useThumbnail
+        ? thumbnailUrl.trim() || FALLBACK_IMAGES.lodge
+        : config.url?.trim() || '';
+
+    return (
+        <div
+            style={{
+                border: '1px solid var(--cl-border)',
+                borderRadius: 8,
+                padding: 16,
+                marginBottom: 16,
+            }}
+        >
+            <AdminLabel>{meta.label}</AdminLabel>
+            <p className={styles.pageHeaderSubtitle} style={{ marginTop: 4, marginBottom: 12 }}>
+                Shown in &ldquo;{meta.publicLabel}&rdquo; on the public lodge page.
+            </p>
+            <AdminCheckbox
+                label="Use lodge thumbnail"
+                wrapRow={false}
+                checked={useThumbnail}
+                onChange={(e) =>
+                    onChange({
+                        useThumbnail: e.target.checked,
+                        url: e.target.checked ? '' : config.url || '',
+                    })
+                }
+            />
+            {!useThumbnail ? (
+                <ImageUpload
+                    label="Custom image"
+                    folder="lodges"
+                    wrapRow={false}
+                    value={config.url || ''}
+                    fallbackPreview={FALLBACK_IMAGES.lodge}
+                    onChange={(url) => onChange({ useThumbnail: false, url })}
+                />
+            ) : previewSrc ? (
+                <div style={{ marginTop: 8 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={previewSrc}
+                        alt={`${meta.label} preview`}
+                        style={{
+                            display: 'block',
+                            maxWidth: '100%',
+                            maxHeight: 120,
+                            objectFit: 'cover',
+                            borderRadius: 8,
+                            border: '1px solid var(--cl-border)',
+                        }}
+                    />
+                    <p className={styles.pageHeaderSubtitle} style={{ marginTop: 6, marginBottom: 0 }}>
+                        {thumbnailUrl.trim()
+                            ? 'Uses the thumbnail from Core details above.'
+                            : 'Upload a thumbnail in Core details, or switch to a custom image.'}
+                    </p>
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
 /* ─────────────────────── Component ─────────────────────── */
 
-export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps) {
+export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: LodgeContentEditorProps) {
     // Working copy of the full content object. Unmanaged keys live here too.
     const [draft, setDraft] = useState<Dict>(() => (isPlainObject(value) ? { ...value } : {}));
     const [rawText, setRawText] = useState<string>(() =>
@@ -348,6 +439,15 @@ export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps)
     const setNested = (parent: string, sub: string, val: any) => {
         const parentObj = isPlainObject(draft[parent]) ? draft[parent] : {};
         apply({ ...draft, [parent]: { ...parentObj, [sub]: val } });
+    };
+
+    const sectionImages = readSectionImages(draft.sectionImages);
+
+    const setSectionImage = (key: SectionImageKey, cfg: SectionImageConfig) => {
+        apply({
+            ...draft,
+            sectionImages: { ...sectionImages, [key]: cfg },
+        });
     };
 
     /* ── USP helpers ── */
@@ -410,6 +510,24 @@ export function LodgeContentEditor({ value, onChange }: LodgeContentEditorProps)
                     Custom headings render as plain text. Default headings keep their accent styling
                     (e.g. &ldquo;call home.&rdquo;, &ldquo;Rhythm.&rdquo;).
                 </p>
+            </Section>
+
+            {/* Section images */}
+            <Section title="Section images">
+                <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
+                    Each narrative block on the lodge page can use the lodge thumbnail or its own
+                    image. Origin Story uses up to four gallery images when following the thumbnail;
+                    upload extra images in the Images section below for a varied grid.
+                </p>
+                {SECTION_IMAGE_FIELD_META.map((meta) => (
+                    <SectionImageField
+                        key={meta.key}
+                        meta={meta}
+                        thumbnailUrl={thumbnailUrl}
+                        config={sectionImages[meta.key] || defaultSectionImageConfig()}
+                        onChange={(next) => setSectionImage(meta.key, next)}
+                    />
+                ))}
             </Section>
 
             {/* Origin Story */}

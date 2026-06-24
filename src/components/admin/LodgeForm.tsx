@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     AdminInput,
     AdminSelect,
@@ -43,6 +43,7 @@ export interface LodgeRecord {
     isActive?: boolean;
     isFeatured?: boolean;
     sortOrder?: number;
+    updatedAt?: string;
     [key: string]: any;
 }
 
@@ -141,6 +142,17 @@ export function LodgeForm({
             : {}
     );
     const [errors, setErrors] = useState<Record<string, string>>({});
+
+    // Re-sync when the parent reloads lodge data (e.g. after save or image gallery update).
+    useEffect(() => {
+        if (!initial) return;
+        setForm(buildInitialState(initial));
+        setContent(
+            isPlainObject(initial.jungloreStoryHighlights)
+                ? { ...(initial.jungloreStoryHighlights as Record<string, any>) }
+                : {}
+        );
+    }, [initial?.id, initial?.updatedAt]);
 
     const parkOptions = useMemo(
         () => parks.map((p) => ({ value: p.id, label: p.name })),
@@ -454,7 +466,11 @@ export function LodgeForm({
             <div className={styles.panel}>
                 <div className={styles.panelHeader}>Lodge Content</div>
                 <div style={{ padding: '20px' }}>
-                    <LodgeContentEditor value={content} onChange={setContent} />
+                    <LodgeContentEditor
+                        value={content}
+                        onChange={setContent}
+                        thumbnailUrl={form.thumbnail}
+                    />
                 </div>
             </div>
 

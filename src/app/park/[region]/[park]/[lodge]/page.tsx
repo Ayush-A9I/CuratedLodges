@@ -18,6 +18,11 @@ import {
     truncateForDisplay,
 } from '@/lib/lodgeDisplayLimits';
 import { resolveSectionTitle } from '@/lib/lodgeSectionTitles';
+import {
+  readSectionImages,
+  resolveOriginStoryGrid,
+  resolveSectionHeroSrc,
+} from '@/lib/lodgeSectionImages';
 import { formatMoney } from '@/lib/money';
 import SectionTitleHeading from '@/components/domain/SectionTitleHeading';
 
@@ -74,6 +79,7 @@ function mapApiToProfile(data: any) {
       !Array.isArray(content.sectionTitles)
         ? content.sectionTitles
         : {},
+    sectionImages: readSectionImages(content.sectionImages),
     // Conservation may be an object ({ intro, wildlifeEcosystem, indigenousCommunities })
     // or a flat array; the render layer handles both.
     conservation: content.conservation || [],
@@ -276,21 +282,41 @@ export default function LodgeDetailPage() {
   // ─── Map API data ──────────────────────────────────────────
   const lodgeProfile = mapApiToProfile(lodge);
   const allImages = mapApiImages(lodge);
+  const lodgeThumbnail = resolveImageUrl(lodge.thumbnail, 'lodge');
+  const sectionImages = lodgeProfile.sectionImages;
   const customSectionTitles = lodgeProfile.sectionTitles as Record<string, string>;
   const originSectionTitle = resolveSectionTitle('originStory', customSectionTitles);
   const philosophySectionTitle = resolveSectionTitle('naturalistPhilosophy', customSectionTitles);
   const afterSafariSectionTitle = resolveSectionTitle('afterSafariVibe', customSectionTitles);
 
-  // Split images for layout: first 4 for property, rest for safari/gallery
-  const propertyImages: MediaItem[] = allImages.slice(0, 4);
-  while (propertyImages.length < 4) {
-    propertyImages.push(propertyImages[0] || { src: '', alt: '' });
-  }
-  const safariImages: MediaItem[] = allImages.length > 4 ? allImages.slice(4) : allImages.slice(0, 4);
+  const originGridImages = resolveOriginStoryGrid(
+    sectionImages,
+    lodge.thumbnail || '',
+    allImages,
+    lodge.name || ''
+  );
+  const natureBlendImageSrc = resolveSectionHeroSrc(
+    'natureBlend',
+    sectionImages,
+    lodge.thumbnail || ''
+  );
+  const philosophyImageSrc = resolveSectionHeroSrc(
+    'naturalistPhilosophy',
+    sectionImages,
+    lodge.thumbnail || ''
+  );
+  const afterSafariImageSrc = resolveSectionHeroSrc(
+    'afterSafariVibe',
+    sectionImages,
+    lodge.thumbnail || ''
+  );
+
+  // Gallery images for expedition carousel and other blocks below.
+  const propertyImages: MediaItem[] = originGridImages;
 
   const heroVideo = {
     src: '/assests/videos/Outpost12.mp4',
-    poster: propertyImages[0]?.src,
+    poster: lodgeThumbnail || propertyImages[0]?.src,
   };
 
   const expeditionImages: MediaItem[] = [...allImages];
@@ -455,7 +481,7 @@ export default function LodgeDetailPage() {
         <section className="bg-[#1E2D27] py-20 md:py-28">
           <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-stretch">
             <div className={`lg:col-span-6 relative group overflow-hidden ${revealClass('arch-media', styles.revealFromLeft)}`} data-reveal-id="arch-media">
-              <img src={propertyImages[0].src} alt={propertyImages[0].alt} className="w-full h-full min-h-[500px] object-cover rounded-sm transition-transform duration-1000 group-hover:scale-105 opacity-90" />
+              <img src={natureBlendImageSrc} alt={lodge.name || 'Lodge'} className="w-full h-full min-h-[500px] object-cover rounded-sm transition-transform duration-1000 group-hover:scale-105 opacity-90" />
             </div>
 
             <div className={`lg:col-span-6 lg:pl-16 lg:h-full lg:flex lg:flex-col lg:justify-center ${revealClass('arch-copy')}`} data-reveal-id="arch-copy">
@@ -483,7 +509,7 @@ export default function LodgeDetailPage() {
         <section className="bg-[#1E2D27] text-[#FFFFFF] py-24 md:py-32 border-t border-[#FFFFFF]/10">
           <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-stretch">
             <div className={`lg:col-span-6 relative group overflow-hidden lg:h-full ${revealClass('philosophy-media', styles.revealFromTop)}`} data-reveal-id="philosophy-media">
-              <img src={safariImages[0]?.src || propertyImages[0].src} alt={safariImages[0]?.alt || 'Safari'} className="w-full h-full min-h-[500px] object-cover rounded-sm transition-transform duration-1000 group-hover:scale-105 opacity-90" />
+              <img src={philosophyImageSrc} alt={lodge.name || 'Safari'} className="w-full h-full min-h-[500px] object-cover rounded-sm transition-transform duration-1000 group-hover:scale-105 opacity-90" />
             </div>
 
             <div className={`lg:col-span-6 lg:pl-16 lg:h-full lg:flex lg:flex-col lg:justify-center ${revealClass('philosophy-copy')}`} data-reveal-id="philosophy-copy">
@@ -581,7 +607,7 @@ export default function LodgeDetailPage() {
               )}
             </div>
             <div className={`relative group overflow-hidden rounded-sm shadow-xl ${revealClass('evenings-media', styles.revealFromRight)}`} data-reveal-id="evenings-media">
-              <img src={propertyImages[3].src} alt={propertyImages[3].alt} className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src={afterSafariImageSrc} alt={lodge.name || 'Evening at the lodge'} className="w-full h-[600px] object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
           </div>
 
