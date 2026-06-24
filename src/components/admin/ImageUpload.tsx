@@ -32,7 +32,7 @@ const DEFAULT_ALLOWED = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 
 
 /**
  * Admin image field with two ways to set a URL:
- *  1. Upload a file (browser → presigned S3 PUT → public URL), or
+ *  1. Upload a file (browser → backend → S3 → public URL), or
  *  2. Paste/edit a URL directly (fallback that always works).
  *
  * The resulting URL is reported via `onChange` and saved through the existing
@@ -75,30 +75,9 @@ export function ImageUpload({
         setUploading(true);
         setUploadError(null);
         try {
-            const presigned = await adminApi.uploads.presign({
-                filename: file.name,
-                contentType: file.type,
-                folder,
-            });
-
-            const maxBytes = presigned.maxFileSizeMb * 1024 * 1024;
-            if (file.size > maxBytes) {
-                setUploadError(`File is too large. Max ${presigned.maxFileSizeMb} MB.`);
-                setUploading(false);
-                return;
-            }
-
-            const putRes = await fetch(presigned.uploadUrl, {
-                method: 'PUT',
-                headers: presigned.headers,
-                body: file,
-            });
-            if (!putRes.ok) {
-                throw new Error(`Upload failed (${putRes.status}). Check the bucket CORS/permissions.`);
-            }
-
+            const uploaded = await adminApi.uploads.upload(file, folder);
             setPreviewFailed(false);
-            onChange(presigned.publicUrl);
+            onChange(uploaded.publicUrl);
         } catch (err) {
             const msg =
                 err instanceof AdminApiError

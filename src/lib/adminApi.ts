@@ -91,6 +91,13 @@ export interface PresignUploadResponse {
     expiresIn: number;
 }
 
+/** Response from `POST /admin/uploads` (backend-proxied upload). */
+export interface DirectUploadResponse {
+    publicUrl: string;
+    key: string;
+    maxFileSizeMb: number;
+}
+
 // ─── Error ────────────────────────────────────────────────────
 
 /** Error thrown for any non-2xx admin API response. */
@@ -224,6 +231,29 @@ export const adminApi = {
 
     // ─── Media uploads ──────────────────────────────────────────
     uploads: {
+        /** POST /admin/uploads → backend proxies file bytes to S3. */
+        upload: (file: File, folder?: string) => {
+            const form = new FormData();
+            form.append('file', file);
+            if (folder) form.append('folder', folder);
+
+            const url = `${API_BASE}/admin/uploads`;
+            const headers: Record<string, string> = {};
+            const token = getAdminToken();
+            if (token) headers['Authorization'] = `Bearer ${token}`;
+
+            return fetch(url, { method: 'POST', headers, body: form }).then(async (res) => {
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new AdminApiError(
+                        data.error || data.message || `Request failed (${res.status})`,
+                        res.status,
+                        data
+                    );
+                }
+                return res.json() as Promise<DirectUploadResponse>;
+            });
+        },
         /** POST /admin/uploads/presign → presigned S3 PUT URL + public URL. */
         presign: (data: PresignUploadRequest) =>
             request<PresignUploadResponse>('/admin/uploads/presign', {
