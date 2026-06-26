@@ -37,25 +37,22 @@
   font-weight: 600;
 }
 
-/* ─── Hero ─── */
+/* ─── Hero: single media block, copy overlaid at bottom ─── */
 .hero {
   position: relative;
-  margin-bottom: 0;
-}
-
-.heroImageWrap {
-  position: relative;
   width: 100%;
-  height: min(62vh, 560px);
+  min-height: clamp(420px, 68vh, 680px);
   overflow: hidden;
   background: #1e2d27;
 }
 
 .heroImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 42%;
 }
 
 .heroOverlay {
@@ -63,26 +60,30 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(30, 45, 39, 0.92) 0%,
-    rgba(30, 45, 39, 0.45) 45%,
-    rgba(30, 45, 39, 0.15) 100%
+    rgba(30, 45, 39, 0.96) 0%,
+    rgba(30, 45, 39, 0.72) 28%,
+    rgba(30, 45, 39, 0.25) 58%,
+    rgba(30, 45, 39, 0.08) 100%
   );
+  pointer-events: none;
 }
 
 .heroContent {
-  position: relative;
-  max-width: 760px;
-  margin: -8rem auto 0;
-  padding: 0 24px 3rem;
+  position: absolute;
+  inset: auto 0 0 0;
   z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 2.75rem;
   color: #fff;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   font-size: 13px;
 }
 
@@ -101,37 +102,28 @@
 }
 
 .breadcrumbPark {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 11px;
   font-weight: 600;
 }
 
-.eyebrow {
-  margin: 0 0 0.75rem;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #f1663f;
-}
-
 .title {
-  margin: 0 0 1rem;
+  margin: 0 0 0.85rem;
   font-family: var(--font-sans, 'DM Sans', sans-serif);
-  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-size: clamp(2rem, 4.8vw, 3.1rem);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
 .excerpt {
-  margin: 0 0 1.25rem;
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.88);
-  font-weight: 400;
+  margin: 0 0 1rem;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 62ch;
 }
 
 .meta {
@@ -153,13 +145,13 @@
 
 .date,
 .readTime {
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 /* ─── Article body ─── */
 .article {
   background: #fff;
-  padding: 3.5rem 0 0;
+  padding: 2.75rem 0 0;
 }
 
 .articleInner {
@@ -173,7 +165,7 @@
 }
 
 .body > p:first-child {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1.75;
   color: #1e2d27;
 }
@@ -182,7 +174,7 @@
 .shareSection {
   max-width: 680px;
   margin: 0 auto;
-  padding: 3rem 24px 4.5rem;
+  padding: 2.5rem 24px 3.5rem;
   border-top: 1px solid #e3e6e2;
 }
 
@@ -222,7 +214,7 @@
 /* ─── Related ─── */
 .relatedSection {
   background: #f6f7f5;
-  padding: 5rem 0;
+  padding: 4rem 0;
 }
 
 .relatedInner {
@@ -232,7 +224,7 @@
 }
 
 .relatedTitle {
-  margin: 0 0 2.5rem;
+  margin: 0 0 2rem;
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 800;
   color: #1e2d27;
@@ -269,6 +261,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 40%;
   transition: transform 0.4s ease;
 }
 
@@ -357,6 +350,7 @@
   width: 100%;
   height: 180px;
   object-fit: cover;
+  object-position: center 40%;
   border-radius: 12px;
   margin-bottom: 1rem;
 }
@@ -431,13 +425,11 @@
     padding-top: 72px;
   }
 
-  .heroImageWrap {
-    height: 42vh;
-    min-height: 280px;
+  .hero {
+    min-height: clamp(360px, 56vh, 520px);
   }
 
   .heroContent {
-    margin-top: -5rem;
     padding-bottom: 2rem;
   }
 

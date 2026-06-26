@@ -12,13 +12,8 @@ import ArticleBody from '@/components/domain/ArticleBody';
 
 function formatTitle(title: string): string {
   return title
-    .split(/\s+/)
-    .map((word) => {
-      if (!word) return word;
-      if (word === word.toUpperCase() && word.length <= 4) return word;
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(' ');
+    .toLowerCase()
+    .replace(/\b[a-z]/g, (char) => char.toUpperCase());
 }
 
 const FieldNotePage = () => {
@@ -91,21 +86,18 @@ const FieldNotePage = () => {
       <Header forceVisible={true} forceScrolled={true} />
 
       <main className={styles.main}>
-        {/* Hero */}
+        {/* Hero — copy is absolutely positioned; no extra whitespace below image */}
         <section className={styles.hero}>
-          <div className={styles.heroImageWrap}>
-            <img src={note.image} alt={displayTitle} className={styles.heroImage} />
-            <div className={styles.heroOverlay} />
-          </div>
+          <img src={note.image} alt="" className={styles.heroImage} aria-hidden="true" />
+          <div className={styles.heroOverlay} aria-hidden="true" />
           <div className={styles.heroContent}>
-            <nav className={styles.breadcrumb}>
+            <nav className={styles.breadcrumb} aria-label="Breadcrumb">
               <Link href="/field-notes" className={styles.breadcrumbLink}>
                 Field Notes
               </Link>
               <span className={styles.breadcrumbSep}>/</span>
               <span className={styles.breadcrumbPark}>{note.park}</span>
             </nav>
-            <p className={styles.eyebrow}>{note.park}</p>
             <h1 className={styles.title}>{displayTitle}</h1>
             <p className={styles.excerpt}>{note.excerpt}</p>
             <div className={styles.meta}>
