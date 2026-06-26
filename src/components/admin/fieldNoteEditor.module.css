@@ -1,0 +1,135 @@
+.fieldNoteEditor {
+    border: 1px solid var(--cl-border, #e3e6e2);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--cl-border, #e3e6e2);
+    background: #fafbf9;
+}
+
+.toolbarGroup {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.toolbarGroup + .toolbarGroup {
+    padding-left: 8px;
+    margin-left: 4px;
+    border-left: 1px solid var(--cl-border, #e3e6e2);
+}
+
+.toolBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--cl-text, #1e2d27);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.toolBtn:hover:not(:disabled) {
+    background: rgba(30, 45, 39, 0.08);
+}
+
+.toolBtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.toolBtnActive {
+    background: rgba(241, 102, 63, 0.14);
+    color: #d9542f;
+}
+
+.editorSurface {
+    min-height: 420px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.editorSurface :global(.ProseMirror) {
+    min-height: 420px;
+    padding: 20px 22px 28px;
+    outline: none;
+    font-family: var(--font-sans, 'DM Sans', sans-serif);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cl-text, #1e2d27);
+}
+
+.editorSurface :global(.ProseMirror p.is-editor-empty:first-child::before) {
+    content: attr(data-placeholder);
+    float: left;
+    color: #9aa39d;
+    pointer-events: none;
+    height: 0;
+}
+
+.editorSurface :global(.ProseMirror h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 1.4em 0 0.5em;
+}
+
+.editorSurface :global(.ProseMirror h3) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 1.2em 0 0.45em;
+}
+
+.editorSurface :global(.ProseMirror blockquote) {
+    border-left: 3px solid #f1663f;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #4a5750;
+    font-style: italic;
+}
+
+.editorSurface :global(.ProseMirror img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.25em auto;
+    border-radius: 8px;
+}
+
+.editorSurface :global(.ProseMirror a) {
+    color: #f1663f;
+    text-decoration: underline;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 12px;
+    border-top: 1px solid var(--cl-border, #e3e6e2);
+    background: #fafbf9;
+    font-size: 12px;
+    color: var(--cl-text-muted, #6b7770);
+}
+
+.uploading {
+    color: #f1663f;
+}
+
+.error {
+    color: var(--cl-danger, #c0392b);
+}

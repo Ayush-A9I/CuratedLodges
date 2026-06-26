@@ -263,6 +263,7 @@ export interface FieldNotesResponse {
 export interface FieldNoteDetail extends Omit<FieldNoteListItem, 'excerpt'> {
     excerpt: string;
     content: string[];
+    bodyHtml?: string | null;
     relatedNotes: { id: string; slug: string; title: string; park: string; image: string }[];
 }
 
