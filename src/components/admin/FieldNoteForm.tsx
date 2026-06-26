@@ -141,11 +141,12 @@ export function FieldNoteForm({ mode, initial, parks }: FieldNoteFormProps) {
 
         const readTime = form.readTime.trim() || formatReadTime(bodyHtml);
 
+        // Persist HTML in content[0] (works on all backend versions).
+        // body_html column is optional — omit bodyHtml from payload until migration is live.
         const payload: Record<string, unknown> = {
             title: form.title.trim(),
             excerpt: form.excerpt.trim(),
-            bodyHtml,
-            content: [],
+            content: [bodyHtml],
             author: form.author.trim(),
             parkLabel: form.parkLabel.trim(),
             image: form.image.trim(),

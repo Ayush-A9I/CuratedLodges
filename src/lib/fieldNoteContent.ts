@@ -48,6 +48,11 @@ export function paragraphsToHtml(paragraphs: string[]): string {
         .join('');
 }
 
+/** True when a string looks like HTML from the rich editor. */
+export function looksLikeHtml(text: string): boolean {
+    return /<\/?[a-z][^>]*>/i.test(text.trim());
+}
+
 /** Pick the best HTML body from API data (prefers rich HTML, falls back to paragraphs). */
 export function resolveFieldNoteBodyHtml(data: {
     bodyHtml?: string | null;
@@ -55,9 +60,21 @@ export function resolveFieldNoteBodyHtml(data: {
 }): string {
     const raw = (data.bodyHtml || '').trim();
     if (raw) return sanitizeFieldNoteHtml(raw);
-    const paragraphs = Array.isArray(data.content) ? data.content : [];
-    if (paragraphs.length === 0) return '';
-    return sanitizeFieldNoteHtml(paragraphsToHtml(paragraphs));
+
+    const items = Array.isArray(data.content)
+        ? data.content.map((p) => (typeof p === 'string' ? p.trim() : '')).filter(Boolean)
+        : [];
+    if (items.length === 0) return '';
+
+    // Rich article stored as a single HTML blob in content[0] (production compat).
+    if (items.length === 1 && looksLikeHtml(items[0])) {
+        return sanitizeFieldNoteHtml(items[0]);
+    }
+    if (items.length > 1 && items.every(looksLikeHtml)) {
+        return sanitizeFieldNoteHtml(items.join(''));
+    }
+
+    return sanitizeFieldNoteHtml(paragraphsToHtml(items));
 }
 
 /** Rough word count for read-time hints in admin. */
