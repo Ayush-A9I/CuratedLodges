@@ -17,6 +17,14 @@ import {
     type SectionImageKey,
     type SectionImagesMap,
 } from '@/lib/lodgeSectionImages';
+import {
+    DEFAULT_IMMERSE_TITLE,
+    readImmerseSection,
+    serializeImmerseSection,
+    type ImmerseInTheWildConfig,
+    type ImmerseVideoEntry,
+} from '@/lib/lodgeImmerseSection';
+import { isValidYouTubeUrl } from '@/lib/youtube';
 import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 
 /* ───────────────────────── Types ───────────────────────── */
@@ -79,6 +87,7 @@ const MANAGED_KEYS = new Set<string>([
     'paymentInfo',
     'cancellationPolicy',
     'mediaLink',
+    'immerseInTheWild',
 ]);
 
 /* ─────────────────────── Helpers ───────────────────────── */
@@ -186,6 +195,10 @@ function serialize(draft: Dict): Dict {
     // 8. Media link.
     const mediaLink = asString(draft.mediaLink);
     if (mediaLink.trim() !== '') out.mediaLink = mediaLink;
+
+    // 9. Immerse in the Wild (optional YouTube video section).
+    const immerseInTheWild = serializeImmerseSection(readImmerseSection(draft.immerseInTheWild));
+    if (immerseInTheWild) out.immerseInTheWild = immerseInTheWild;
 
     return out;
 }
@@ -487,6 +500,33 @@ export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: Lodge
         ? draft.cancellationPolicy
         : {};
     const sectionTitles = isPlainObject(draft.sectionTitles) ? draft.sectionTitles : {};
+    const immerseConfig = readImmerseSection(draft.immerseInTheWild);
+
+    const setImmerseConfig = (next: ImmerseInTheWildConfig) => {
+        apply({ ...draft, immerseInTheWild: next });
+    };
+
+    const updateImmerseVideo = (index: number, field: keyof ImmerseVideoEntry, val: string) => {
+        const videos = immerseConfig.videos.map((video, i) =>
+            i === index ? { ...video, [field]: val } : video
+        );
+        setImmerseConfig({ ...immerseConfig, videos });
+    };
+
+    const addImmerseVideo = () => {
+        setImmerseConfig({
+            ...immerseConfig,
+            videos: [...immerseConfig.videos, { youtubeUrl: '', title: '', caption: '' }],
+        });
+    };
+
+    const removeImmerseVideo = (index: number) => {
+        const videos = immerseConfig.videos.filter((_, i) => i !== index);
+        setImmerseConfig({
+            ...immerseConfig,
+            videos: videos.length > 0 ? videos : [{ youtubeUrl: '', title: '', caption: '' }],
+        });
+    };
 
     return (
         <div>
@@ -693,6 +733,100 @@ export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: Lodge
                         />
                     </SubGroup>
                 ))}
+            </Section>
+
+            {/* Immerse in the Wild */}
+            <Section title="Immerse in the Wild">
+                <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
+                    Optional video section on the public lodge page. Lodge companies upload to
+                    YouTube and paste the link here. When disabled, nothing appears on the site.
+                </p>
+                <AdminCheckbox
+                    label="Show “Immerse in the Wild” section on the lodge page"
+                    wrapRow={false}
+                    checked={immerseConfig.enabled}
+                    onChange={(e) => setImmerseConfig({ ...immerseConfig, enabled: e.target.checked })}
+                />
+                <FormRow inline>
+                    <AdminInput
+                        label="Section title"
+                        wrapRow={false}
+                        placeholder={DEFAULT_IMMERSE_TITLE}
+                        value={immerseConfig.title || ''}
+                        onChange={(e) => setImmerseConfig({ ...immerseConfig, title: e.target.value })}
+                    />
+                    <AdminInput
+                        label="Subtitle (optional)"
+                        wrapRow={false}
+                        placeholder="Experience the lodge through their lens"
+                        value={immerseConfig.subtitle || ''}
+                        onChange={(e) => setImmerseConfig({ ...immerseConfig, subtitle: e.target.value })}
+                    />
+                </FormRow>
+                {immerseConfig.videos.map((video, i) => {
+                    const urlTrimmed = video.youtubeUrl.trim();
+                    const urlInvalid = urlTrimmed !== '' && !isValidYouTubeUrl(urlTrimmed);
+
+                    return (
+                        <div
+                            key={i}
+                            style={{
+                                border: '1px solid var(--cl-border)',
+                                borderRadius: 8,
+                                padding: 16,
+                                marginBottom: 16,
+                            }}
+                        >
+                            <AdminLabel>Video {i + 1}</AdminLabel>
+                            <AdminInput
+                                label="YouTube URL"
+                                type="url"
+                                wrapRow={false}
+                                placeholder="https://www.youtube.com/watch?v=… or https://youtu.be/…"
+                                value={video.youtubeUrl}
+                                onChange={(e) => updateImmerseVideo(i, 'youtubeUrl', e.target.value)}
+                            />
+                            {urlInvalid ? (
+                                <p
+                                    className={styles.pageHeaderSubtitle}
+                                    style={{ margin: '4px 0 0', color: 'var(--cl-danger, #c0392b)' }}
+                                >
+                                    Enter a valid YouTube link (youtube.com or youtu.be).
+                                </p>
+                            ) : null}
+                            <FormRow inline>
+                                <AdminInput
+                                    label="Title (optional)"
+                                    wrapRow={false}
+                                    value={video.title || ''}
+                                    onChange={(e) => updateImmerseVideo(i, 'title', e.target.value)}
+                                />
+                                <AdminInput
+                                    label="Caption (optional)"
+                                    wrapRow={false}
+                                    value={video.caption || ''}
+                                    onChange={(e) => updateImmerseVideo(i, 'caption', e.target.value)}
+                                />
+                            </FormRow>
+                            {immerseConfig.videos.length > 1 ? (
+                                <button
+                                    type="button"
+                                    className={`${styles.btn} ${styles.btnGhost} ${styles.btnSmall}`}
+                                    onClick={() => removeImmerseVideo(i)}
+                                >
+                                    Remove video
+                                </button>
+                            ) : null}
+                        </div>
+                    );
+                })}
+                <button
+                    type="button"
+                    className={`${styles.btn} ${styles.btnSecondary} ${styles.btnSmall}`}
+                    onClick={addImmerseVideo}
+                >
+                    + Add another video
+                </button>
             </Section>
 
             {/* Media Link */}

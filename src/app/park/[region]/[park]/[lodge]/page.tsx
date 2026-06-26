@@ -23,6 +23,8 @@ import {
   resolveOriginStoryGrid,
   resolveSectionHeroSrc,
 } from '@/lib/lodgeSectionImages';
+import { readImmerseSection } from '@/lib/lodgeImmerseSection';
+import ImmerseInTheWild from '@/components/domain/ImmerseInTheWild';
 import { formatMoney } from '@/lib/money';
 import SectionTitleHeading from '@/components/domain/SectionTitleHeading';
 
@@ -80,6 +82,7 @@ function mapApiToProfile(data: any) {
         ? content.sectionTitles
         : {},
     sectionImages: readSectionImages(content.sectionImages),
+    immerseInTheWild: readImmerseSection(content.immerseInTheWild),
     // Conservation may be an object ({ intro, wildlifeEcosystem, indigenousCommunities })
     // or a flat array; the render layer handles both.
     conservation: content.conservation || [],
@@ -694,16 +697,7 @@ export default function LodgeDetailPage() {
           })}
         </section>
 
-        {/* ─── Immerse Divider ──────────────────────────────── */}
-        <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-[#1E2D27]/50 z-10" />
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-            <source src="/assests/videos/Outpost12.mp4" type="video/mp4" />
-          </video>
-          <div className={`relative z-20 text-center px-6 ${revealClass('divider-copy')}`} data-reveal-id="divider-copy">
-            <h2 className="text-4xl md:text-6xl font-serif text-white mb-6 drop-shadow-lg">Immerse in the Wild</h2>
-          </div>
-        </section>
+        <ImmerseInTheWild config={lodgeProfile.immerseInTheWild} revealClass={revealClass} />
 
         {/* ─── Gallery ─────────────────────────────────────── */}
         <section id="gallery" className="py-24 bg-[#FFFFFF]">
