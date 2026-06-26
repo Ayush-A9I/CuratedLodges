@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { AdminInput, AdminLabel, AdminCheckbox, FormRow, ImageUpload } from '@/components/admin';
+import {
+    AdminInput,
+    AdminLabel,
+    AdminCheckbox,
+    AdminSelect,
+    FormRow,
+    ImageUpload,
+} from '@/components/admin';
 import styles from '@/components/admin/admin.module.css';
 import { LODGE_HERO_QUOTE_MAX } from '@/lib/lodgeDisplayLimits';
 import {
@@ -10,10 +17,14 @@ import {
     type SectionTitleKey,
 } from '@/lib/lodgeSectionTitles';
 import {
+    defaultOriginStoryImageConfig,
     defaultSectionImageConfig,
+    ORIGIN_STORY_GRID_SIZE,
     readSectionImages,
     SECTION_IMAGE_FIELD_META,
     serializeSectionImages,
+    type OriginStoryImageMode,
+    type SectionImageConfig,
     type SectionImageKey,
     type SectionImagesMap,
 } from '@/lib/lodgeSectionImages';
@@ -357,7 +368,134 @@ interface SectionImageFieldProps {
     onChange: (next: SectionImageConfig) => void;
 }
 
-type SectionImageConfig = { useThumbnail?: boolean; url?: string };
+/** Origin Story grid: one image repeated four times, or four distinct uploads. */
+function OriginStoryImageField({
+    meta,
+    config,
+    thumbnailUrl,
+    onChange,
+}: SectionImageFieldProps) {
+    const mode: OriginStoryImageMode = config.originImageMode === 'unique' ? 'unique' : 'same';
+    const gridUrls =
+        config.gridUrls && config.gridUrls.length === ORIGIN_STORY_GRID_SIZE
+            ? config.gridUrls
+            : defaultOriginStoryImageConfig().gridUrls!;
+    const useThumbnail = config.useThumbnail !== false;
+    const previewSrc = useThumbnail
+        ? thumbnailUrl.trim() || FALLBACK_IMAGES.lodge
+        : config.url?.trim() || '';
+
+    const setMode = (nextMode: OriginStoryImageMode) => {
+        onChange({
+            ...config,
+            originImageMode: nextMode,
+            gridUrls: nextMode === 'unique' ? gridUrls : defaultOriginStoryImageConfig().gridUrls,
+        });
+    };
+
+    const setGridUrl = (index: number, url: string) => {
+        const next = [...gridUrls];
+        next[index] = url;
+        onChange({ ...config, originImageMode: 'unique', gridUrls: next });
+    };
+
+    return (
+        <div
+            style={{
+                border: '1px solid var(--cl-border)',
+                borderRadius: 8,
+                padding: 16,
+                marginBottom: 16,
+            }}
+        >
+            <AdminLabel>{meta.label}</AdminLabel>
+            <p className={styles.pageHeaderSubtitle} style={{ marginTop: 4, marginBottom: 12 }}>
+                Shown in &ldquo;{meta.publicLabel}&rdquo; as a four-image collage on the lodge page.
+            </p>
+            <AdminSelect
+                label="Image layout"
+                wrapRow={false}
+                value={mode}
+                onChange={(e) => setMode(e.target.value as OriginStoryImageMode)}
+                options={[
+                    { value: 'same', label: 'Use one image (shown four times)' },
+                    { value: 'unique', label: 'Use four different images' },
+                ]}
+            />
+
+            {mode === 'same' ? (
+                <>
+                    <AdminCheckbox
+                        label="Use lodge thumbnail"
+                        wrapRow={false}
+                        checked={useThumbnail}
+                        onChange={(e) =>
+                            onChange({
+                                ...config,
+                                originImageMode: 'same',
+                                useThumbnail: e.target.checked,
+                                url: e.target.checked ? '' : config.url || '',
+                            })
+                        }
+                    />
+                    {!useThumbnail ? (
+                        <ImageUpload
+                            label="Custom image"
+                            folder="lodges"
+                            wrapRow={false}
+                            value={config.url || ''}
+                            fallbackPreview={FALLBACK_IMAGES.lodge}
+                            onChange={(url) =>
+                                onChange({
+                                    originImageMode: 'same',
+                                    useThumbnail: false,
+                                    url,
+                                    gridUrls: defaultOriginStoryImageConfig().gridUrls,
+                                })
+                            }
+                        />
+                    ) : previewSrc ? (
+                        <div style={{ marginTop: 8 }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={previewSrc}
+                                alt={`${meta.label} preview`}
+                                style={{
+                                    maxWidth: 220,
+                                    maxHeight: 140,
+                                    objectFit: 'cover',
+                                    borderRadius: 6,
+                                    border: '1px solid var(--cl-border)',
+                                }}
+                            />
+                            <p className={styles.pageHeaderSubtitle} style={{ marginTop: 8, marginBottom: 0 }}>
+                                This image appears four times in the Origin Story grid.
+                            </p>
+                        </div>
+                    ) : null}
+                </>
+            ) : (
+                <>
+                    <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0, marginBottom: 12 }}>
+                        Upload four images for the collage. Empty slots fall back to the last uploaded
+                        image.
+                    </p>
+                    {gridUrls.map((url, index) => (
+                        <ImageUpload
+                            key={index}
+                            label={`Image ${index + 1}`}
+                            folder="lodges"
+                            wrapRow={false}
+                            value={url}
+                            fallbackPreview={FALLBACK_IMAGES.lodgeGallery}
+                            onChange={(nextUrl) => setGridUrl(index, nextUrl)}
+                        />
+                    ))}
+                </>
+            )}
+        </div>
+    );
+}
 
 /** Per-section image: follow lodge thumbnail or upload a custom hero. */
 function SectionImageField({ meta, config, thumbnailUrl, onChange }: SectionImageFieldProps) {
@@ -556,18 +694,28 @@ export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: Lodge
             <Section title="Section images">
                 <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
                     Each narrative block on the lodge page can use the lodge thumbnail or its own
-                    image. Origin Story uses up to four gallery images when following the thumbnail;
-                    upload extra images in the Images section below for a varied grid.
+                    image. Origin Story supports either one image repeated four times or four
+                    different collage images.
                 </p>
-                {SECTION_IMAGE_FIELD_META.map((meta) => (
-                    <SectionImageField
-                        key={meta.key}
-                        meta={meta}
-                        thumbnailUrl={thumbnailUrl}
-                        config={sectionImages[meta.key] || defaultSectionImageConfig()}
-                        onChange={(next) => setSectionImage(meta.key, next)}
-                    />
-                ))}
+                {SECTION_IMAGE_FIELD_META.map((meta) =>
+                    meta.key === 'originStory' ? (
+                        <OriginStoryImageField
+                            key={meta.key}
+                            meta={meta}
+                            thumbnailUrl={thumbnailUrl}
+                            config={sectionImages.originStory || defaultOriginStoryImageConfig()}
+                            onChange={(next) => setSectionImage('originStory', next)}
+                        />
+                    ) : (
+                        <SectionImageField
+                            key={meta.key}
+                            meta={meta}
+                            thumbnailUrl={thumbnailUrl}
+                            config={sectionImages[meta.key] || defaultSectionImageConfig()}
+                            onChange={(next) => setSectionImage(meta.key, next)}
+                        />
+                    )
+                )}
             </Section>
 
             {/* Origin Story */}
