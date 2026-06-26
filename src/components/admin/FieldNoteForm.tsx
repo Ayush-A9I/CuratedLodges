@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import {
     AdminInput,
@@ -14,7 +15,6 @@ import {
     SaveButton,
     useToast,
 } from '@/components/admin';
-import { FieldNoteRichEditor } from '@/components/admin/FieldNoteRichEditor';
 import { adminApi, AdminApiError } from '@/lib/adminApi';
 import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 import {
@@ -25,6 +25,20 @@ import {
     sanitizeFieldNoteHtml,
 } from '@/lib/fieldNoteContent';
 import styles from '@/components/admin/admin.module.css';
+
+const FieldNoteRichEditor = dynamic(
+    () =>
+        import('@/components/admin/FieldNoteRichEditor').then((mod) => mod.FieldNoteRichEditor),
+    {
+        ssr: false,
+        loading: () => (
+            <div className={styles.tableState} style={{ minHeight: 420 }}>
+                <div className={styles.spinner} />
+                Loading editor…
+            </div>
+        ),
+    }
+);
 
 export interface FieldNoteRecord {
     id: string;

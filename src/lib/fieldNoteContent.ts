@@ -1,33 +1,34 @@
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 
-const ALLOWED_TAGS = [
-    'p',
-    'h2',
-    'h3',
-    'h4',
-    'strong',
-    'em',
-    'u',
-    's',
-    'a',
-    'ul',
-    'ol',
-    'li',
-    'blockquote',
-    'hr',
-    'br',
-    'img',
-];
-
-const ALLOWED_ATTR = ['href', 'src', 'alt', 'title', 'target', 'rel'];
+const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+    allowedTags: [
+        'p',
+        'h2',
+        'h3',
+        'h4',
+        'strong',
+        'em',
+        'u',
+        's',
+        'a',
+        'ul',
+        'ol',
+        'li',
+        'blockquote',
+        'hr',
+        'br',
+        'img',
+    ],
+    allowedAttributes: {
+        a: ['href', 'title', 'target', 'rel'],
+        img: ['src', 'alt', 'title'],
+    },
+    allowedSchemes: ['http', 'https', 'mailto'],
+};
 
 /** Strip unsafe HTML before storing or rendering field note bodies. */
 export function sanitizeFieldNoteHtml(html: string): string {
-    return DOMPurify.sanitize(html, {
-        ALLOWED_TAGS,
-        ALLOWED_ATTR,
-        ALLOW_DATA_ATTR: false,
-    });
+    return sanitizeHtml(html, SANITIZE_OPTIONS);
 }
 
 function escapeHtml(text: string): string {
