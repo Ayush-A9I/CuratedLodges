@@ -43,6 +43,24 @@ export function buildYouTubeEmbedUrl(videoId: string): string {
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
 }
 
+/** Autoplaying, muted, looping embed for full-bleed hero backgrounds. */
+export function buildYouTubeBackgroundEmbedUrl(videoId: string): string {
+  const params = new URLSearchParams({
+    autoplay: '1',
+    mute: '1',
+    loop: '1',
+    playlist: videoId,
+    controls: '0',
+    modestbranding: '1',
+    rel: '0',
+    playsinline: '1',
+    disablekb: '1',
+    fs: '0',
+    iv_load_policy: '3',
+  });
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
+}
+
 export function buildYouTubeThumbnailUrl(videoId: string, quality: 'default' | 'mqdefault' | 'hqdefault' = 'hqdefault'): string {
   return `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
 }

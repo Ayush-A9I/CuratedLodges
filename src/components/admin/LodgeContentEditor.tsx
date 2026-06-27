@@ -35,6 +35,12 @@ import {
     type ImmerseInTheWildConfig,
     type ImmerseVideoEntry,
 } from '@/lib/lodgeImmerseSection';
+import {
+    defaultLodgeHeroConfig,
+    readLodgeHero,
+    serializeLodgeHero,
+    type LodgeHeroConfig,
+} from '@/lib/lodgeHeroSection';
 import { isValidYouTubeUrl } from '@/lib/youtube';
 import { FALLBACK_IMAGES } from '@/lib/fallbackImages';
 
@@ -99,6 +105,7 @@ const MANAGED_KEYS = new Set<string>([
     'cancellationPolicy',
     'mediaLink',
     'immerseInTheWild',
+    'lodgeHero',
 ]);
 
 /* ─────────────────────── Helpers ───────────────────────── */
@@ -210,6 +217,10 @@ function serialize(draft: Dict): Dict {
     // 9. Immerse in the Wild (optional YouTube video section).
     const immerseInTheWild = serializeImmerseSection(readImmerseSection(draft.immerseInTheWild));
     if (immerseInTheWild) out.immerseInTheWild = immerseInTheWild;
+
+    // 10. Page hero (optional image and/or background video).
+    const lodgeHero = serializeLodgeHero(readLodgeHero(draft.lodgeHero));
+    if (lodgeHero) out.lodgeHero = lodgeHero;
 
     return out;
 }
@@ -639,6 +650,11 @@ export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: Lodge
         : {};
     const sectionTitles = isPlainObject(draft.sectionTitles) ? draft.sectionTitles : {};
     const immerseConfig = readImmerseSection(draft.immerseInTheWild);
+    const lodgeHeroConfig = readLodgeHero(draft.lodgeHero);
+
+    const setLodgeHeroConfig = (next: LodgeHeroConfig) => {
+        apply({ ...draft, lodgeHero: next });
+    };
 
     const setImmerseConfig = (next: ImmerseInTheWildConfig) => {
         apply({ ...draft, immerseInTheWild: next });
@@ -668,6 +684,55 @@ export function LodgeContentEditor({ value, onChange, thumbnailUrl = '' }: Lodge
 
     return (
         <div>
+            {/* Page hero */}
+            <Section title="Page hero">
+                <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
+                    Controls the large hero at the top of the public lodge page. The hero image
+                    uses the lodge thumbnail from Core details above. Video is optional and can be
+                    used together with the image — the image shows instantly while video loads.
+                </p>
+                <AdminCheckbox
+                    label="Show hero image (lodge thumbnail)"
+                    wrapRow={false}
+                    checked={lodgeHeroConfig.showImage}
+                    onChange={(e) =>
+                        setLodgeHeroConfig({ ...lodgeHeroConfig, showImage: e.target.checked })
+                    }
+                />
+                <AdminCheckbox
+                    label="Show hero background video"
+                    wrapRow={false}
+                    checked={lodgeHeroConfig.showVideo}
+                    onChange={(e) =>
+                        setLodgeHeroConfig({ ...lodgeHeroConfig, showVideo: e.target.checked })
+                    }
+                />
+                {lodgeHeroConfig.showVideo ? (
+                    <>
+                        <AdminInput
+                            label="Hero video URL"
+                            type="url"
+                            wrapRow={false}
+                            placeholder="YouTube link or direct https://…/video.mp4"
+                            value={lodgeHeroConfig.videoUrl}
+                            onChange={(e) =>
+                                setLodgeHeroConfig({ ...lodgeHeroConfig, videoUrl: e.target.value })
+                            }
+                        />
+                        {lodgeHeroConfig.videoUrl.trim() &&
+                        !isValidYouTubeUrl(lodgeHeroConfig.videoUrl) &&
+                        !/^https?:\/\/.+/i.test(lodgeHeroConfig.videoUrl.trim()) ? (
+                            <p
+                                className={styles.pageHeaderSubtitle}
+                                style={{ margin: '4px 0 0', color: 'var(--cl-danger, #c0392b)' }}
+                            >
+                                Use a YouTube link or a direct https video URL.
+                            </p>
+                        ) : null}
+                    </>
+                ) : null}
+            </Section>
+
             {/* Section headings */}
             <Section title="Section headings (optional)">
                 <p className={styles.pageHeaderSubtitle} style={{ marginTop: 0 }}>
