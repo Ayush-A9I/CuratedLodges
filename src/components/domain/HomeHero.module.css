@@ -1,0 +1,74 @@
+.hero {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #1e2d27;
+}
+
+.heroImage,
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroYoutubeWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heroYoutube {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.77777778vh;
+  min-width: 100%;
+  min-height: 100%;
+  height: 56.25vw;
+  transform: translate(-50%, -50%);
+  border: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 18, 16, 0.28) 0%,
+    rgba(8, 18, 16, 0.18) 45%,
+    rgba(8, 18, 16, 0.42) 100%
+  );
+  pointer-events: none;
+}
+
+.heroSoundGate {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.heroSoundGateChip {
+  position: absolute;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(8, 18, 16, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
