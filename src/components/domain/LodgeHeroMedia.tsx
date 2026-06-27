@@ -15,6 +15,12 @@ export default function LodgeHeroMedia({ hero, alt }: LodgeHeroMediaProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isHeroMuted, setIsHeroMuted] = useState(true);
   const [showSoundPrompt, setShowSoundPrompt] = useState(false);
+  const [embedReady, setEmbedReady] = useState(false);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setEmbedReady(true));
+    return () => cancelAnimationFrame(frame);
+  }, [hero.youtubeVideoId, hero.directVideoUrl]);
 
   const startDirectVideo = useCallback(async () => {
     const video = videoRef.current;
@@ -89,19 +95,20 @@ export default function LodgeHeroMedia({ hero, alt }: LodgeHeroMediaProps) {
         />
       ) : null}
 
-      {hero.showVideo && hero.youtubeVideoId ? (
+      {hero.showVideo && hero.youtubeVideoId && embedReady ? (
         <div className={styles.heroYoutubeWrap} aria-hidden="true">
           <iframe
             src={buildYouTubeBackgroundEmbedUrl(hero.youtubeVideoId)}
             title={`${alt} hero video`}
             className={styles.heroYoutube}
+            tabIndex={-1}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           />
         </div>
       ) : null}
 
-      {hero.showVideo && hero.directVideoUrl ? (
+      {hero.showVideo && hero.directVideoUrl && embedReady ? (
         <video
           ref={videoRef}
           className={styles.heroVideo}

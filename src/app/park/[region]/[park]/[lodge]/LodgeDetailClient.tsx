@@ -28,6 +28,7 @@ import { readLodgeHero, resolveLodgeHero } from '@/lib/lodgeHeroSection';
 import ImmerseInTheWild from '@/components/domain/ImmerseInTheWild';
 import LodgeHeroMedia from '@/components/domain/LodgeHeroMedia';
 import { formatMoney } from '@/lib/money';
+import { resetPageScrollThoroughly } from '@/lib/scrollReset';
 import SectionTitleHeading from '@/components/domain/SectionTitleHeading';
 
 type MediaItem = {
@@ -158,6 +159,23 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
       })
       .finally(() => setLoading(false));
   }, [slugFromRoute, initialLodge]);
+
+  // Lodge pages are long; always open at the hero unless navigating to a hash.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.hash) return;
+
+    resetPageScrollThoroughly();
+
+    // Hero video/iframes can focus after paint and pull the viewport down.
+    const settleTimer = window.setTimeout(resetPageScrollThoroughly, 50);
+    const lateTimer = window.setTimeout(resetPageScrollThoroughly, 300);
+
+    return () => {
+      window.clearTimeout(settleTimer);
+      window.clearTimeout(lateTimer);
+    };
+  }, [slugFromRoute, lodge?.id]);
 
   // ─── Scroll reveal observer ────────────────────────────────
   useEffect(() => {

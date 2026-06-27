@@ -89,7 +89,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
     if (onClick) {
       onClick();
     } else if (link && link !== '#') {
-      router.push(link);
+      router.push(link, { scroll: true });
     }
   };
 

@@ -82,7 +82,7 @@
 
 /* Apply DM Sans globally */
 html {
-	scroll-behavior: smooth;
+	scroll-behavior: auto;
 }
 
 html, body {
