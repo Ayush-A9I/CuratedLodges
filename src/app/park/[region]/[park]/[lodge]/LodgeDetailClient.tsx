@@ -156,6 +156,27 @@ function NaturalistsCarousel({ naturalists }: { naturalists: NonNullable<LodgeDe
   const prev = () => setStart((s) => Math.max(0, s - 1));
   const next = () => setStart((s) => Math.min(total - perPage, s + 1));
 
+  // Touch swipe support (mobile) — the arrows alone weren't enough.
+  const touchStartX = React.useRef<number | null>(null);
+  const touchDeltaX = React.useRef(0);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current !== null) {
+      touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+    }
+  };
+  const onTouchEnd = () => {
+    const dx = touchDeltaX.current;
+    const threshold = 40; // px — ignore tiny/accidental drags
+    if (dx <= -threshold && canNext) next();
+    else if (dx >= threshold && canPrev) prev();
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+  };
+
   const visible = naturalists.slice(start, start + perPage);
   const modalNat = modalIndex !== null ? naturalists[modalIndex] : null;
 
@@ -192,7 +213,7 @@ function NaturalistsCarousel({ naturalists }: { naturalists: NonNullable<LodgeDe
             </button>
             {/* Dot indicator */}
             {total > perPage && (
-              <span className="ml-3 text-xs text-[#6B7B75] tabular-nums">
+              <span className="ml-3 text-xs text-[#6B7B75] tabular-nums hidden sm:inline">
                 {start + 1}–{Math.min(start + perPage, total)} of {total}
               </span>
             )}
@@ -202,7 +223,10 @@ function NaturalistsCarousel({ naturalists }: { naturalists: NonNullable<LodgeDe
         {/* Cards — CSS grid so layout reflows cleanly with perPage */}
         <div
           className="grid gap-8"
-          style={{ gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))` }}
+          style={{ gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))`, touchAction: 'pan-y' }}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
         >
           {visible.map((n, i) => {
             const globalIndex = start + i;
