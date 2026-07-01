@@ -1,12 +1,18 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { MapPin, Star, ArrowRight, Wifi, Waves, UtensilsCrossed, Droplet, Car, Dumbbell, Wind, Flame, Book, Wine, ChevronLeft, ChevronRight, Leaf, Sun, CloudRain, Snowflake } from 'lucide-react';
 import { useLocalization } from '@/contexts/LocalizationContext';
 import { useTranslation } from 'react-i18next';
 import { resolveImageUrl } from '@/lib/fallbackImages';
 import styles from './LodgeCard.module.css';
+
+// Neutral light-gray blur placeholder — prevents flash before image loads.
+// Cards sit on a white/#FAFAFA background so this blends seamlessly.
+const CARD_BLUR_PLACEHOLDER =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/OdXPQAIoAM4G2QPBQAAAABJRU5ErkJggg==';
 
 interface LodgeCardProps {
   image: string;
@@ -96,10 +102,15 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
   return (
     <div className={styles.card} onClick={handleCardClick} style={{ cursor: (onClick || (link && link !== '#')) ? 'pointer' : 'default' }}>
       <div className={styles.imageContainer}>
-        <img 
-          src={galleryImages[currentImageIndex]} 
-          alt={title} 
-          className={styles.image} 
+        <Image
+          src={galleryImages[currentImageIndex]}
+          alt={title}
+          fill
+          sizes="(max-width: 768px) 85vw, 400px"
+          className={styles.image}
+          style={{ objectFit: 'cover' }}
+          placeholder="blur"
+          blurDataURL={CARD_BLUR_PLACEHOLDER}
         />
         {bestSeason && (
           <div className={styles.seasonBadge}>
@@ -109,14 +120,14 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
         )}
         {galleryImages.length > 1 && (
           <>
-            <button 
+            <button
               className={styles.navButtonLeft}
               onClick={goToPrevious}
               aria-label={t('accessibility.previousImage')}
             >
               <ChevronLeft size={24} />
             </button>
-            <button 
+            <button
               className={styles.navButtonRight}
               onClick={goToNext}
               aria-label={t('accessibility.nextImage')}
@@ -139,7 +150,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           </>
         )}
       </div>
-      
+
       <div className={styles.content}>
         <div className={styles.titleRow}>
           <h3 className={styles.title}>{title}</h3>
@@ -154,7 +165,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           <MapPin size={16} />
           <span>{location}</span>
         </div>
-        
+
         {amenities.length > 0 && (
           <div className={styles.amenities}>
             {amenities.slice(0, 4).map((amenity, index) => (
@@ -175,7 +186,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
           </div>
         )}
       </div>
-      
+
       <div className={styles.footer}>
         <div className={styles.priceContainer}>
           <span className={styles.fromText}>{t('lodge.from')}</span>
