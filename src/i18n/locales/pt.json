@@ -9,7 +9,9 @@
   "hero": {
     "title": "Encontre Seu Acampamento Base Perfeito",
     "subtitle": "Descubra acomodações selecionadas nos lugares selvagens mais extraordinários do mundo",
-    "scrollDown": "Role para Explorar"
+    "scrollDown": "Role para Explorar",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "SELECIONAR REGIÃO",
@@ -36,6 +38,8 @@
     "seamlessBookingDesc": "Logística complexa em lugares selvagens tratada com precisão. Guiamos sua confiança da partida ao retorno.",
     "foundingCollection": "Nossa Coleção Fundadora",
     "foundingCollectionDesc": "Uma seleção de nossas estadias mais inspiradoras para começar.",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "Aventuras Guiadas",
     "guidedAdventuresLabel": "Explorar",
     "guidedAdventuresDesc": "Complete sua jornada com uma Expedição Junglore. Passeios conduzidos por especialistas através do coração do selvagem.",
@@ -45,7 +49,8 @@
   },
   "testimonials": {
     "label": "Testemunhos",
-    "heading": "O que as pessoas dizem sobre nós."
+    "heading": "O que as pessoas dizem sobre nós.",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "Artefatos de Estilo de Vida",
@@ -68,6 +73,7 @@
     "viewLodge": "VER LODGE",
     "startingFrom": "A PARTIR DE",
     "ecoCertified": "Certificado Eco",
+    "bestIn": "Best in {{season}}",
     "readMore": "Leia Mais",
     "knowMore": "Detalhes dos Quartos",
     "bookNow": "Reserve Agora"
@@ -110,7 +116,9 @@
   "accessibility": {
     "previousImage": "Imagem anterior",
     "nextImage": "Próxima imagem",
-    "viewImage": "Ver imagem"
+    "viewImage": "Ver imagem",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "Configure Sua Estadia",

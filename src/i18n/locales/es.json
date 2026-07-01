@@ -9,7 +9,9 @@
   "hero": {
     "title": "Encuentra Tu Campamento Perfecto",
     "subtitle": "Descubre alojamientos seleccionados en los lugares salvajes más extraordinarios del mundo",
-    "scrollDown": "Desplázate para explorar"
+    "scrollDown": "Desplázate para explorar",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "SELECCIONAR REGIÓN",
@@ -36,6 +38,8 @@
     "seamlessBookingDesc": "Logística compleja en lugares salvajes manejada con precisión. Guiamos tu confianza desde la salida hasta el regreso.",
     "foundingCollection": "Nuestra Colección Fundacional",
     "foundingCollectionDesc": "Una selección de nuestras estancias más inspiradoras para comenzar.",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "Aventuras Guiadas",
     "guidedAdventuresLabel": "Explorar",
     "guidedAdventuresDesc": "Completa tu viaje con una Expedición Junglore. Tours dirigidos por expertos a través del corazón de lo salvaje.",
@@ -45,7 +49,8 @@
   },
   "testimonials": {
     "label": "Testimonios",
-    "heading": "Lo que la gente dice sobre nosotros."
+    "heading": "Lo que la gente dice sobre nosotros.",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "Artefactos de Estilo de Vida",
@@ -68,6 +73,7 @@
     "viewLodge": "VER ALOJAMIENTO",
     "startingFrom": "DESDE",
     "ecoCertified": "Certificado Ecológico",
+    "bestIn": "Best in {{season}}",
     "readMore": "Leer Más",
     "knowMore": "Detalles de la Habitación",
     "bookNow": "Reservar Ahora"
@@ -110,7 +116,9 @@
   "accessibility": {
     "previousImage": "Imagen anterior",
     "nextImage": "Siguiente imagen",
-    "viewImage": "Ver imagen"
+    "viewImage": "Ver imagen",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "Configurar Tu Estadía",

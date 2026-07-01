@@ -9,7 +9,9 @@
   "hero": {
     "title": "Finden Sie Ihr Perfektes Basislager",
     "subtitle": "Entdecken Sie kuratierte Unterkünfte an den außergewöhnlichsten wilden Orten der Welt",
-    "scrollDown": "Scrollen zum Erkunden"
+    "scrollDown": "Scrollen zum Erkunden",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "REGION AUSWÄHLEN",
@@ -36,15 +38,19 @@
     "seamlessBookingDesc": "Komplexe Logistik an wilden Orten mit Präzision gehandhabt. Wir leiten Ihr Vertrauen von Abfahrt bis Rückkehr.",
     "foundingCollection": "Unsere Gründungskollektion",
     "foundingCollectionDesc": "Eine Zusammenstellung unserer bewegendsten Aufenthalte für Ihren Einstieg.",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "Geführte Abenteuer",
     "guidedAdventuresLabel": "Erkunden",
     "guidedAdventuresDesc": "Vervollständigen Sie Ihre Reise mit einer Junglore Expedition. Fachmännisch geführte Touren durch das Herz der Wildnis.",
     "exploreExpeditions": "Expeditionen Erkunden",
     "latestFieldNotes": "Neueste Feldnotizen",
     "latestFieldNotesDesc": "Experteneinblicke, Geschichten vor Ort und Tipps zur Tierfotografie."
-  },  "testimonials": {
+  },
+  "testimonials": {
     "label": "Erfahrungsberichte",
-    "heading": "Was die Leute über uns sagen."
+    "heading": "Was die Leute über uns sagen.",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "Lifestyle-Artefakte",
@@ -59,13 +65,15 @@
     "safariGear": "SAFARI-AUSRÜSTUNG",
     "nationalParks": "NATIONALPARKS",
     "books": "BÜCHER"
-  },  "lodge": {
+  },
+  "lodge": {
     "from": "Ab",
     "night": "Nacht",
     "perNight": "/ Nacht",
     "viewLodge": "LODGE ANSEHEN",
     "startingFrom": "AB",
     "ecoCertified": "Öko-Zertifiziert",
+    "bestIn": "Best in {{season}}",
     "readMore": "Mehr Lesen",
     "knowMore": "Zimmerdetails",
     "bookNow": "Jetzt Buchen"
@@ -108,7 +116,9 @@
   "accessibility": {
     "previousImage": "Vorheriges Bild",
     "nextImage": "Nächstes Bild",
-    "viewImage": "Bild ansehen"
+    "viewImage": "Bild ansehen",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "Konfigurieren Sie Ihren Aufenthalt",

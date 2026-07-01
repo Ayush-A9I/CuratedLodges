@@ -115,7 +115,7 @@ const LodgeCard: React.FC<LodgeCardProps> = ({
         {bestSeason && (
           <div className={styles.seasonBadge}>
             {getSeasonIcon(bestSeason)}
-            <span>Best in {bestSeason}</span>
+            <span>{t('lodge.bestIn', { season: bestSeason })}</span>
           </div>
         )}
         {galleryImages.length > 1 && (

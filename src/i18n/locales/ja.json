@@ -9,7 +9,9 @@
   "hero": {
     "title": "完璧なベースキャンプを見つける",
     "subtitle": "世界で最も素晴らしい野生の場所で厳選された宿泊施設を発見する",
-    "scrollDown": "スクロールして探索"
+    "scrollDown": "スクロールして探索",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "地域を選択",
@@ -36,6 +38,8 @@
     "seamlessBookingDesc": "野生の場所での複雑なロジスティクスを精密に処理します。出発から帰還まであなたの信頼を導きます。",
     "foundingCollection": "創立コレクション",
     "foundingCollectionDesc": "始めるための最も心に響く滞在のキュレーション。",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "ガイド付きアドベンチャー",
     "guidedAdventuresLabel": "探索する",
     "guidedAdventuresDesc": "ジャングロア遠征で旅を完成させましょう。野生の中心を通る専門家主導のツアー。",
@@ -45,7 +49,8 @@
   },
   "testimonials": {
     "label": "お客様の声",
-    "heading": "お客様の声。"
+    "heading": "お客様の声。",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "ライフスタイルアーティファクト",
@@ -68,6 +73,7 @@
     "viewLodge": "ロッジを見る",
     "startingFrom": "から",
     "ecoCertified": "エコ認定",
+    "bestIn": "Best in {{season}}",
     "readMore": "もっと読む",
     "knowMore": "部屋の詳細",
     "bookNow": "今すぐ予約"
@@ -110,7 +116,9 @@
   "accessibility": {
     "previousImage": "前の画像",
     "nextImage": "次の画像",
-    "viewImage": "画像を見る"
+    "viewImage": "画像を見る",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "滞在を設定",

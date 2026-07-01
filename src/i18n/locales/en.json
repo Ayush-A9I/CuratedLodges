@@ -9,7 +9,9 @@
   "hero": {
     "title": "Find Your Perfect Basecamp",
     "subtitle": "Discover curated stays in the world's most extraordinary wild places",
-    "scrollDown": "Scroll to explore"
+    "scrollDown": "Scroll to explore",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "SELECT REGION",
@@ -42,6 +44,8 @@
     "seamlessBookingDesc": "Complex logistics in wild places handled with precision. We guide your confidence from departure to return.",
     "foundingCollection": "Our Founding Collection",
     "foundingCollectionDesc": "A curation of our most soul-stirring stays to get you started.",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "Guided Adventures",
     "guidedAdventuresLabel": "Explore",
     "guidedAdventuresDesc": "Complete your journey with a Junglore Expedition. Expertly led tours through the heart of the wild.",
@@ -51,7 +55,8 @@
   },
   "testimonials": {
     "label": "Testimonials",
-    "heading": "What people say about Us."
+    "heading": "What people say about Us.",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "Lifestyle Artifacts",
@@ -74,6 +79,7 @@
     "viewLodge": "VIEW LODGE",
     "startingFrom": "STARTING FROM",
     "ecoCertified": "Eco-Certified",
+    "bestIn": "Best in {{season}}",
     "readMore": "Read More",
     "knowMore": "Room Details",
     "bookNow": "Book Now"
@@ -116,7 +122,9 @@
   "accessibility": {
     "previousImage": "Previous image",
     "nextImage": "Next image",
-    "viewImage": "View image"
+    "viewImage": "View image",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "Configure Your Stay",

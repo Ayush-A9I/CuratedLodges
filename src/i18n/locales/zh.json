@@ -9,7 +9,9 @@
   "hero": {
     "title": "找到您完美的大本营",
     "subtitle": "在世界上最非凡的野外地点发现精选住宿",
-    "scrollDown": "向下滚动探索"
+    "scrollDown": "向下滚动探索",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "选择地区",
@@ -36,15 +38,19 @@
     "seamlessBookingDesc": "在野外地区处理复杂的后勤工作，精确无误。我们从出发到返回引导您的信心。",
     "foundingCollection": "我们的创始系列",
     "foundingCollectionDesc": "为您开始精选的最感人的住宿。",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "导游探险",
     "guidedAdventuresLabel": "探索",
     "guidedAdventuresDesc": "通过Junglore探险完成您的旅程。由专家带领穿越野外中心的游览。",
     "exploreExpeditions": "探索探险",
     "latestFieldNotes": "最新野外笔记",
     "latestFieldNotesDesc": "专家见解、来自现场的故事和野生动物摄影技巧。"
-  },  "testimonials": {
+  },
+  "testimonials": {
     "label": "客户评价",
-    "heading": "人们对我们的评价。"
+    "heading": "人们对我们的评价。",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "生活方式工艺品",
@@ -59,13 +65,15 @@
     "safariGear": "野生动物园装备",
     "nationalParks": "国家公园",
     "books": "书籍"
-  },  "lodge": {
+  },
+  "lodge": {
     "from": "起价",
     "night": "晚",
     "perNight": "/ 晚",
     "viewLodge": "查看旅馆",
     "startingFrom": "起价",
     "ecoCertified": "生态认证",
+    "bestIn": "Best in {{season}}",
     "readMore": "阅读更多",
     "knowMore": "房间详情",
     "bookNow": "立即预订"
@@ -108,7 +116,9 @@
   "accessibility": {
     "previousImage": "上一张图片",
     "nextImage": "下一张图片",
-    "viewImage": "查看图片"
+    "viewImage": "查看图片",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "配置您的住宿",

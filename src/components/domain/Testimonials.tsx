@@ -160,7 +160,7 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
                   ? 'bg-[#1E2D27] w-8'
                   : 'bg-[#6B7B75]/30 hover:bg-[#6B7B75]/50'
                   }`}
-                aria-label={`Go to testimonial ${index + 1}`}
+                aria-label={t('testimonials.goToItem', { number: index + 1 })}
               />
             ))}
           </div>

@@ -9,7 +9,9 @@
   "hero": {
     "title": "Trouvez Votre Campement Parfait",
     "subtitle": "Découvrez des séjours sélectionnés dans les endroits sauvages les plus extraordinaires du monde",
-    "scrollDown": "Faites défiler pour explorer"
+    "scrollDown": "Faites défiler pour explorer",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "SÉLECTIONNER LA RÉGION",
@@ -36,15 +38,19 @@
     "seamlessBookingDesc": "Logistique complexe en milieu sauvage gérée avec précision. Nous guidons votre confiance du départ au retour.",
     "foundingCollection": "Notre Collection Fondatrice",
     "foundingCollectionDesc": "Une sélection de nos séjours les plus émouvants pour vous lancer.",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "Aventures Guidées",
     "guidedAdventuresLabel": "Explorer",
     "guidedAdventuresDesc": "Complétez votre voyage avec une Expédition Junglore. Visites dirigées par des experts au cœur de la nature sauvage.",
     "exploreExpeditions": "Explorer les Expéditions",
     "latestFieldNotes": "Dernières Notes de Terrain",
     "latestFieldNotesDesc": "Perspectives d'experts, histoires du terrain et conseils de photographie faunique."
-  },  "testimonials": {
+  },
+  "testimonials": {
     "label": "Témoignages",
-    "heading": "Ce que les gens disent de nous."
+    "heading": "Ce que les gens disent de nous.",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "Artefacts de Style de Vie",
@@ -59,13 +65,15 @@
     "safariGear": "ÉQUIPEMENT DE SAFARI",
     "nationalParks": "PARCS NATIONAUX",
     "books": "LIVRES"
-  },  "lodge": {
+  },
+  "lodge": {
     "from": "À partir de",
     "night": "nuit",
     "perNight": "/ nuit",
     "viewLodge": "VOIR LE LODGE",
     "startingFrom": "À PARTIR DE",
     "ecoCertified": "Certifié Écologique",
+    "bestIn": "Best in {{season}}",
     "readMore": "Lire Plus",
     "knowMore": "Détails de la Chambre",
     "bookNow": "Réserver Maintenant"
@@ -108,7 +116,9 @@
   "accessibility": {
     "previousImage": "Image précédente",
     "nextImage": "Image suivante",
-    "viewImage": "Voir l'image"
+    "viewImage": "Voir l'image",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "Configurez Votre Séjour",

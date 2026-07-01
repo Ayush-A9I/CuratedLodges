@@ -9,7 +9,9 @@
   "hero": {
     "title": "अपना परफेक्ट बेस कैंप खोजें",
     "subtitle": "दुनिया के सबसे असाधारण जंगली स्थानों पर क्यूरेटेड आवास खोजें",
-    "scrollDown": "एक्सप्लोर करने के लिए स्क्रॉल करें"
+    "scrollDown": "एक्सप्लोर करने के लिए स्क्रॉल करें",
+    "soundPromptChip": "Tap anywhere for sound",
+    "soundPromptAria": "Tap anywhere to enable sound"
   },
   "search": {
     "selectRegion": "क्षेत्र चुनें",
@@ -36,15 +38,19 @@
     "seamlessBookingDesc": "जंगली स्थानों में जटिल रसद को सटीकता के साथ संभाला जाता है। हम प्रस्थान से वापसी तक आपके आत्मविश्वास का मार्गदर्शन करते हैं।",
     "foundingCollection": "हमारा संस्थापक संग्रह",
     "foundingCollectionDesc": "आपको शुरू करने के लिए हमारे सबसे आत्मा को उत्तेजित करने वाले ठहरावों का क्यूरेशन।",
+    "foundingCollectionEmpty": "Our lodge collection is being curated — check back soon.",
+    "swipeHint": "Swipe left to view collection",
     "guidedAdventures": "निर्देशित रोमांच",
     "guidedAdventuresLabel": "अन्वेषण करें",
     "guidedAdventuresDesc": "जंगलोर अभियान के साथ अपनी यात्रा पूरी करें। जंगल के केंद्र में विशेषज्ञ द्वारा नेतृत्व किए गए दौरे।",
     "exploreExpeditions": "अभियान अन्वेषण करें",
     "latestFieldNotes": "नवीनतम फील्ड नोट्स",
     "latestFieldNotesDesc": "विशेषज्ञ अंतर्दृष्टि, जमीन से कहानियां, और वन्यजीव फोटोग्राफी युक्तियाँ।"
-  },  "testimonials": {
+  },
+  "testimonials": {
     "label": "प्रशंसापत्र",
-    "heading": "लोग हमारे बारे में क्या कहते हैं।"
+    "heading": "लोग हमारे बारे में क्या कहते हैं।",
+    "goToItem": "Go to testimonial {{number}}"
   },
   "houseOfJunglore": {
     "label": "जीवन शैली कलाकृतियाँ",
@@ -59,13 +65,15 @@
     "safariGear": "सफारी गियर",
     "nationalParks": "राष्ट्रीय उद्यान",
     "books": "पुस्तकें"
-  },  "lodge": {
+  },
+  "lodge": {
     "from": "से",
     "night": "रात",
     "perNight": "/ रात",
     "viewLodge": "लॉज देखें",
     "startingFrom": "से शुरू",
     "ecoCertified": "इको सर्टिफाइड",
+    "bestIn": "Best in {{season}}",
     "readMore": "और पढ़ें",
     "knowMore": "कमरे का विवरण",
     "bookNow": "अभी बुक करें"
@@ -108,7 +116,9 @@
   "accessibility": {
     "previousImage": "पिछली छवि",
     "nextImage": "अगली छवि",
-    "viewImage": "छवि देखें"
+    "viewImage": "छवि देखें",
+    "scrollLeft": "Scroll collection left",
+    "scrollRight": "Scroll collection right"
   },
   "checkout": {
     "configureStay": "अपना प्रवास कॉन्फ़िगर करें",

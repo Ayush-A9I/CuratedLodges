@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import SearchBox from '../components/domain/SearchBox'
@@ -10,6 +11,7 @@ import FeaturesSection from '../components/domain/FeaturesSection'
 import LodgeCard from '../components/domain/LodgeCard'
 import Testimonials from '../components/domain/Testimonials'
 import HouseOfJunglore from '../components/domain/HouseOfJunglore'
+import { EmptyState } from '../components/feedback'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import api from '@/lib/api'
@@ -25,9 +27,8 @@ export interface HomeClientProps {
 const CONTENT_BLUR_PLACEHOLDER =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/OdXPQAIoAM4G2QPBQAAAABJRU5ErkJggg==';
 
-export interface HomeClientProps {
-  initialData: HomepageResponse | null;
-}
+/** One card width (400px) + gap (24px) = ~424px; round to 420 for scroll step. */
+const SCROLL_STEP = 420;
 
 export default function HomeClient({ initialData }: HomeClientProps) {
   const { t } = useTranslation();
@@ -36,6 +37,44 @@ export default function HomeClient({ initialData }: HomeClientProps) {
   const [testimonials, setTestimonials] = useState<Testimonial[]>(initialData?.testimonials ?? []);
   const [hero, setHero] = useState(initialData?.hero ?? { imageUrl: '', videoUrl: null });
   const [isLoading, setIsLoading] = useState(!initialData);
+
+  // Founding-collection scroller
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  // Re-evaluate whenever lodges change or on resize
+  useEffect(() => {
+    updateScrollState();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', updateScrollState, { passive: true });
+    const ro = new ResizeObserver(updateScrollState);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener('scroll', updateScrollState);
+      ro.disconnect();
+    };
+  }, [lodges, updateScrollState]);
+
+  const scrollBy = useCallback((direction: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollBy({
+      left: direction === 'left' ? -SCROLL_STEP : SCROLL_STEP,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }, []);
 
   useEffect(() => {
     if (initialData) {
@@ -90,7 +129,7 @@ export default function HomeClient({ initialData }: HomeClientProps) {
         <FeaturesSection />
 
         {/* Our Founding Collection */}
-        <section className="py-16 px-6 bg-[#FAFAFA]">
+        <section className="py-20 px-6 bg-[#FAFAFA]">
           <div className="max-w-[1400px] mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-[#1E2D27] mb-3">
               {t('sections.foundingCollection')}
@@ -101,11 +140,30 @@ export default function HomeClient({ initialData }: HomeClientProps) {
 
             {/* Lodge Cards Grid with Horizontal Scroll */}
             <div className="relative">
-              <div className="overflow-x-auto pb-4 scrollbar-hide">
+              {/* Left edge fade — hidden when at scroll start */}
+              {canScrollLeft && (
+                <div
+                  className="absolute left-0 top-0 bottom-4 w-16 z-10 pointer-events-none hidden md:block"
+                  style={{ background: 'linear-gradient(to right, #FAFAFA, transparent)' }}
+                />
+              )}
+              {/* Right edge fade — always shown when there is content (arrows handle exact state) */}
+              {canScrollRight && (
+                <div
+                  className="absolute right-0 top-0 bottom-4 w-16 z-10 pointer-events-none hidden md:block"
+                  style={{ background: 'linear-gradient(to left, #FAFAFA, transparent)' }}
+                />
+              )}
+
+              <div ref={scrollRef} className="overflow-x-auto pb-4 scrollbar-hide">
                 <div className="flex gap-6 min-w-min">
                   {isLoading ? (
                     <div className="flex items-center justify-center w-full py-20">
                       <div className="w-8 h-8 border-2 border-[#1E2D27] border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : lodges.length === 0 ? (
+                    <div className="w-full py-16">
+                      <EmptyState messageKey="sections.foundingCollectionEmpty" />
                     </div>
                   ) : (
                     lodges.map((lodge) => {
@@ -130,13 +188,33 @@ export default function HomeClient({ initialData }: HomeClientProps) {
                 </div>
               </div>
 
+              {/* Desktop scroll arrows — hidden on mobile */}
+              <button
+                className="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-white shadow-md border border-[#E5E7EB] text-[#1E2D27] transition-all duration-200 hover:bg-[#1E2D27] hover:text-white hover:border-[#1E2D27] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#1E2D27] disabled:hover:border-[#E5E7EB]"
+                onClick={() => scrollBy('left')}
+                disabled={!canScrollLeft}
+                aria-disabled={!canScrollLeft}
+                aria-label={t('accessibility.scrollLeft')}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 items-center justify-center rounded-full bg-white shadow-md border border-[#E5E7EB] text-[#1E2D27] transition-all duration-200 hover:bg-[#1E2D27] hover:text-white hover:border-[#1E2D27] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-[#1E2D27] disabled:hover:border-[#E5E7EB]"
+                onClick={() => scrollBy('right')}
+                disabled={!canScrollRight}
+                aria-disabled={!canScrollRight}
+                aria-label={t('accessibility.scrollRight')}
+              >
+                <ChevronRight size={20} />
+              </button>
+
               {/* Swipe indicator - Mobile only */}
               <div className="md:hidden text-center mt-4">
                 <p className="text-sm text-[#6B7B75] font-light flex items-center justify-center gap-2">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
-                  Swipe left to view collection
+                  {t('sections.swipeHint')}
                 </p>
               </div>
             </div>
@@ -144,7 +222,7 @@ export default function HomeClient({ initialData }: HomeClientProps) {
         </section>
 
         {/* Guided Adventures Section */}
-        <section className="py-16 px-6 bg-[#1E2D27]">
+        <section className="py-20 px-6 bg-[#1E2D27]">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div className="space-y-5">
@@ -189,7 +267,7 @@ export default function HomeClient({ initialData }: HomeClientProps) {
         <HouseOfJunglore />
 
         {/* Latest Field Notes Section */}
-        <section className="py-16 px-6 bg-white">
+        <section className="py-20 px-6 bg-white">
           <div className="max-w-[1400px] mx-auto flex flex-col items-center">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-4xl font-bold text-[#1E2D27] mb-2">

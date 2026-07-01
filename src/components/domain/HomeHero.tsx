@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Volume2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { resolveImageUrl } from '@/lib/fallbackImages';
 import { parseYouTubeVideoId, buildYouTubeBackgroundEmbedUrl } from '@/lib/youtube';
 import styles from './HomeHero.module.css';
@@ -18,11 +19,11 @@ export interface HomeHeroProps {
 }
 
 export default function HomeHero({ imageUrl, videoUrl }: HomeHeroProps) {
+  const { t } = useTranslation();
   const imageSrc = resolveImageUrl(imageUrl, 'park');
   const trimmedVideo = videoUrl?.trim() || '';
   const youtubeVideoId = trimmedVideo ? parseYouTubeVideoId(trimmedVideo) : null;
   const directVideoUrl = trimmedVideo && !youtubeVideoId ? trimmedVideo : null;
-  const showVideo = Boolean(youtubeVideoId || directVideoUrl);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isHeroMuted, setIsHeroMuted] = useState(true);
@@ -133,10 +134,10 @@ export default function HomeHero({ imageUrl, videoUrl }: HomeHeroProps) {
           type="button"
           className={styles.heroSoundGate}
           onClick={enableHeroAudio}
-          aria-label="Tap anywhere to enable sound"
+          aria-label={t('hero.soundPromptAria')}
         >
           <span className={styles.heroSoundGateChip}>
-            <Volume2 size={18} /> Tap anywhere for sound
+            <Volume2 size={18} /> {t('hero.soundPromptChip')}
           </span>
         </button>
       ) : null}
