@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import Header from '../../../../../components/layout/Header';
 import Footer from '../../../../../components/layout/Footer';
 import ReadMoreModal from '../../../../../components/ui/ReadMoreModal';
-import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, ArrowRight, Tent, Mail, MessageCircle } from 'lucide-react';
+import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, ArrowRight, Tent, Mail, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './lodge.module.css';
 import api from '../../../../../lib/api';
 import type { LodgeDetail } from '@/types/api';
@@ -130,6 +130,178 @@ function mapApiImages(data: any): MediaItem[] {
 export interface LodgeDetailClientProps {
   initialLodge: LodgeDetail | null;
   lodgeSlug: string;
+}
+
+// ─── Naturalists carousel ──────────────────────────────────────
+function NaturalistsCarousel({ naturalists }: { naturalists: NonNullable<LodgeDetail['naturalists']> }) {
+  const [start, setStart] = React.useState(0);
+  const [modalIndex, setModalIndex] = React.useState<number | null>(null);
+
+  // Responsive: 3 on lg, 2 on md, 1 on sm — use window width to decide
+  const [perPage, setPerPage] = React.useState(3);
+  React.useEffect(() => {
+    const calc = () => {
+      const w = window.innerWidth;
+      setPerPage(w >= 1024 ? 3 : w >= 640 ? 2 : 1);
+    };
+    calc();
+    window.addEventListener('resize', calc, { passive: true });
+    return () => window.removeEventListener('resize', calc);
+  }, []);
+
+  const total = naturalists.length;
+  const canPrev = start > 0;
+  const canNext = start + perPage < total;
+
+  const prev = () => setStart((s) => Math.max(0, s - 1));
+  const next = () => setStart((s) => Math.min(total - perPage, s + 1));
+
+  const visible = naturalists.slice(start, start + perPage);
+  const modalNat = modalIndex !== null ? naturalists[modalIndex] : null;
+
+  return (
+    <section className="bg-[#FAFAFA] py-24 px-6">
+      <div className="max-w-[1400px] mx-auto">
+        {/* Header */}
+        <div className="flex items-end justify-between mb-14">
+          <div>
+            <span className="text-[#F1663F] uppercase tracking-widest text-sm font-semibold block mb-3">
+              The Team
+            </span>
+            <h2 className="text-3xl md:text-5xl font-serif text-[#1E2D27]">
+              Meet Your Naturalists
+            </h2>
+          </div>
+          {/* Arrow controls — always visible, disabled at boundaries */}
+          <div className="flex items-center gap-2 flex-shrink-0 pb-1">
+            <button
+              onClick={prev}
+              disabled={!canPrev}
+              aria-label="Previous naturalist"
+              className="w-11 h-11 rounded-full border border-[#1E2D27]/20 flex items-center justify-center text-[#1E2D27] transition-all duration-200 hover:bg-[#1E2D27] hover:text-white hover:border-[#1E2D27] disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#1E2D27]"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={next}
+              disabled={!canNext}
+              aria-label="Next naturalist"
+              className="w-11 h-11 rounded-full border border-[#1E2D27]/20 flex items-center justify-center text-[#1E2D27] transition-all duration-200 hover:bg-[#1E2D27] hover:text-white hover:border-[#1E2D27] disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:text-[#1E2D27]"
+            >
+              <ChevronRight size={20} />
+            </button>
+            {/* Dot indicator */}
+            {total > perPage && (
+              <span className="ml-3 text-xs text-[#6B7B75] tabular-nums">
+                {start + 1}–{Math.min(start + perPage, total)} of {total}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Cards — CSS grid so layout reflows cleanly with perPage */}
+        <div
+          className="grid gap-8"
+          style={{ gridTemplateColumns: `repeat(${perPage}, minmax(0, 1fr))` }}
+        >
+          {visible.map((n, i) => {
+            const globalIndex = start + i;
+            const hasBio = Boolean(n.experience && n.experience.trim());
+            return (
+              <div key={n.id || globalIndex} className="flex flex-col">
+                {/* Portrait */}
+                <div className="overflow-hidden rounded-xl mb-5 shadow-sm">
+                  <img
+                    src={resolveImageUrl(n.image, 'naturalist')}
+                    alt={n.name}
+                    className="w-full h-[320px] object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
+                {/* Name */}
+                <h3 className="font-serif text-xl text-[#1E2D27] mb-1">{n.name}</h3>
+
+                {/* Role */}
+                <p className="text-[#F1663F] uppercase tracking-wide text-xs font-semibold mb-3">
+                  {n.role}
+                </p>
+
+                {/* Specialty pill */}
+                {n.specialty && (
+                  <div className="mb-3">
+                    <span className="inline-block bg-white border border-[#1E2D27]/10 text-[#1E2D27]/80 text-xs px-3 py-1 rounded-full">
+                      {n.specialty}
+                    </span>
+                  </div>
+                )}
+
+                {/* Bio — clamped to 3 lines + Read more */}
+                {hasBio && (
+                  <div className="flex flex-col gap-2 mt-1">
+                    <p
+                      className="text-[#1E2D27]/65 text-sm leading-relaxed"
+                      style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {n.experience}
+                    </p>
+                    <button
+                      onClick={() => setModalIndex(globalIndex)}
+                      className="self-start inline-flex items-center gap-1.5 text-[#F1663F] font-semibold text-xs uppercase tracking-widest mt-1 hover:gap-2.5 transition-all duration-200"
+                    >
+                      Read more <ArrowRight size={13} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Progress dots for mobile where perPage=1 */}
+        {total > 1 && (
+          <div className="flex justify-center gap-2 mt-10">
+            {naturalists.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setStart(Math.min(i, Math.max(0, total - perPage)))}
+                aria-label={`Go to naturalist ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i >= start && i < start + perPage
+                  ? 'bg-[#1E2D27] w-6'
+                  : 'bg-[#1E2D27]/20 w-1.5'
+                  }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Read more modal */}
+      {modalNat && (
+        <ReadMoreModal
+          isOpen={modalIndex !== null}
+          onClose={() => setModalIndex(null)}
+          title={modalNat.name}
+          subtitle={modalNat.role}
+        >
+          {modalNat.specialty && (
+            <p className="text-[#F1663F] text-sm font-semibold uppercase tracking-wider mb-4">
+              {modalNat.specialty}
+            </p>
+          )}
+          {modalNat.experience && (
+            <p className="text-[#1E2D27]/80 leading-relaxed">{modalNat.experience}</p>
+          )}
+        </ReadMoreModal>
+      )}
+    </section>
+  );
 }
 
 export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDetailClientProps) {
@@ -545,75 +717,7 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
 
         {/* ─── Meet Your Naturalists ───────────────────────── */}
         {lodge.naturalists && lodge.naturalists.length > 0 && (
-          <section className="bg-[#FFFFFF] py-24 px-6">
-            <div className="max-w-[1400px] mx-auto">
-              <div
-                className={`text-center mb-16 ${revealClass('naturalists-head')}`}
-                data-reveal-id="naturalists-head"
-              >
-                <span className="text-[#F1663F] uppercase tracking-widest text-sm font-semibold mb-4 block">
-                  The Team
-                </span>
-                <h2 className="text-3xl md:text-5xl font-serif text-[#1E2D27]">
-                  Meet Your Naturalists
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {lodge.naturalists.map((n, index) => (
-                  <div
-                    key={n.id || index}
-                    className={`flex flex-col ${revealClass(`nat-${index}`)}`}
-                    data-reveal-id={`nat-${index}`}
-                  >
-                    {/* Portrait */}
-                    <div className="overflow-hidden rounded-sm mb-5">
-                      <img
-                        src={resolveImageUrl(n.image, 'naturalist')}
-                        alt={n.name}
-                        className="w-full h-[320px] object-cover object-top"
-                        style={{ aspectRatio: '4 / 5' }}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-
-                    {/* Name */}
-                    <h3 className="font-serif text-xl text-[#1E2D27] mb-1">{n.name}</h3>
-
-                    {/* Role */}
-                    <p className="text-[#F1663F] uppercase tracking-wide text-xs font-semibold mb-3">
-                      {n.role}
-                    </p>
-
-                    {/* Specialty pill */}
-                    {n.specialty && (
-                      <div className="mb-3">
-                        <span className="inline-block bg-[#F1F5F3] text-[#1E2D27] text-xs px-3 py-1 rounded-full">
-                          {n.specialty}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Bio — clamped to 4 lines */}
-                    {n.experience && (
-                      <p
-                        className="text-[#1E2D27]/70 text-sm leading-relaxed"
-                        style={{
-                          display: '-webkit-box',
-                          WebkitLineClamp: 4,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {n.experience}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <NaturalistsCarousel naturalists={lodge.naturalists} />
         )}
 
         {/* ─── Conservation & Community ─────────────────────── */}
