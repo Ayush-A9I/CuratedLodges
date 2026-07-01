@@ -1077,21 +1077,15 @@
   padding: 8px 12px;
 }
 
+/* Hero content renders immediately — no fade/rise on page open. */
 .revealUp {
-  opacity: 0;
-  animation: fadeRise 700ms ease-out forwards;
+  opacity: 1;
 }
 
-.stagger1 {
-  animation-delay: 120ms;
-}
-
-.stagger2 {
-  animation-delay: 220ms;
-}
-
+.stagger1,
+.stagger2,
 .stagger3 {
-  animation-delay: 300ms;
+  animation-delay: 0ms;
 }
 
 .sectionHeader,
@@ -1446,89 +1440,38 @@
   animation: fadeRise 700ms ease both;
 }
 
-.scrollReveal {
-  opacity: 0;
-  transform: translateY(42px) scale(0.985);
-  filter: blur(7px);
-  transition:
-    opacity 780ms cubic-bezier(0.22, 0.64, 0.16, 1),
-    transform 860ms cubic-bezier(0.22, 0.64, 0.16, 1),
-    filter 780ms cubic-bezier(0.22, 0.64, 0.16, 1);
-  will-change: transform, opacity, filter;
-}
-
-.scrollReveal.revealFromLeft {
-  transform: translateX(-84px) translateY(12px) scale(0.98);
-}
-
-.scrollReveal.revealFromRight {
-  transform: translateX(84px) translateY(12px) scale(0.98);
-}
-
-.scrollReveal.revealFromTop {
-  transform: translateY(-84px) scale(0.98);
-}
-
-.scrollReveal > * {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 640ms ease, transform 720ms cubic-bezier(0.2, 0.74, 0.2, 1);
-}
-
-.scrollReveal > *:nth-child(1) {
-  transition-delay: 90ms;
-}
-
-.scrollReveal > *:nth-child(2) {
-  transition-delay: 170ms;
-}
-
-.scrollReveal > *:nth-child(3) {
-  transition-delay: 250ms;
-}
-
-.scrollReveal > *:nth-child(4) {
-  transition-delay: 330ms;
-}
-
-.scrollReveal > *:nth-child(5) {
-  transition-delay: 410ms;
-}
-
-.scrollReveal img,
-.scrollReveal video {
-  transform: scale(1.08);
-  filter: saturate(0.82) contrast(0.95);
-  transition: transform 1.2s cubic-bezier(0.18, 0.72, 0.12, 1), filter 1.2s ease;
-}
-
-.inView {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
-}
-
+/* Entrance reveals disabled — content renders immediately on load with no
+   slide-in, fade, or blur (clean, Airbnb-style). The IntersectionObserver still
+   toggles .inView but both states are now visually identical. Per-section hover
+   effects (image zoom, etc.) are defined elsewhere and remain intact. */
+.scrollReveal,
+.scrollReveal.revealFromLeft,
+.scrollReveal.revealFromRight,
+.scrollReveal.revealFromTop,
+.inView,
 .inView.revealFromLeft,
 .inView.revealFromRight,
 .inView.revealFromTop {
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
-.inView > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  filter: none;
+  transition: none;
+  animation: none;
+  will-change: auto;
 }
 
+/* Children and media: reset entrance state to visible, but do NOT set
+   transition here so per-element hover transitions keep working. */
+.scrollReveal>*,
+.inView>*,
+.scrollReveal img,
+.scrollReveal video,
 .inView img,
 .inView video {
-  transform: scale(1);
-  filter: saturate(1) contrast(1);
-}
-
-.inView.revealFromLeft img,
-.inView.revealFromRight img,
-.inView.revealFromTop img {
-  animation: imageBreath 10s ease-in-out infinite alternate;
+  opacity: 1;
+  transform: none;
+  filter: none;
+  animation: none;
 }
 
 .mediaCard img,
@@ -1614,6 +1557,7 @@
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1624,6 +1568,7 @@
   0% {
     transform: translateY(0) scale(1);
   }
+
   100% {
     transform: translateY(-10px) scale(1.08);
   }
@@ -1633,21 +1578,23 @@
   0% {
     transform: scale(1) translate3d(0, 0, 0);
   }
+
   100% {
     transform: scale(1.035) translate3d(0, -6px, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .revealFromLeft,
   .revealFromRight,
   .revealFromTop,
   .scrollReveal,
-  .scrollReveal > *,
+  .scrollReveal>*,
   .scrollReveal img,
   .scrollReveal video,
   .inView,
-  .inView > *,
+  .inView>*,
   .inView img,
   .inView video,
   .revealUp,

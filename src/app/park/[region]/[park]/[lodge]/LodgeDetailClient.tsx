@@ -1,21 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Header from '../../../../../components/layout/Header';
 import Footer from '../../../../../components/layout/Footer';
 import ReadMoreModal from '../../../../../components/ui/ReadMoreModal';
-import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, ArrowRight, Tent } from 'lucide-react';
+import { MapPin, Compass, Leaf, Users, Bed, Wind, Waves, Check, Coffee, Shield, ArrowRight, Tent, Mail, MessageCircle } from 'lucide-react';
 import styles from './lodge.module.css';
 import api from '../../../../../lib/api';
 import type { LodgeDetail } from '@/types/api';
 import { resolveImageUrl } from '@/lib/fallbackImages';
 import {
-    LODGE_CONSERVATION_CARD_MAX,
-    LODGE_HERO_QUOTE_MAX,
-    LODGE_TEASER_MAX,
-    exceedsDisplayLimit,
-    truncateForDisplay,
+  LODGE_CONSERVATION_CARD_MAX,
+  LODGE_HERO_QUOTE_MAX,
+  LODGE_TEASER_MAX,
+  exceedsDisplayLimit,
+  truncateForDisplay,
 } from '@/lib/lodgeDisplayLimits';
 import { resolveSectionTitle } from '@/lib/lodgeSectionTitles';
 import {
@@ -35,6 +35,11 @@ type MediaItem = {
   src: string;
   alt: string;
 };
+
+// Enquiry routing (booking deferred). Enquiries go to a central company inbox,
+// NOT the per-lodge contact email. Configure via env; safe fallbacks below.
+const ENQUIRY_EMAIL = process.env.NEXT_PUBLIC_ENQUIRY_EMAIL || 'reservations@curatedlodges.com';
+const ENQUIRY_WHATSAPP = process.env.NEXT_PUBLIC_ENQUIRY_WHATSAPP || '';
 
 // ─── Helper: map API response to page data shape ──────────────
 function mapApiToProfile(data: any) {
@@ -80,8 +85,8 @@ function mapApiToProfile(data: any) {
     afterSafariVibe: content.afterSafariVibe || [],
     sectionTitles:
       content.sectionTitles &&
-      typeof content.sectionTitles === 'object' &&
-      !Array.isArray(content.sectionTitles)
+        typeof content.sectionTitles === 'object' &&
+        !Array.isArray(content.sectionTitles)
         ? content.sectionTitles
         : {},
     sectionImages: readSectionImages(content.sectionImages),
@@ -139,6 +144,21 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [expandedUsps, setExpandedUsps] = useState<Record<number, boolean>>({});
+
+  // Sticky enquiry bar appears once the hero has scrolled out of view.
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [lodge?.id, loading]);
 
   useEffect(() => {
     setLodge(initialLodge);
@@ -325,12 +345,28 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
     uspItems.push({ icon: 'compass', title: reason || '', desc: '' });
   }
 
+  // ─── Enquiry CTA (booking deferred → email/WhatsApp to central inbox) ──
+  const parkSuffix = lodgeProfile.parkName ? ` (${lodgeProfile.parkName})` : '';
+  const enquirySubject = `Enquiry: ${lodgeProfile.name}${lodgeProfile.parkName ? ` — ${lodgeProfile.parkName}` : ''}`;
+  const enquiryBody =
+    `Hi, I'd like to enquire about staying at ${lodgeProfile.name}${parkSuffix}.\n\n` +
+    `Preferred dates: \nNumber of guests: \nMessage: `;
+  const mailtoUrl = `mailto:${ENQUIRY_EMAIL}?subject=${encodeURIComponent(enquirySubject)}&body=${encodeURIComponent(enquiryBody)}`;
+  const whatsappText = `Hi, I'd like to enquire about staying at ${lodgeProfile.name}${parkSuffix}.`;
+  const whatsappUrl = ENQUIRY_WHATSAPP
+    ? `https://wa.me/${ENQUIRY_WHATSAPP}?text=${encodeURIComponent(whatsappText)}`
+    : null;
+  const roomPrices: number[] = (lodgeProfile.roomTypes as Array<{ price?: number }>)
+    .map((r) => r.price)
+    .filter((p): p is number => typeof p === 'number' && p > 0);
+  const lowestPrice = roomPrices.length ? Math.min(...roomPrices) : 0;
+
   return (
     <>
       <Header darkMode={false} whiteTextAlways={true} />
 
       <main className={styles.main}>
-        <section className={styles.hero}>
+        <section className={styles.hero} ref={heroRef}>
           <LodgeHeroMedia hero={resolvedHero} alt={lodgeProfile.name} />
           <div className={styles.heroOverlay} />
           <div className={styles.heroGlow} />
@@ -349,6 +385,25 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
                 Read more
               </button>
             </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href={mailtoUrl}
+                className="inline-flex items-center gap-2 bg-[#F1663F] hover:bg-[#d55535] text-white font-semibold px-7 py-3.5 rounded-full transition-colors duration-300 text-sm uppercase tracking-wide shadow-lg"
+              >
+                <Mail size={18} /> Enquire about this lodge
+              </a>
+              {whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 border border-white/60 hover:border-white bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3.5 rounded-full transition-colors duration-300 text-sm uppercase tracking-wide"
+                >
+                  <MessageCircle size={18} /> WhatsApp
+                </a>
+              )}
+            </div>
 
           </div>
         </section>
@@ -440,13 +495,13 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
               </div>
               {(lodgeProfile.natureBlend.length > 1 ||
                 exceedsDisplayLimit(lodgeProfile.natureBlend[0], LODGE_HERO_QUOTE_MAX)) && (
-                <button
-                  onClick={() => setActiveModal('nature')}
-                  className="mt-8 inline-flex items-center gap-2 text-[#CCDD99] font-semibold text-sm uppercase tracking-widest hover:gap-4 transition-all duration-300"
-                >
-                  Read more <ArrowRight size={16} />
-                </button>
-              )}
+                  <button
+                    onClick={() => setActiveModal('nature')}
+                    className="mt-8 inline-flex items-center gap-2 text-[#CCDD99] font-semibold text-sm uppercase tracking-widest hover:gap-4 transition-all duration-300"
+                  >
+                    Read more <ArrowRight size={16} />
+                  </button>
+                )}
             </div>
           </div>
         </section>
@@ -475,7 +530,7 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
                   <p>Our naturalist team brings deep field knowledge with ethical, guest-focused wildlife experiences.</p>
                 )}
                 {lodgeProfile.naturalistPhilosophy.length > 1 ||
-                exceedsDisplayLimit(lodgeProfile.naturalistPhilosophy[0], LODGE_HERO_QUOTE_MAX) ? (
+                  exceedsDisplayLimit(lodgeProfile.naturalistPhilosophy[0], LODGE_HERO_QUOTE_MAX) ? (
                   <button
                     onClick={() => setActiveModal('philosophy')}
                     className="inline-flex items-center gap-2 text-[#FFE8A1] font-semibold text-sm uppercase tracking-widest hover:gap-4 transition-all duration-300"
@@ -487,6 +542,79 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
             </div>
           </div>
         </section>
+
+        {/* ─── Meet Your Naturalists ───────────────────────── */}
+        {lodge.naturalists && lodge.naturalists.length > 0 && (
+          <section className="bg-[#FFFFFF] py-24 px-6">
+            <div className="max-w-[1400px] mx-auto">
+              <div
+                className={`text-center mb-16 ${revealClass('naturalists-head')}`}
+                data-reveal-id="naturalists-head"
+              >
+                <span className="text-[#F1663F] uppercase tracking-widest text-sm font-semibold mb-4 block">
+                  The Team
+                </span>
+                <h2 className="text-3xl md:text-5xl font-serif text-[#1E2D27]">
+                  Meet Your Naturalists
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {lodge.naturalists.map((n, index) => (
+                  <div
+                    key={n.id || index}
+                    className={`flex flex-col ${revealClass(`nat-${index}`)}`}
+                    data-reveal-id={`nat-${index}`}
+                  >
+                    {/* Portrait */}
+                    <div className="overflow-hidden rounded-sm mb-5">
+                      <img
+                        src={resolveImageUrl(n.image, 'naturalist')}
+                        alt={n.name}
+                        className="w-full h-[320px] object-cover object-top"
+                        style={{ aspectRatio: '4 / 5' }}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+
+                    {/* Name */}
+                    <h3 className="font-serif text-xl text-[#1E2D27] mb-1">{n.name}</h3>
+
+                    {/* Role */}
+                    <p className="text-[#F1663F] uppercase tracking-wide text-xs font-semibold mb-3">
+                      {n.role}
+                    </p>
+
+                    {/* Specialty pill */}
+                    {n.specialty && (
+                      <div className="mb-3">
+                        <span className="inline-block bg-[#F1F5F3] text-[#1E2D27] text-xs px-3 py-1 rounded-full">
+                          {n.specialty}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Bio — clamped to 4 lines */}
+                    {n.experience && (
+                      <p
+                        className="text-[#1E2D27]/70 text-sm leading-relaxed"
+                        style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 4,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {n.experience}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ─── Conservation & Community ─────────────────────── */}
         <section className="bg-[#FFFFFF] py-24 px-6">
@@ -675,7 +803,45 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
             </div>
           </div>
         </section>
-      </main>
+      </main >
+
+      {/* Sticky enquiry bar — appears after the hero scrolls away, hidden with lightbox */}
+      {showStickyBar && lightboxIndex === null && (
+        <div className="fixed bottom-0 left-0 right-0 z-[1100] bg-white/95 backdrop-blur border-t border-[#1E2D27]/10 shadow-[0_-4px_24px_rgba(30,45,39,0.12)]">
+          <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-[#1E2D27] font-semibold text-sm md:text-base truncate">
+                {lodgeProfile.name}
+              </p>
+              {lowestPrice > 0 && (
+                <p className="text-[#6B7B75] text-xs md:text-sm">
+                  From {formatMoney(lowestPrice, 'INR')} <span className="opacity-70">/ night</span>
+                </p>
+              )}
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Enquire on WhatsApp"
+                  className="inline-flex items-center gap-2 border border-[#1E2D27]/20 hover:border-[#1E2D27]/40 text-[#1E2D27] font-semibold px-4 py-2.5 rounded-full transition-colors duration-200 text-sm"
+                >
+                  <MessageCircle size={18} />
+                  <span className="hidden sm:inline">WhatsApp</span>
+                </a>
+              )}
+              <a
+                href={mailtoUrl}
+                className="inline-flex items-center gap-2 bg-[#F1663F] hover:bg-[#d55535] text-white font-semibold px-6 py-2.5 rounded-full transition-colors duration-200 text-sm uppercase tracking-wide"
+              >
+                <Mail size={18} /> Enquire
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {lightboxIndex !== null && (
         <div className={styles.lightbox} onClick={() => setLightboxIndex(null)}>
@@ -703,7 +869,8 @@ export default function LodgeDetailClient({ initialLodge, lodgeSlug }: LodgeDeta
             </div>
           </div>
         </div>
-      )}
+      )
+      }
       {/* ─── Read More Modals ─────────────────────────────── */}
       <ReadMoreModal
         isOpen={activeModal === 'origin'}
