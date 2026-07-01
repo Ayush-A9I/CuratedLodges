@@ -1,4 +1,4 @@
-    'use client'
+'use client'
 
 import { useTranslation } from 'react-i18next'
 import styles from './HouseOfJunglore.module.css'
@@ -62,10 +62,10 @@ export default function HouseOfJunglore() {
           </div>
 
           {/* Right Side - Button */}
-          <a 
-            href="https://houseofjunglore.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://houseofjunglore.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#F1663F] hover:bg-[#d55535] text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 uppercase text-sm tracking-wide"
           >
             {t('houseOfJunglore.visitShop')}
@@ -78,14 +78,16 @@ export default function HouseOfJunglore() {
         {/* Product Cards - 4 in a row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <div 
+            <div
               key={product.id}
               className={styles.productCard}
             >
               <div className={styles.productImage}>
-                <img 
-                  src={product.image} 
+                <img
+                  src={product.image}
                   alt={t(product.titleKey)}
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className={styles.overlay} />
               </div>

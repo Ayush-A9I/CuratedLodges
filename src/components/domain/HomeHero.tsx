@@ -1,10 +1,16 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { Volume2 } from 'lucide-react';
 import { resolveImageUrl } from '@/lib/fallbackImages';
 import { parseYouTubeVideoId, buildYouTubeBackgroundEmbedUrl } from '@/lib/youtube';
 import styles from './HomeHero.module.css';
+
+// Brand dark-green (#1e2d27) as a 1×1 blur placeholder.
+// Matches the hero's background colour so there is no flash before the image loads.
+const HERO_BLUR_PLACEHOLDER =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkyP9fDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 export interface HomeHeroProps {
   imageUrl: string | null | undefined;
@@ -84,13 +90,16 @@ export default function HomeHero({ imageUrl, videoUrl }: HomeHeroProps) {
 
   return (
     <section className={styles.hero}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={imageSrc}
         alt=""
+        fill
+        priority
+        sizes="100vw"
         className={styles.heroImage}
-        fetchPriority="high"
-        decoding="async"
+        style={{ objectFit: 'cover' }}
+        placeholder="blur"
+        blurDataURL={HERO_BLUR_PLACEHOLDER}
       />
 
       {youtubeVideoId ? (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
 import { LoadingState } from '@/components/feedback'
 import { shouldRenderTestimonials, resolveTestimonialImage } from '@/logic/predicates'
@@ -10,6 +11,10 @@ import api from '@/lib/api'
 import styles from './Testimonials.module.css'
 
 const PLACEHOLDER_IMAGE = FALLBACK_IMAGES.testimonial
+
+// Neutral light-gray blur placeholder for S3 avatar images on white backgrounds.
+const AVATAR_BLUR_PLACEHOLDER =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/OdXPQAIoAM4G2QPBQAAAABJRU5ErkJggg=='
 
 interface TestimonialsProps {
   /**
@@ -109,9 +114,14 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
           {/* Large Profile Image */}
           <div className={`${styles.mainProfile} ${isAnimating ? styles.animating : ''}`}>
             <div className={styles.mainProfileInner}>
-              <img
+              <Image
                 src={testimonialImage}
                 alt={currentTestimonial.name}
+                fill
+                sizes="180px"
+                style={{ objectFit: 'cover' }}
+                placeholder="blur"
+                blurDataURL={AVATAR_BLUR_PLACEHOLDER}
               />
             </div>
           </div>
@@ -147,8 +157,8 @@ export default function Testimonials({ testimonials: propTestimonials }: Testimo
                   }, 300)
                 }}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${index === safeIndex
-                    ? 'bg-[#1E2D27] w-8'
-                    : 'bg-[#6B7B75]/30 hover:bg-[#6B7B75]/50'
+                  ? 'bg-[#1E2D27] w-8'
+                  : 'bg-[#6B7B75]/30 hover:bg-[#6B7B75]/50'
                   }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />

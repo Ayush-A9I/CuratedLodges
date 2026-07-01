@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import SearchBox from '../components/domain/SearchBox'
@@ -15,6 +16,14 @@ import api from '@/lib/api'
 import type { HomepageResponse, LodgeListItem, Testimonial } from '@/types/api'
 
 type LatestFieldNote = HomepageResponse['latestFieldNotes'][number];
+
+export interface HomeClientProps {
+  initialData: HomepageResponse | null;
+}
+
+// Neutral light-gray blur placeholder for S3 content images on white/#FAFAFA backgrounds.
+const CONTENT_BLUR_PLACEHOLDER =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/OdXPQAIoAM4G2QPBQAAAABJRU5ErkJggg==';
 
 export interface HomeClientProps {
   initialData: HomepageResponse | null;
@@ -69,7 +78,7 @@ export default function HomeClient({ initialData }: HomeClientProps) {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce motion-reduce:animate-none">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
             <div className="w-1.5 h-3 bg-white/70 rounded-full" />
           </div>
@@ -157,16 +166,16 @@ export default function HomeClient({ initialData }: HomeClientProps) {
 
               <div className="columns-2 gap-3 space-y-3 h-auto max-w-7xl mx-auto">
                 <div className="break-inside-avoid rounded-3xl overflow-hidden mb-4">
-                  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800" alt="Luxury resort pool" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800" alt="Luxury resort pool" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
                 <div className="break-inside-avoid rounded-3xl overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1615963244664-5b845b2025ee?w=800" alt="Bengal tiger" className="w-full aspect-[6/7] object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src="https://images.unsplash.com/photo-1615963244664-5b845b2025ee?w=800" alt="Bengal tiger" className="w-full aspect-[6/7] object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
                 <div className="break-inside-avoid rounded-3xl overflow-hidden mb-4">
-                  <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=800" alt="Elephant herd" className="w-full aspect-[6/7] object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=800" alt="Elephant herd" className="w-full aspect-[6/7] object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
                 <div className="break-inside-avoid rounded-3xl overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800" alt="Safari vehicles" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-500" />
+                  <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800" alt="Safari vehicles" className="w-full aspect-[4/3] object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -195,10 +204,15 @@ export default function HomeClient({ initialData }: HomeClientProps) {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-[1200px]">
                 {/* Left Side - Featured Article */}
                 <Link href={`/field-notes/${fieldNotes[0].slug}`} className="relative rounded-3xl overflow-hidden group cursor-pointer h-[450px]">
-                  <img
+                  <Image
                     src={fieldNotes[0].image}
                     alt={fieldNotes[0].title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    style={{ objectFit: 'cover' }}
+                    placeholder="blur"
+                    blurDataURL={CONTENT_BLUR_PLACEHOLDER}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -218,11 +232,16 @@ export default function HomeClient({ initialData }: HomeClientProps) {
                 <div className="flex flex-col gap-5">
                   {fieldNotes.slice(1, 4).map((note) => (
                     <Link key={note.id} href={`/field-notes/${note.slug}`} className="flex gap-3 group cursor-pointer">
-                      <div className="flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
-                        <img
+                      <div className="relative flex-shrink-0 w-32 h-32 rounded-2xl overflow-hidden">
+                        <Image
                           src={note.image}
                           alt={note.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          fill
+                          sizes="128px"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          style={{ objectFit: 'cover' }}
+                          placeholder="blur"
+                          blurDataURL={CONTENT_BLUR_PLACEHOLDER}
                         />
                       </div>
                       <div className="flex-1">
